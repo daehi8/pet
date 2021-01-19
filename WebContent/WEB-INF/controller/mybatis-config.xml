@@ -7,10 +7,15 @@
 
 	<typeAliases>
 		<typeAlias type="pet.model.dto.ReviewDTO" alias="reviewDTO"/>
+		<typeAlias type="pet.model.dto.PriceReviewDTO" alias="priceReviewDTO"/>
+		<typeAlias type="pet.model.dto.RatingReviewDTO" alias="ratingReviewDTO"/>
+		<typeAlias type="pet.model.dto.CommentReviewDTO" alias="commentReviewDTO"/>
+		<typeAlias type="pet.model.dto.UploadReviewDTO" alias="uploadReviewDTO"/>
 	</typeAliases>
 	
 	<mappers>
 		<mapper resource="/pet/model/sql/reviewSQL.xml"/>
+		<mapper resource="/pet/model/sql/uploadReviewSQL.xml"/>
 	</mappers>
 
 </configuration>

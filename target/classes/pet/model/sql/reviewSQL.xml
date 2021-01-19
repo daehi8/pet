@@ -3,6 +3,25 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="review">
-
+	<insert id="insertReview" parameterType="reviewDTO">
+		insert into review(
+			no,
+			hospital_address,
+			member_email,
+			revisit,
+			public_check,
+			auth,
+			reg_date
+		)values(
+			review_seq.nextval,
+			#{hospital_address},
+			#{member_email},
+			#{revisit},
+			#{public_check},
+			sysdate
+		)	
+	</insert>
+	
+	
 </mapper>
 

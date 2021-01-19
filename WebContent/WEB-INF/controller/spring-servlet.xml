@@ -15,11 +15,13 @@
        <property name="order" value="0" />
     </bean>
    
-   <!-- spring interceptor - fileUpload -->
-   <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-      <property name="maxUploadSize" value="-1"/> <!-- -1은 업로드 크기의 제한없음-->
-      <property name="defaultEncoding" value="UTF-8"/>
-   </bean>
+   	<!-- spring interceptor -fileUpload -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- -1은 업로드 크기의 제한없음-->
+		<!-- 2메가로 제한 -->
+		<property name="maxUploadSize" value="2097152"/>
+		<property name="defaultEncoding" value="UTF-8"/>
+	</bean>
  
    <!-- spring interceptor 기능 중 하나이다. 스프링의 인터셉트에서 사용되는 내용 중 하나를 세팅함. -->
    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
