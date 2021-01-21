@@ -14,5 +14,8 @@ public interface ReviewService {
 	public void deleteReview(ReviewDTO reviewDTO)throws Exception;
 	
 	// 리뷰 작성 정보 확인
-	public ReviewDTO myReview(String member_email);
+	public ReviewDTO myReview(String member_email)throws Exception;
+	
+	// 가장 최근의 리뷰번호 확인
+	public int selectNewReview()throws Exception;
 }

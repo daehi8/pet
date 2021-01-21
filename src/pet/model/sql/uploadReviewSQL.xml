@@ -4,5 +4,21 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="uploadReview">
 
+	<select resultType="int" id="selectCount">
+		select max(no) from review_upload 
+	</select>
+
+	<insert id="insertFile" parameterType="uploadReviewDTO">
+		insert into review_upload(no, review_no, org_name) values(review_upload_seq.nextval, #{review_no}, #{org_name})
+	</insert>
+	
+	<update id="updateFile" parameterType="uploadReviewDTO">
+		update review_upload <set>
+							<if test = "org_name != null">org_name=#{org_name},</if> 
+							<if test = "save_name != null">save_name=#{save_name},</if>
+							<if test = "file_type != null">file_type=#{file_type}</if>  
+						</set>
+			where no=#{no}
+	</update>
 </mapper>
 

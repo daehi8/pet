@@ -13,9 +13,10 @@ public class ReviewDTO {
 	// 작성내용 공개여부 Y /N
 	private String public_check;
 	// 인증 확인 여부 Y / N
-	private String auth;
+	private String auth_check;
 	// 리뷰 작성 시간
 	private Timestamp reg_date;
+	
 	
 	public int getNo() {
 		return no;
@@ -41,11 +42,11 @@ public class ReviewDTO {
 	public void setPublic_check(String public_check) {
 		this.public_check = public_check;
 	}
-	public String getAuth() {
-		return auth;
+	public String getAuth_check() {
+		return auth_check;
 	}
-	public void setAuth(String auth) {
-		this.auth = auth;
+	public void setAuth_check(String auth_check) {
+		this.auth_check = auth_check;
 	}
 	public Timestamp getReg_date() {
 		return reg_date;

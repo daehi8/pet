@@ -6,15 +6,12 @@
 	<insert id="insertReview" parameterType="reviewDTO">
 		insert into review(
 			no,
-			hospital_address,
 			member_email,
 			revisit,
 			public_check,
-			auth,
 			reg_date
 		)values(
 			review_seq.nextval,
-			#{hospital_address},
 			#{member_email},
 			#{revisit},
 			#{public_check},
@@ -22,6 +19,9 @@
 		)	
 	</insert>
 	
+	<select id="selectNewNo" resultType="int">
+		select max(no) from review
+	</select>
 	
 </mapper>
 

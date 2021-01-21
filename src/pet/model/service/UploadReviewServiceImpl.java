@@ -2,14 +2,22 @@ package pet.model.service;
 
 import java.util.List;
 
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import pet.model.dto.UploadReviewDTO;
 
+@Service("uploadReviewService")
 public class UploadReviewServiceImpl implements UploadReviewService{
-
+	
+	@Autowired
+	private SqlSessionTemplate dao = null;
+	
 	@Override
 	public int insertFile(UploadReviewDTO uploadReviewDTO) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		dao.insert("uploadReview.insertFile", uploadReviewDTO);
+		return dao.selectOne("uploadReview.selectCount");
 	}
 
 	@Override
@@ -20,7 +28,7 @@ public class UploadReviewServiceImpl implements UploadReviewService{
 
 	@Override
 	public void fileUpdate(UploadReviewDTO uploadReviewDTO) throws Exception {
-		// TODO Auto-generated method stub
+		dao.update("uploadReview.updateFile", uploadReviewDTO);
 		
 	}
 

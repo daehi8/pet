@@ -35,4 +35,10 @@ public class ReviewServiceImpl implements ReviewService{
 		return null;
 	}
 
+	@Override
+	public int selectNewReview() throws Exception {
+		int no = dao.selectOne("review.selectNewNo");
+		return no;
+	}
+
 }
