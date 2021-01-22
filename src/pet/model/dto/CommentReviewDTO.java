@@ -11,7 +11,7 @@ public class CommentReviewDTO {
 	// 병원 리뷰
 	private String hospital_review;
 	// 한줄 요약
-	private String summaary;
+	private String summary;
 	
 	public int getNo() {
 		return no;
@@ -37,11 +37,11 @@ public class CommentReviewDTO {
 	public void setHospital_review(String hospital_review) {
 		this.hospital_review = hospital_review;
 	}
-	public String getSummaary() {
-		return summaary;
+	public String getSummary() {
+		return summary;
 	}
-	public void setSummaary(String summaary) {
-		this.summaary = summaary;
+	public void setSummary(String summary) {
+		this.summary = summary;
 	}
 	
 	
