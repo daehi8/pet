@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="commentReview">
+	
+	<insert id="insertCommentReview" parameterType="commentReviewDTO">
+		insert into review_comment(
+			no,
+			review_no,
+			docter_review,
+			hospital_review,
+			summary
+		)values(
+			review_comment_seq.nextval,
+			#{review_no},
+			#{docter_review},
+			#{hospital_review},
+			#{summary}
+		)
+	</insert>
+	
+</mapper>
+
