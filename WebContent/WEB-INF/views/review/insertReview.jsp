@@ -89,9 +89,29 @@ Rating.prototype.setRate = function(rateobj, newrate){
 }
 
 let rating = new Rating();//별점 인스턴스 생성
+
+// 선택한 별점 값 컨트롤러로 전송
+
+	function ratingSubmit() {
+		var ratingName = ['kind', 'waiting', 'clean', 'detail', 'price', 'after'];
+		var ratingChk = ['kindChk', 'waitingChk', 'cleanChk', 'detailChk', 'priceChk', 'afterChk'];
+		
+		for(var i = 0; i < ratingName.length; i++){
+		    var obj = $('[name='+ratingChk[i]+']');
+		    var chkArray = new Array(); // 배열 선언
+		
+		    $('input:checkbox[name='+ratingChk[i]+']:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
+		        chkArray.push(this.value);
+		    });
+		    
+		    var maxValue = Math.max.apply(null, chkArray);
+		    document.getElementById(ratingName[i]).value = maxValue;
+		}
+	}
+
 </script>
 
-	<form method = "post" enctype="multipart/form-data"  action="/pet/review/insertreviewpro.do">
+	<form name="reviewForm" method = "post" enctype="multipart/form-data"  action="/pet/review/insertreviewpro.do" onsubmit="ratingSubmit()";>
 		<!-- 테스트용 코드 -->
 		<input type="hidden" name="member_email" value="test">
 		
@@ -104,16 +124,17 @@ let rating = new Rating();//별점 인스턴스 생성
             <div class="rating">
             	<div class="ratefill" style="width: 300px;"></div>
                 <!-- 해당 별점을 클릭하면 해당 별과 그 왼쪽의 모든 별의 체크박스에 checked 적용 -->
-                <input type="checkbox" name="kind" id="rating11" value="1" class="rate_radio" title="1점">
+                <input type="checkbox" name="kindChk" id="rating11" value="1" class="rate_radio" title="1점">
                 <label for="rating11"></label>
-                <input type="checkbox" name="kind" id="rating12" value="2" class="rate_radio" title="2점">
+                <input type="checkbox" name="kindChk" id="rating12" value="2" class="rate_radio" title="2점">
                 <label for="rating12"></label>
-                <input type="checkbox" name="kind" id="rating13" value="3" class="rate_radio" title="3점" >
+                <input type="checkbox" name="kindChk" id="rating13" value="3" class="rate_radio" title="3점" >
                 <label for="rating13"></label>
-                <input type="checkbox" name="kind" id="rating14" value="4" class="rate_radio" title="4점">
+                <input type="checkbox" name="kindChk" id="rating14" value="4" class="rate_radio" title="4점">
                 <label for="rating14"></label>
-                <input type="checkbox" name="kind" id="rating15" value="5" class="rate_radio" title="5점">
+                <input type="checkbox" name="kindChk" id="rating15" value="5" class="rate_radio" title="5점">
                 <label for="rating15"></label>
+                <input type="hidden" name="kind" id="kind" value="0"> 
             </div>
         </div>
 	
@@ -122,16 +143,17 @@ let rating = new Rating();//별점 인스턴스 생성
             <div class="rating">
             	<div class="ratefill" style="width: 300px;"></div>
                 <!-- 해당 별점을 클릭하면 해당 별과 그 왼쪽의 모든 별의 체크박스에 checked 적용 -->
-                <input type="checkbox" name="waiting" id="rating21" value="1" class="rate_radio" title="1점">
+                <input type="checkbox" name="waitingChk" id="rating21" value="1" class="rate_radio" title="1점">
                 <label for="rating21"></label>
-                <input type="checkbox" name="waiting" id="rating22" value="2" class="rate_radio" title="2점">
+                <input type="checkbox" name="waitingChk" id="rating22" value="2" class="rate_radio" title="2점">
                 <label for="rating22"></label>
-                <input type="checkbox" name="waiting" id="rating23" value="3" class="rate_radio" title="3점" >
+                <input type="checkbox" name="waitingChk" id="rating23" value="3" class="rate_radio" title="3점" >
                 <label for="rating23"></label>
-                <input type="checkbox" name="waiting" id="rating24" value="4" class="rate_radio" title="4점">
+                <input type="checkbox" name="waitingChk" id="rating24" value="4" class="rate_radio" title="4점">
                 <label for="rating24"></label>
-                <input type="checkbox" name="waiting" id="rating25" value="5" class="rate_radio" title="5점">
+                <input type="checkbox" name="waitingChk" id="rating25" value="5" class="rate_radio" title="5점">
                 <label for="rating25"></label>
+                <input type="hidden" name="waiting" id="waiting" value="0">
             </div>
         </div>
         
@@ -140,16 +162,17 @@ let rating = new Rating();//별점 인스턴스 생성
             <div class="rating">
             	<div class="ratefill" style="width: 300px;"></div>
                 <!-- 해당 별점을 클릭하면 해당 별과 그 왼쪽의 모든 별의 체크박스에 checked 적용 -->
-                <input type="checkbox" name="clean" id="rating31" value="1" class="rate_radio" title="1점">
+                <input type="checkbox" name="cleanChk" id="rating31" value="1" class="rate_radio" title="1점">
                 <label for="rating31"></label>
-                <input type="checkbox" name="clean" id="rating32" value="2" class="rate_radio" title="2점">
+                <input type="checkbox" name="cleanChk" id="rating32" value="2" class="rate_radio" title="2점">
                 <label for="rating32"></label>
-                <input type="checkbox" name="clean" id="rating33" value="3" class="rate_radio" title="3점" >
+                <input type="checkbox" name="cleanChk" id="rating33" value="3" class="rate_radio" title="3점" >
                 <label for="rating33"></label>
-                <input type="checkbox" name="clean" id="rating34" value="4" class="rate_radio" title="4점">
+                <input type="checkbox" name="cleanChk" id="rating34" value="4" class="rate_radio" title="4점">
                 <label for="rating34"></label>
-                <input type="checkbox" name="clean" id="rating35" value="5" class="rate_radio" title="5점">
+                <input type="checkbox" name="cleanChk" id="rating35" value="5" class="rate_radio" title="5점">
                 <label for="rating35"></label>
+                <input type="hidden" name="clean" id="clean" value="0">
             </div>
         </div>
         
@@ -158,16 +181,17 @@ let rating = new Rating();//별점 인스턴스 생성
             <div class="rating">
             	<div class="ratefill" style="width: 300px;"></div>
                 <!-- 해당 별점을 클릭하면 해당 별과 그 왼쪽의 모든 별의 체크박스에 checked 적용 -->
-                <input type="checkbox" name="detail" id="rating41" value="1" class="rate_radio" title="1점">
+                <input type="checkbox" name="detailChk" id="rating41" value="1" class="rate_radio" title="1점">
                 <label for="rating41"></label>
-                <input type="checkbox" name="detail" id="rating42" value="2" class="rate_radio" title="2점">
+                <input type="checkbox" name="detailChk" id="rating42" value="2" class="rate_radio" title="2점">
                 <label for="rating42"></label>
-                <input type="checkbox" name="detail" id="rating43" value="3" class="rate_radio" title="3점" >
+                <input type="checkbox" name="detailChk" id="rating43" value="3" class="rate_radio" title="3점" >
                 <label for="rating43"></label>
-                <input type="checkbox" name="detail" id="rating44" value="4" class="rate_radio" title="4점">
+                <input type="checkbox" name="detailChk" id="rating44" value="4" class="rate_radio" title="4점">
                 <label for="rating44"></label>
-                <input type="checkbox" name="detail" id="rating45" value="5" class="rate_radio" title="5점">
+                <input type="checkbox" name="detailChk" id="rating45" value="5" class="rate_radio" title="5점">
                 <label for="rating45"></label>
+                <input type="hidden" name="detail" id="detail" value="0">
             </div>
         </div>
         
@@ -176,16 +200,17 @@ let rating = new Rating();//별점 인스턴스 생성
             <div class="rating">
             	<div class="ratefill" style="width: 300px;"></div>
                 <!-- 해당 별점을 클릭하면 해당 별과 그 왼쪽의 모든 별의 체크박스에 checked 적용 -->
-                <input type="checkbox" name="price" id="rating51" value="1" class="rate_radio" title="1점">
+                <input type="checkbox" name="priceChk" id="rating51" value="1" class="rate_radio" title="1점">
                 <label for="rating51"></label>
-                <input type="checkbox" name="price" id="rating52" value="2" class="rate_radio" title="2점">
+                <input type="checkbox" name="priceChk" id="rating52" value="2" class="rate_radio" title="2점">
                 <label for="rating52"></label>
-                <input type="checkbox" name="price" id="rating53" value="3" class="rate_radio" title="3점" >
+                <input type="checkbox" name="priceChk" id="rating53" value="3" class="rate_radio" title="3점" >
                 <label for="rating53"></label>
-                <input type="checkbox" name="price" id="rating54" value="4" class="rate_radio" title="4점">
+                <input type="checkbox" name="priceChk" id="rating54" value="4" class="rate_radio" title="4점">
                 <label for="rating54"></label>
-                <input type="checkbox" name="price" id="rating55" value="5" class="rate_radio" title="5점">
+                <input type="checkbox" name="priceChk" id="rating55" value="5" class="rate_radio" title="5점">
                 <label for="rating55"></label>
+                <input type="hidden" name="price" id="price" value="0">
             </div>
         </div>
         
@@ -194,16 +219,17 @@ let rating = new Rating();//별점 인스턴스 생성
             <div class="rating">
             	<div class="ratefill" style="width: 300px;"></div>
                 <!-- 해당 별점을 클릭하면 해당 별과 그 왼쪽의 모든 별의 체크박스에 checked 적용 -->
-                <input type="checkbox" name="after" id="rating61" value="1" class="rate_radio" title="1점">
+                <input type="checkbox" name="afterChk" id="rating61" value="1" class="rate_radio" title="1점">
                 <label for="rating61"></label>
-                <input type="checkbox" name="after" id="rating62" value="2" class="rate_radio" title="2점">
+                <input type="checkbox" name="afterChk" id="rating62" value="2" class="rate_radio" title="2점">
                 <label for="rating62"></label>
-                <input type="checkbox" name="after" id="rating63" value="3" class="rate_radio" title="3점" >
+                <input type="checkbox" name="afterChk" id="rating63" value="3" class="rate_radio" title="3점" >
                 <label for="rating63"></label>
-                <input type="checkbox" name="after" id="rating64" value="4" class="rate_radio" title="4점">
+                <input type="checkbox" name="afterChk" id="rating64" value="4" class="rate_radio" title="4점">
                 <label for="rating64"></label>
-                <input type="checkbox" name="after" id="rating65" value="5" class="rate_radio" title="5점">
+                <input type="checkbox" name="afterChk" id="rating65" value="5" class="rate_radio" title="5점">
                 <label for="rating65"></label>
+                <input type="hidden" name="after" id="after" value="0">
             </div>
         </div>
         		
@@ -230,7 +256,7 @@ let rating = new Rating();//별점 인스턴스 생성
 		나의 페이지에 공개<br />
 		<input type="checkbox" name="public_check" value="Y">나의페이지에공개<br /><br />
 		
-		<input type="submit" value="확인">
+		<input type="submit" value="확인"/>
 	</form>
 </body>
 </html>

@@ -7,20 +7,26 @@ public class RatingReviewDTO {
 	// 리뷰 고유번호
 	private int review_no;
 	// 친절함
-	private int kind;
+	private String kind;
 	// 대기시간
-	private int waiting;
+	private String waiting;
 	// 청결함
-	private int clean;
+	private String clean;
 	// 자세한 설명여부
-	private int detail;
+	private String detail;
 	// 가격
-	private int price;
+	private String price;
 	// 치료후 결과
-	private int after;
-	// 총 평균
-	private int mean;
+	private String after;
+	// 평균
+	private float mean;
 	
+	public float getMean() {
+		return mean;
+	}
+	public void setMean(float mean) {
+		this.mean = mean;
+	}
 	public int getNo() {
 		return no;
 	}
@@ -33,48 +39,41 @@ public class RatingReviewDTO {
 	public void setReview_no(int review_no) {
 		this.review_no = review_no;
 	}
-	public int getKind() {
+	public String getKind() {
 		return kind;
 	}
-	public void setKind(int kind) {
+	public void setKind(String kind) {
 		this.kind = kind;
 	}
-	public int getWaiting() {
+	public String getWaiting() {
 		return waiting;
 	}
-	public void setWaiting(int waiting) {
+	public void setWaiting(String waiting) {
 		this.waiting = waiting;
 	}
-	public int getClean() {
+	public String getClean() {
 		return clean;
 	}
-	public void setClean(int clean) {
+	public void setClean(String clean) {
 		this.clean = clean;
 	}
-	public int getDetail() {
+	public String getDetail() {
 		return detail;
 	}
-	public void setDetail(int detail) {
+	public void setDetail(String detail) {
 		this.detail = detail;
 	}
-	public int getPrice() {
+	public String getPrice() {
 		return price;
 	}
-	public void setPrice(int price) {
+	public void setPrice(String price) {
 		this.price = price;
 	}
-	public int getAfter() {
+	public String getAfter() {
 		return after;
 	}
-	public void setAfter(int after) {
+	public void setAfter(String after) {
 		this.after = after;
 	}
-	public int getMean() {
-		return mean;
-	}
-	public void setMean(int mean) {
-		this.mean = mean;
-	}
-	
 	
 }

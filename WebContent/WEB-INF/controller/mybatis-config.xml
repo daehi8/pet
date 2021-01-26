@@ -17,6 +17,7 @@
 		<mapper resource="/pet/model/sql/reviewSQL.xml"/>
 		<mapper resource="/pet/model/sql/uploadReviewSQL.xml"/>
 		<mapper resource="/pet/model/sql/commentReviewSQL.xml"/>
+		<mapper resource="/pet/model/sql/ratingReviewSQL.xml"/>
 	</mappers>
 
 </configuration>
