@@ -7,8 +7,45 @@
 <title>Insert title here</title>
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <style>
+* {
+  box-sizing: border-box;
+}
+/* Style the search field */
+form.example input[type=text] {
+  padding: 10px;
+  font-size: 17px;
+  border: 1px solid grey;
+  float: left;
+  width: 80%;
+  background: #f1f1f1;
+}
+
+/* Style the submit button */
+form.example button {
+  float: left;
+  width: 20%;
+  padding: 10px;
+  background: #2196F3;
+  color: white;
+  font-size: 17px;
+  border: 1px solid grey;
+  border-left: none; /* Prevent double borders */
+  cursor: pointer;
+}
+
+form.example button:hover {
+  background: #0b7dda;
+}
+
+/* Clear floats */
+form.example::after {
+  content: "";
+  clear: both;
+  display: table;
+}
 .rating .rate_radio {
     position: relative;
     display: inline-block;
@@ -113,13 +150,19 @@ let rating = new Rating();//별점 인스턴스 생성
 
 	<form name="reviewForm" method = "post" enctype="multipart/form-data"  action="/pet/review/insertreviewpro.do" onsubmit="ratingSubmit()";>
 		<!-- 테스트용 코드 -->
-		<input type="hidden" name="member_email" value="test">
+		<input type="hidden" name="member_email" value="test">				
+		<div>
+			병원 이름 :
+			<input type="text" name=""> <br />
+			의사 이름 :
+			<input type="text" name=""> <br />
+			
+			인증사진
+			<input type="file" name="auth">
+		</div>
 		
-		인증사진
-		<input type="file" name="auth"><br /><br />
-		
-		<h3>평점</h3>
 		<div class="review_rating">
+		<h3>평점</h3>
 			<div>친절함</div>
             <div class="rating">
             	<div class="ratefill" style="width: 300px;"></div>
@@ -233,30 +276,88 @@ let rating = new Rating();//별점 인스턴스 생성
             </div>
         </div>
         		
-		<br />
-		의사리뷰<br />
-		<textarea name="docter_review"></textarea><br /><br />
+		<div>
+			의사리뷰
+			<textarea name="docter_review"></textarea><br>
+			
+			병원리뷰
+			<textarea name="hospital_review"></textarea><br>
+			
+			한줄평 
+			<input type="text" name="summary" maxlength="30"><br>
+		</div>
 		
-		병원리뷰<br />
-		<textarea name="hospital_review"></textarea><br /><br />
+		<div>
+		    <h4>진료 가격</h4>
+			<table id="list_table">
+				<colgroup>
+					<col style="width: 200px">
+					<col style="width: 300px">
+					<col style="width: 200px">	
+				</colgroup>
+				
+				<thead>
+					<tr>
+						<th>진료 과목</th>
+						<th>가격</th>
+					</tr>
+				</thead>
+				
+				<tbody>
+				</tbody>
+			</table>		
+		</div>
 		
-		한줄평<br />
-		<input type="text" name="summary" maxlength="30"><br /><br />
+		<div>
+			<input type="text" id="add_subject" placeholder ="진료 과목">
+			<input type="text" id="add_price" placeholder="가격" >
+			<button type="button" id="append_row">추가</button>
+   		</div>
+   		
+   		<div>
+			<h4>재방문 추천</h4>	
+			<input type="radio" name="revisit" value="Y">YES
+			<input type="radio" name="revisit" value="N">NO
+		</div>
 		
-		재방문 추천<br />		
-		<input type="radio" name="revisit" value="Y">YES
-		<input type="radio" name="revisit" value="N">NO<br /><br />
+		<div>
+			<h4>병원사진</h4>
+			<input multiple="multiple" type="file" name="hospital" maxlength="3">
+			
+			<h4>치료사진</h4>
+			<input multiple="multiple" type="file" name="cure" maxlength="3">
+		</div>
 		
-		병원사진
-		<input multiple="multiple" type="file" name="hospital" maxlength="3"><br /><br />
-		
-		치료사진
-		<input multiple="multiple" type="file" name="cure" maxlength="3"><br /><br />
-		
-		나의 페이지에 공개<br />
-		<input type="checkbox" name="public_check" value="Y">나의페이지에공개<br /><br />
-		
+		<div>
+			<h4>나의 페이지에 공개</h4>
+			<input type="checkbox" name="public_check" value="Y">나의페이지에공개
+		</div>
 		<input type="submit" value="확인"/>
 	</form>
 </body>
+<script type="text/javascript">
+
+// 추가
+$("#append_row").on("click", function() {
+	$("#list_table").append(
+		$("<tr>").append(		
+			$("<td>").append( $("#add_subject").val() ),
+			$("<td>").append( $("#add_price").val() ),
+			$("<td>").append(
+				$("<button>").prop("type","button").addClass("delete-link").append("삭제")     
+			)		
+		)	
+	);	
+});
+
+// 삭제
+$("#list_table").on("click", ".delete-link", function () {
+	$(this).parent().parent().remove();
+});
+
+
+
+
+
+</script>
 </html>
