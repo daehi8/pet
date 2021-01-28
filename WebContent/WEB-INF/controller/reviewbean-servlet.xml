@@ -11,5 +11,10 @@
 		
 	<bean id="reviewDTO" class="pet.model.dto.ReviewDTO"/>
 	<bean id="uploadReviewDTO" class="pet.model.dto.UploadReviewDTO"/>
-
+	<bean id="ratingReviewDTO" class="pet.model.dto.RatingReviewDTO"/>
+	<bean id="priceReviewDTO" class="pet.model.dto.PriceReviewDTO"/>
+	<bean id="commentReviewDTO" class="pet.model.dto.CommentReviewDTO"/>
+	<bean id="pageDTO" class="pet.model.dto.PageDTO"/>
+	
+	
 </beans>

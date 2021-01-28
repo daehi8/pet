@@ -1,5 +1,9 @@
 package pet.model.service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,6 +43,20 @@ public class ReviewServiceImpl implements ReviewService{
 	public int selectNewReview() throws Exception {
 		int no = dao.selectOne("review.selectNewNo");
 		return no;
+	}
+
+	@Override
+	public List getListReview(int start, int end, String hospital_name) throws Exception {
+		Map map = new HashMap();
+		map.put("start", start);
+		map.put("end", end);
+		map.put("hospital_name", hospital_name);
+		return dao.selectList("review.getListReview", map);
+	}
+
+	@Override
+	public int getListReviewCount(String hospital_name) throws Exception {
+		return dao.selectOne("review.getListReviewCount", hospital_name);
 	}
 
 }

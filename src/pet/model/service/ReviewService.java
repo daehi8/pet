@@ -1,5 +1,7 @@
 package pet.model.service;
 
+import java.util.List;
+
 import pet.model.dto.ReviewDTO;
 
 public interface ReviewService {
@@ -18,4 +20,10 @@ public interface ReviewService {
 	
 	// 가장 최근의 리뷰번호 확인
 	public int selectNewReview()throws Exception;
+	
+	// 리뷰 페이징
+	public List getListReview(int start, int end, String hospital_name)throws Exception;
+	
+	// 리뷰 페이징 리뷰 총 갯수 확인
+	public int getListReviewCount(String hospital_name)throws Exception;
 }

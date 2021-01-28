@@ -6,11 +6,15 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import pet.model.dto.CommentReviewDTO;
+import pet.model.dto.PageDTO;
 import pet.model.dto.PriceReviewDTO;
 import pet.model.dto.RatingReviewDTO;
 import pet.model.dto.ReviewDTO;
@@ -131,5 +135,30 @@ public class ReviewBean {
 		}
 		
 		return "review/insertReviewPro";
+	}
+	
+	@RequestMapping("contentsreview.do")
+	public String contentsReview(@ModelAttribute PageDTO pageDTO,
+			@RequestParam(defaultValue ="1") int pageNum,
+			ReviewDTO reviewDTO,
+			Model model) throws Exception {
+		
+		if(pageNum == 0) {
+			pageDTO.setPageNum("1");
+		}else {
+			pageDTO.setPageNum(Integer.toString(pageNum));
+		}		
+		int count = reviewService.getListReviewCount(reviewDTO.getHospital_name());		
+		pageDTO.setCount(count);
+		pageDTO.paging(pageDTO.getPageNum(), count);
+		
+		int start = pageDTO.getStartRow();
+		int end = pageDTO.getEndRow();
+		List reviewList = reviewService.getListReview(start, end, reviewDTO.getHospital_name()); 
+		
+		model.addAttribute("page", pageDTO);
+		model.addAttribute("reviewList", reviewList);
+		
+		return "review/contentsReview";
 	}
 }

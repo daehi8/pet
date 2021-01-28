@@ -1,5 +1,9 @@
 package pet.model.service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,5 +20,6 @@ public class RatingReviewServiceImpl implements RatingReviewService{
 	public void insertRatingReview(RatingReviewDTO ratingReviewDTO) throws Exception {
 		dao.insert("ratingReview.insertRatingReview", ratingReviewDTO);		
 	}
+
 
 }

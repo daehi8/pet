@@ -27,5 +27,15 @@
 		select max(no) from review
 	</select>
 	
+	<select id="getListReview" parameterType="hashMap" resultType="reviewDTO">
+		select no,member_email,hospital_name,doc_name,revisit,public_check,auth_check,reg_date,r from 
+		(select no,member_email,hospital_name,doc_name,revisit,public_check,auth_check,reg_date,rownum r from 
+		(select * from review order by reg_date desc) where hospital_name = #{hospital_name} and auth_check = 'N' and public_check = 'Y')
+		<![CDATA[where r >= #{start} and r <= #{end}]]>
+	</select>
+	
+	<select id="getListReviewCount" resultType="int">
+		select count(*) from review where hospital_name = #{hospital_name} and auth_check = 'N' and public_check = 'Y'
+	</select>
 </mapper>
 
