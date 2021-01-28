@@ -7,9 +7,9 @@ public class PriceReviewDTO {
 	// 리뷰 고유번호
 	private int review_no;		
 	// 진료과목
-	private String medical_subject;
+	private String subject_info;
 	// 진료비
-	private String price;
+	private String price_info;
 	// 세부사항
 	private String detail;
 	
@@ -25,17 +25,17 @@ public class PriceReviewDTO {
 	public void setReview_no(int review_no) {
 		this.review_no = review_no;
 	}
-	public String getMedical_subject() {
-		return medical_subject;
+	public String getSubject_info() {
+		return subject_info;
 	}
-	public void setMedical_subject(String medical_subject) {
-		this.medical_subject = medical_subject;
+	public void setSubject_info(String subject_info) {
+		this.subject_info = subject_info;
 	}
-	public String getPrice() {
-		return price;
+	public String getPrice_info() {
+		return price_info;
 	}
-	public void setPrice(String price) {
-		this.price = price;
+	public void setPrice_info(String price_info) {
+		this.price_info = price_info;
 	}
 	public String getDetail() {
 		return detail;

@@ -11,10 +11,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import pet.model.dto.CommentReviewDTO;
+import pet.model.dto.PriceReviewDTO;
 import pet.model.dto.RatingReviewDTO;
 import pet.model.dto.ReviewDTO;
 import pet.model.dto.UploadReviewDTO;
 import pet.model.service.CommentReviewService;
+import pet.model.service.PriceReviewService;
 import pet.model.service.RatingReviewService;
 import pet.model.service.ReviewService;
 import pet.model.service.UploadReviewService;
@@ -35,6 +37,9 @@ public class ReviewBean {
 	@Autowired
 	private RatingReviewService ratingReviewService;
 	
+	@Autowired
+	private PriceReviewService priceReviewService;
+	
 	@RequestMapping("insertreview.do")
 	public String insertReview() throws Exception {
 		return "review/insertReview";
@@ -45,6 +50,7 @@ public class ReviewBean {
 			UploadReviewDTO uploadReviewDTO,
 			CommentReviewDTO commentReviewDTO,
 			RatingReviewDTO ratingReviewDTO,
+			PriceReviewDTO priceReviewDTO,
 			MultipartHttpServletRequest request) throws Exception {
 		
 		// 리뷰 입력
@@ -113,6 +119,16 @@ public class ReviewBean {
 		ratingReviewDTO.setMean(avgRating);
 		ratingReviewService.insertRatingReview(ratingReviewDTO);
 		
+		// 리뷰 가격정보 입력
+		String [] rePrice = priceReviewDTO.getPrice_info().split(",");
+		String [] reSubject = priceReviewDTO.getSubject_info().split(",");
+		
+		for(int i = 0; i < rePrice.length; i++) {
+			priceReviewDTO.setReview_no(review_no);
+			priceReviewDTO.setPrice_info(rePrice[i]);
+			priceReviewDTO.setSubject_info(reSubject[i]);			
+			priceReviewService.insertPriceReview(priceReviewDTO);
+		}
 		
 		return "review/insertReviewPro";
 	}

@@ -144,18 +144,28 @@ let rating = new Rating();//별점 인스턴스 생성
 		    var maxValue = Math.max.apply(null, chkArray);
 		    document.getElementById(ratingName[i]).value = maxValue;
 		}
+		
+		var theForm = document.forms['reviewForm'];
+		var input   = document.createElement('input');
+	
+		input.type   = 'hidden';
+		input.name  = 'cart_num';
+		input.value  = $();
+		
+		theForm.appendChild(input);
 	}
 
 </script>
 
 	<form name="reviewForm" method = "post" enctype="multipart/form-data"  action="/pet/review/insertreviewpro.do" onsubmit="ratingSubmit()";>
 		<!-- 테스트용 코드 -->
-		<input type="hidden" name="member_email" value="test">				
+		<input type="hidden" name="member_email" value="test">
+						
 		<div>
 			병원 이름 :
-			<input type="text" name=""> <br />
+			<input type="text" name="hospital_name"> <br />
 			의사 이름 :
-			<input type="text" name=""> <br />
+			<input type="text" name="doc_name"> <br />
 			
 			인증사진
 			<input type="file" name="auth">
@@ -308,7 +318,7 @@ let rating = new Rating();//별점 인스턴스 생성
 			</table>		
 		</div>
 		
-		<div>
+		<div id="priceReview">
 			<input type="text" id="add_subject" placeholder ="진료 과목">
 			<input type="text" id="add_price" placeholder="가격" >
 			<button type="button" id="append_row">추가</button>
@@ -339,13 +349,17 @@ let rating = new Rating();//별점 인스턴스 생성
 
 // 추가
 $("#append_row").on("click", function() {
+	var subject = $("#add_subject").val();
+	var price = $("#add_price").val()
 	$("#list_table").append(
 		$("<tr>").append(		
-			$("<td>").append( $("#add_subject").val() ),
-			$("<td>").append( $("#add_price").val() ),
+			$("<td>").append(subject),
+			$("<td>").append(price),
 			$("<td>").append(
 				$("<button>").prop("type","button").addClass("delete-link").append("삭제")     
-			)		
+			),
+			$("<td>").append("<input type='hidden' name='subject_info' value='"+subject+"'/>"),
+			$("<td>").append("<input type='hidden' name='price_info' value='"+price+"'/>")
 		)	
 	);	
 });

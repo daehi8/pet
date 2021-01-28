@@ -8,6 +8,10 @@ public class ReviewDTO {
 	private int no;
 	// 회원 이메일
 	private String member_email;
+	// 병원 이름
+	private String hospital_name;
+	// 의사 이름
+	private String doc_name;
 	// 재방문 추천 Y / N
 	private String revisit;
 	// 작성내용 공개여부 Y /N
@@ -17,7 +21,18 @@ public class ReviewDTO {
 	// 리뷰 작성 시간
 	private Timestamp reg_date;
 	
-	
+	public String getHospital_name() {
+		return hospital_name;
+	}
+	public void setHospital_name(String hospital_name) {
+		this.hospital_name = hospital_name;
+	}
+	public String getDoc_name() {
+		return doc_name;
+	}
+	public void setDoc_name(String doc_name) {
+		this.doc_name = doc_name;
+	}
 	public int getNo() {
 		return no;
 	}

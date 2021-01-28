@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="priceReview">
+	<insert id="insertPriceReview" parameterType="priceReviewDTO">
+		insert into review_price(
+			no,
+			review_no,
+			subject_info,
+			price_info
+		)values(
+			review_price_seq.nextval,
+			#{review_no},
+			#{subject_info},
+			#{price_info}
+		)	
+	</insert>
+	
+</mapper>
+
