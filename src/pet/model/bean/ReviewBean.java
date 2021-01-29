@@ -1,8 +1,11 @@
 package pet.model.bean;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -141,6 +144,8 @@ public class ReviewBean {
 	public String contentsReview(@ModelAttribute PageDTO pageDTO,
 			@RequestParam(defaultValue ="1") int pageNum,
 			ReviewDTO reviewDTO,
+			RatingReviewDTO ratingReviewDTO,
+			CommentReviewDTO commentReviewDTO,
 			Model model) throws Exception {
 		
 		if(pageNum == 0) {
@@ -154,9 +159,34 @@ public class ReviewBean {
 		
 		int start = pageDTO.getStartRow();
 		int end = pageDTO.getEndRow();
-		List reviewList = reviewService.getListReview(start, end, reviewDTO.getHospital_name()); 
+		List reviewList = reviewService.getListReview(start, end, reviewDTO.getHospital_name());		
+
+		List ratingList = new ArrayList();
+		List commentList = new ArrayList();
+		List priceByNoList = new ArrayList();
+		List priceList = new ArrayList();
+		Map priceMap = new HashMap();
 		
+		for(int i=0; i < reviewList.size(); i++) {
+			ratingReviewDTO = null;
+			commentReviewDTO = null;
+			priceByNoList = null;
+			
+			int review_no = ((ReviewDTO) reviewList.get(i)).getNo();
+			
+			ratingReviewDTO = ratingReviewService.selectByReviewNo(review_no);
+			commentReviewDTO = commentReviewService.selectByReviewNo(review_no);
+			priceByNoList = priceReviewService.selectByReviewNo(review_no);
+			
+			ratingList.add(ratingReviewDTO);
+			commentList.add(commentReviewDTO);
+			priceMap.put(i,priceByNoList);
+			
+		}
 		model.addAttribute("page", pageDTO);
+		model.addAttribute("ratingList", ratingList);
+		model.addAttribute("commentList", commentList);
+		model.addAttribute("priceMap", priceMap);
 		model.addAttribute("reviewList", reviewList);
 		
 		return "review/contentsReview";

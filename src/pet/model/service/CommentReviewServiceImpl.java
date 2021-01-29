@@ -19,9 +19,13 @@ public class CommentReviewServiceImpl implements CommentReviewService{
 	}
 
 	@Override
-	public void deleteCommentReview(int review_no) throws Exception {
-		// TODO Auto-generated method stub
+	public void deleteCommentReview(int review_no) throws Exception {		
 		
+	}
+
+	@Override
+	public CommentReviewDTO selectByReviewNo(int review_no) throws Exception {
+		return dao.selectOne("commentReview.selectByReviewNo", review_no);
 	}
 
 }

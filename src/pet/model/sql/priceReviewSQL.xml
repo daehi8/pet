@@ -17,5 +17,9 @@
 		)	
 	</insert>
 	
+	<select id="selectByReviewNo" parameterType="int" resultType="priceReviewDTO">
+		select * from review_price where review_no = #{value}
+	</select>
+	
 </mapper>
 

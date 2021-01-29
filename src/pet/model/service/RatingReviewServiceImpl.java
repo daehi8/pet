@@ -20,6 +20,9 @@ public class RatingReviewServiceImpl implements RatingReviewService{
 	public void insertRatingReview(RatingReviewDTO ratingReviewDTO) throws Exception {
 		dao.insert("ratingReview.insertRatingReview", ratingReviewDTO);		
 	}
-
-
+	
+	@Override
+	public RatingReviewDTO selectByReviewNo(int review_no) throws Exception{
+		return dao.selectOne("ratingReview.selectByReviewNo", review_no);
+	}
 }
