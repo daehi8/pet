@@ -24,6 +24,12 @@ public interface ReviewService {
 	// 리뷰 페이징
 	public List getListReview(int start, int end, String hospital_name)throws Exception;
 	
-	// 리뷰 페이징 리뷰 총 갯수 확인
+	// 리뷰 총 갯수 확인
 	public int getListReviewCount(String hospital_name)throws Exception;
+	
+	// 리뷰 재방문 추천 총 갯수 확인
+	public int getRecomCount(String hospital_name)throws Exception;
+	
+	// 리뷰 재방문 비추천 총 갯수 확인
+	public int getNotRecomCount(String hospital_name)throws Exception;
 }

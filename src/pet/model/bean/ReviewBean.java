@@ -148,6 +148,7 @@ public class ReviewBean {
 			CommentReviewDTO commentReviewDTO,
 			Model model) throws Exception {
 		
+		// 페이징 처리
 		if(pageNum == 0) {
 			pageDTO.setPageNum("1");
 		}else {
@@ -160,12 +161,22 @@ public class ReviewBean {
 		int start = pageDTO.getStartRow();
 		int end = pageDTO.getEndRow();
 		List reviewList = reviewService.getListReview(start, end, reviewDTO.getHospital_name());		
-
+		
+		// 필요한 리뷰정보 리스트 생성
 		List ratingList = new ArrayList();
 		List commentList = new ArrayList();
 		List priceByNoList = new ArrayList();
 		List priceList = new ArrayList();
 		Map priceMap = new HashMap();
+		
+		// 필요한 평점 생성
+		int cleanRating = 0;
+		int kindRating = 0;
+		int waitingRating = 0;
+		int detailRating = 0;
+		int priceRating = 0;
+		int afterRating = 0;
+		int meanRating = 0;
 		
 		for(int i=0; i < reviewList.size(); i++) {
 			ratingReviewDTO = null;
@@ -180,9 +191,49 @@ public class ReviewBean {
 			
 			ratingList.add(ratingReviewDTO);
 			commentList.add(commentReviewDTO);
-			priceMap.put(i,priceByNoList);
+			priceMap.put(i,priceByNoList);			
 			
+			// 평점 합계 구하기
+			int clean = Integer.parseInt(ratingReviewDTO.getClean());
+			int price = Integer.parseInt(ratingReviewDTO.getPrice());
+			int kind = Integer.parseInt(ratingReviewDTO.getKind());
+			int waiting = Integer.parseInt(ratingReviewDTO.getWaiting());
+			int detail = Integer.parseInt(ratingReviewDTO.getDetail());
+			int after = Integer.parseInt(ratingReviewDTO.getAfter());
+			int mean = (int) (ratingReviewDTO.getMean());
+			
+			cleanRating += clean;
+			priceRating += price;
+			kindRating += kind;
+			waitingRating += waiting;
+			detailRating += detail;
+			afterRating += after;
+			meanRating += mean;
 		}
+		
+		// 평점  평균 구하기
+		int meanCleanRating = cleanRating / count;
+		int meanPriceRating = priceRating / count;
+		int meanKindRating = kindRating / count;
+		int meanWaitingRating = waitingRating / count;
+		int meanDetailRating = detailRating / count;
+		int meanAfterRating = afterRating / count;
+		int meanRatingResult = meanRating / count;
+		
+		// 리뷰 재방문 추천 수
+		int recomCount = reviewService.getRecomCount(reviewDTO.getHospital_name());
+		int notRecomCount = reviewService.getNotRecomCount(reviewDTO.getHospital_name());
+		
+		model.addAttribute("count", count);
+		model.addAttribute("meanCleanRating", meanCleanRating);
+		model.addAttribute("meanPriceRating", meanPriceRating);
+		model.addAttribute("meanKindRating", meanKindRating);
+		model.addAttribute("meanWaitingRating", meanWaitingRating);
+		model.addAttribute("meanDetailRating", meanDetailRating);
+		model.addAttribute("meanAfterRating", meanAfterRating);
+		model.addAttribute("meanRatingResult", meanRatingResult);
+		model.addAttribute("notRecomCount", notRecomCount);
+		model.addAttribute("recomCount", recomCount);
 		model.addAttribute("page", pageDTO);
 		model.addAttribute("ratingList", ratingList);
 		model.addAttribute("commentList", commentList);

@@ -18,8 +18,22 @@
 
 <div>병원 정보</div>
 
-<div>리뷰 평균</div>
-
+<div>
+	<p>리뷰 개수 : ${count}</p>
+	<p>리뷰평점 평균 : ${meanRatingResult}</p>
+	<p>
+		재방문 추천 : ${recomCount}
+		재방문 비추천 : ${notRecomCount}
+	</p>
+	<p>
+		청결 : ${meanCleanRating}
+		가격 : ${meanPriceRating}
+		친절 : ${meanKindRating}
+		대기시간 : ${meanWaitingRating}
+		설명 : ${meanDetailRating}
+		결과 : ${meanAfterRating}
+	</p>
+</div>
 <div>키워드검색</div>
 
 <div>정렬</div>

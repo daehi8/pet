@@ -59,4 +59,14 @@ public class ReviewServiceImpl implements ReviewService{
 		return dao.selectOne("review.getListReviewCount", hospital_name);
 	}
 
+	@Override
+	public int getRecomCount(String hospital_name) throws Exception {
+		return dao.selectOne("review.getRecomCount", hospital_name);
+	}
+
+	@Override
+	public int getNotRecomCount(String hospital_name) throws Exception {
+		return dao.selectOne("review.getNotRecomCount", hospital_name);
+	}
+
 }
