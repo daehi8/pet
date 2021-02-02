@@ -5,8 +5,18 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script>
+function categorySearchType(){
+	var searchType = $("#searchType").val();
+	var hospital_name = "테스트병원";
+	location.href="contentsreview.do?hospital_name="+hospital_name+"&searchType="+searchType+"";
+}
+</script>
+
 </head>
 <body>
 
@@ -36,9 +46,15 @@
 </div>
 <div>키워드검색</div>
 
-<div>정렬</div>
+<div>
+<select name="searchType" id="searchType" onchange="categorySearchType()">
+	<option value="regOrder">최신순</option>
+	<option value="ratingOrder">평점높은순</option>
+	<option value="likeOrder">좋아요</option>
+</select>
+</div>
 <c:forEach var="reviewList" items="${reviewList}" varStatus="status">
-	<div>
+	<div id="reviewList">
 		<div>
 			<div><h4>회원정보 : ${reviewList.member_email}</h4></div>
 			<div>

@@ -28,9 +28,19 @@
 	</select>
 	
 	<select id="getListReview" parameterType="hashMap" resultType="reviewDTO">
-		select no,member_email,hospital_name,doc_name,revisit,public_check,auth_check,reg_date,r from 
-		(select no,member_email,hospital_name,doc_name,revisit,public_check,auth_check,reg_date,rownum r from 
-		(select * from review order by reg_date desc) where hospital_name = #{hospital_name} and auth_check = 'N' and public_check = 'Y')
+		select no,member_email,hospital_name,doc_name,revisit,public_check,auth_check,reg_date,r 
+		from (select no,member_email,hospital_name,doc_name,revisit,public_check,auth_check,reg_date,rownum r 
+		from (select * 
+		from (select review.no,member_email,hospital_name,doc_name,revisit,public_check,auth_check,reg_date,mean 
+		from review join review_rating on review.no = review_rating.review_no) 
+		order by 
+		<choose>
+		<when test="searchType == 'ratingOrder'">mean desc</when> 
+		<otherwise>reg_date desc</otherwise>
+		</choose>
+		) 
+		where 
+		hospital_name = #{hospital_name} and auth_check = 'N' and public_check = 'Y')
 		<![CDATA[where r >= #{start} and r <= #{end}]]>
 	</select>
 	

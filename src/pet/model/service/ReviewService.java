@@ -22,7 +22,7 @@ public interface ReviewService {
 	public int selectNewReview()throws Exception;
 	
 	// 리뷰 페이징
-	public List getListReview(int start, int end, String hospital_name)throws Exception;
+	public List getListReview(int start, int end, String hospital_name, String SearchType)throws Exception;
 	
 	// 리뷰 총 갯수 확인
 	public int getListReviewCount(String hospital_name)throws Exception;

@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -28,7 +29,7 @@ import pet.model.service.RatingReviewService;
 import pet.model.service.ReviewService;
 import pet.model.service.UploadReviewService;
 
-@Controller
+@RestController
 @RequestMapping("/review/")
 public class ReviewBean {
 	
@@ -146,7 +147,8 @@ public class ReviewBean {
 			ReviewDTO reviewDTO,
 			RatingReviewDTO ratingReviewDTO,
 			CommentReviewDTO commentReviewDTO,
-			Model model) throws Exception {
+			Model model,
+			String searchType) throws Exception {
 		
 		// 페이징 처리
 		if(pageNum == 0) {
@@ -160,7 +162,7 @@ public class ReviewBean {
 		
 		int start = pageDTO.getStartRow();
 		int end = pageDTO.getEndRow();
-		List reviewList = reviewService.getListReview(start, end, reviewDTO.getHospital_name());		
+		List reviewList = reviewService.getListReview(start, end, reviewDTO.getHospital_name(), searchType);		
 		
 		// 필요한 리뷰정보 리스트 생성
 		List ratingList = new ArrayList();
@@ -192,7 +194,6 @@ public class ReviewBean {
 			ratingList.add(ratingReviewDTO);
 			commentList.add(commentReviewDTO);
 			priceMap.put(i,priceByNoList);			
-			
 			// 평점 합계 구하기
 			int clean = Integer.parseInt(ratingReviewDTO.getClean());
 			int price = Integer.parseInt(ratingReviewDTO.getPrice());

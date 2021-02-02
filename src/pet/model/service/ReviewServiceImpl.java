@@ -46,11 +46,14 @@ public class ReviewServiceImpl implements ReviewService{
 	}
 
 	@Override
-	public List getListReview(int start, int end, String hospital_name) throws Exception {
+	public List getListReview(int start, int end, String hospital_name, String SearchType) throws Exception {
 		Map map = new HashMap();
 		map.put("start", start);
 		map.put("end", end);
 		map.put("hospital_name", hospital_name);
+		if(SearchType != null) {
+			map.put("searchType", SearchType);
+		}
 		return dao.selectList("review.getListReview", map);
 	}
 
