@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
 
 import pet.model.dto.CommentReviewDTO;
 import pet.model.dto.PageDTO;
@@ -248,7 +249,8 @@ public class ReviewBean {
 	public String reviewList(@RequestParam(defaultValue ="1") int pageNum,
 			PageDTO pageDTO,
 			ReviewDTO reviewDTO,
-			Model model
+			Model model,
+			String searchType
 			) throws Exception{
 		// 페이징 처리
 		if(pageNum == 0) {
@@ -256,13 +258,13 @@ public class ReviewBean {
 		}else {
 			pageDTO.setPageNum(Integer.toString(pageNum));
 		}		
-		int count = reviewService.getListAuthCheckReviewCount();
+		int count = reviewService.getListAuthCheckReviewCount(searchType);
 		pageDTO.setCount(count);
 		pageDTO.paging(pageDTO.getPageNum(), count);
 		
 		int start = pageDTO.getStartRow();
 		int end = pageDTO.getEndRow();
-		List authCheckList = reviewService.getListAuthCheckReview(start, end);
+		List authCheckList = reviewService.getListAuthCheckReview(start, end, searchType);
 
 		model.addAttribute("authCheckList", authCheckList);
 		
@@ -270,13 +272,17 @@ public class ReviewBean {
 	}
 	
 	@RequestMapping("okauthcheck.do")
-	public void okAuthcheck(int review_no)throws Exception{
-		reviewService.okAuthCheck(review_no);
+	public String okAuthcheck(int review_no)throws Exception{
+		//reviewService.okAuthCheck(review_no);
+
+		return "review/adminReviewAuthCheck";
 	}
 	
 	@RequestMapping("noauthcheck.do")
-	public void noAuthcheck(int review_no)throws Exception{
-		reviewService.noAuthCheck(review_no);
+	public String noAuthcheck(int review_no)throws Exception{
+		//reviewService.noAuthCheck(review_no);
+	
+		return "review/adminReviewAuthCheck";
 	}
 	
 	@RequestMapping("admincontentsreview.do")

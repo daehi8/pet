@@ -69,9 +69,9 @@
 	</div>
 	
 	<div>
-		<input type="button" value="승인">
-		<input type="button" value="미승인">
-		<input type="button" value="목록">
+		<a href="/pet/review/okauthcheck.do?review_no=${reviewDTO.no}">승인</a>
+		<a href="/pet/review/noauthcheck.do?review_no=${reviewDTO.no}">미승인</a>
+		<a href="/pet/review/adminreviewlist.do">목록</a>
 	</div>
 </body>
 </html>

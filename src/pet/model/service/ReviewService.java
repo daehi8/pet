@@ -24,11 +24,11 @@ public interface ReviewService {
 	// 리뷰 재방문 비추천 총 갯수 확인
 	public int getNotRecomCount(String hospital_name)throws Exception;
 	
-	// 승인받아야 할 리뷰 리스트
-	public List getListAuthCheckReview(int start, int end)throws Exception;
+	// 리뷰 리스트
+	public List getListAuthCheckReview(int start, int end, String searchType)throws Exception;
 	
-	// 승인 받아야 할 리스트 갯수 확인
-	public int getListAuthCheckReviewCount()throws Exception;
+	// 리스트 갯수 확인
+	public int getListAuthCheckReviewCount(String searchType)throws Exception;
 
 	// 리뷰 승인
 	public void okAuthCheck(int review_no)throws Exception;

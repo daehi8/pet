@@ -55,16 +55,17 @@ public class ReviewServiceImpl implements ReviewService{
 	}
 
 	@Override
-	public List getListAuthCheckReview(int start, int end) throws Exception {
+	public List getListAuthCheckReview(int start, int end, String searchType) throws Exception {
 		Map map = new HashMap();
 		map.put("start", start);
 		map.put("end", end);
+		map.put("searchType", searchType);
 		return dao.selectList("review.getListAuthCheckReview", map);
 	}
 
 	@Override
-	public int getListAuthCheckReviewCount() throws Exception {
-		return dao.selectOne("review.getListAuthCheckReviewCount");
+	public int getListAuthCheckReviewCount(String searchType) throws Exception {
+		return dao.selectOne("review.getListAuthCheckReviewCount", searchType);
 	}
 
 	@Override

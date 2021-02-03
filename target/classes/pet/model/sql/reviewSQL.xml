@@ -59,12 +59,26 @@
 	<select id="getListAuthCheckReview" parameterType="hashMap" resultType="reviewDTO">
 		select no,member_email,hospital_name,doc_name,revisit,public_check,auth_check,reg_date,r from 
 		(select no,member_email,hospital_name,doc_name,revisit,public_check,auth_check,reg_date,rownum r from 
-		(select * from review order by reg_date desc) 
-		<![CDATA[where auth_check = 'N') where r >= #{start} and r <= #{end}]]>
+		(select * from review order by 
+		reg_date desc) 
+		<where>
+		<if test="searchType==null">and auth_check = 'N'</if>
+		<if test="searchType=='no'">and auth_check = 'N'</if>
+		<if test="searchType=='ok'">and auth_check = 'Y'</if>
+		<if test="searchType=='cancle'">and auth_check = 'D'</if>
+		</where>
+		) 
+		<![CDATA[where r >= #{start} and r <= #{end}]]>
 	</select>
 	
-	<select id="getListAuthCheckReviewCount" resultType="int">
-		select count(*) from review where auth_check = 'N'
+	<select id="getListAuthCheckReviewCount" resultType="int" parameterType="String">
+		select count(*) from review 
+		<where>
+		<if test="searchType==null">and auth_check = 'N'</if>
+		<if test="searchType=='no'">and auth_check = 'N'</if>
+		<if test="searchType=='ok'">and auth_check = 'Y'</if>
+		<if test="searchType=='cancle'">and auth_check = 'D'</if>
+		</where>
 	</select>
 	
 	<update id="okAuthCheck" parameterType="int">
