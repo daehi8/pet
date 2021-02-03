@@ -16,7 +16,24 @@ function categorySearchType(){
 	location.href="contentsreview.do?hospital_name="+hospital_name+"&searchType="+searchType+"";
 }
 </script>
-
+<style>
+.rating .rate_radio + label {
+    position: relative;
+    display: inline-block;
+    margin-left: -4px;
+    z-index: 10;
+    width: 60px;
+    height: 60px;
+    background-image: url('/pet/resources/img/starrate.png');
+    background-repeat: no-repeat;
+    background-size: 60px 60px;
+    cursor: pointer;
+    background-color: #f0f0f0;
+}
+.rating .rate_radio:checked + label {
+    background-color: orange;
+}
+</style>
 </head>
 <body>
 
@@ -30,7 +47,9 @@ function categorySearchType(){
 
 <div>
 	<p>리뷰 개수 : ${count}</p>
-	<p>리뷰평점 평균 : ${meanRatingResult}</p>
+	<p>리뷰평점 평균 : ${meanRatingResult}
+	<div class="ratefill" style="width: 300px;"></div>
+	</p>
 	<p>
 		재방문 추천 : ${recomCount}
 		재방문 비추천 : ${notRecomCount}

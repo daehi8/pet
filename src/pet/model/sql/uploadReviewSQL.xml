@@ -20,5 +20,17 @@
 						</set>
 			where no=#{no}
 	</update>
+	
+	<select id="getAuthByReviewNo" parameterType="int" resultType="uploadReviewDTO">
+		select * from review_upload where review_no = #{value} and file_type = 'auth'
+	</select>
+
+	<select id="getCureByReviewNo" parameterType="int" resultType="uploadReviewDTO">
+		select * from review_upload where review_no = #{value} and file_type = 'cure'
+	</select>
+	
+	<select id="getHospitalByReviewNo" parameterType="int" resultType="uploadReviewDTO">
+		select * from review_upload where review_no = #{value} and file_type = 'hospital'
+	</select>
 </mapper>
 

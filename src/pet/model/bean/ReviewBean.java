@@ -243,4 +243,66 @@ public class ReviewBean {
 		
 		return "review/contentsReview";
 	}
+	
+	@RequestMapping("adminreviewlist.do")
+	public String reviewList(@RequestParam(defaultValue ="1") int pageNum,
+			PageDTO pageDTO,
+			ReviewDTO reviewDTO,
+			Model model
+			) throws Exception{
+		// 페이징 처리
+		if(pageNum == 0) {
+			pageDTO.setPageNum("1");
+		}else {
+			pageDTO.setPageNum(Integer.toString(pageNum));
+		}		
+		int count = reviewService.getListAuthCheckReviewCount();
+		pageDTO.setCount(count);
+		pageDTO.paging(pageDTO.getPageNum(), count);
+		
+		int start = pageDTO.getStartRow();
+		int end = pageDTO.getEndRow();
+		List authCheckList = reviewService.getListAuthCheckReview(start, end);
+
+		model.addAttribute("authCheckList", authCheckList);
+		
+		return "review/adminReviewList";
+	}
+	
+	@RequestMapping("okauthcheck.do")
+	public void okAuthcheck(int review_no)throws Exception{
+		reviewService.okAuthCheck(review_no);
+	}
+	
+	@RequestMapping("noauthcheck.do")
+	public void noAuthcheck(int review_no)throws Exception{
+		reviewService.noAuthCheck(review_no);
+	}
+	
+	@RequestMapping("admincontentsreview.do")
+	public String adminContentsReview(int review_no,
+			ReviewDTO reviewDTO,
+			RatingReviewDTO ratingReviewDTO,
+			CommentReviewDTO commentReviewDTO,
+			UploadReviewDTO uploadReviewDTO,
+			Model model)throws Exception{
+		
+		reviewDTO = reviewService.selectByReviewNo(review_no);
+		commentReviewDTO = commentReviewService.selectByReviewNo(review_no);
+		ratingReviewDTO = ratingReviewService.selectByReviewNo(review_no);
+		List priceByNoList = priceReviewService.selectByReviewNo(review_no);
+		uploadReviewDTO = uploadReviewService.getAuthByReviewNo(review_no);
+		List cureFileReviewList = uploadReviewService.getHospitalByReviewNo(review_no);
+		List hospitalFileReviewList = uploadReviewService.getCureByReviewNo(review_no);
+		
+		model.addAttribute("reviewDTO", reviewDTO);
+		model.addAttribute("commentReviewDTO", commentReviewDTO);
+		model.addAttribute("ratingReviewDTO", ratingReviewDTO);
+		model.addAttribute("priceByNoList", priceByNoList);
+		model.addAttribute("uploadReviewDTO", uploadReviewDTO);
+		model.addAttribute("cureFileReviewList", cureFileReviewList);
+		model.addAttribute("hospitalFileReviewList", hospitalFileReviewList);
+		
+		return "review/adminContentsReview";
+	}
 }

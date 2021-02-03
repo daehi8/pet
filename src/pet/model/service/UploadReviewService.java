@@ -18,6 +18,12 @@ public interface UploadReviewService {
 	// 삭제
 	public void deleteFile(int no)throws Exception;
 	
-	// 리뷰에 맞는 파일번호 찾기
-	public List selectFileNo(int review_no)throws Exception;
+	// 리뷰번호에 맞는 인증파일  찾기
+	public UploadReviewDTO getAuthByReviewNo(int review_no)throws Exception;
+
+	// 리뷰 번호에 맞는 병원사진파일 찾기
+	public List getHospitalByReviewNo(int review_no)throws Exception;
+	
+	// 리뷰 번호에 맞는 치료사진파일 찾기
+	public List getCureByReviewNo(int review_no)throws Exception;
 }

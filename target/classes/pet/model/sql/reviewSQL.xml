@@ -55,4 +55,27 @@
 	<select id="getNotRecomCount" parameterType="String" resultType="int">
 		select count(revisit) from review where revisit = 'N' and hospital_name = #{value}
 	</select>
+	
+	<select id="getListAuthCheckReview" parameterType="hashMap" resultType="reviewDTO">
+		select no,member_email,hospital_name,doc_name,revisit,public_check,auth_check,reg_date,r from 
+		(select no,member_email,hospital_name,doc_name,revisit,public_check,auth_check,reg_date,rownum r from 
+		(select * from review order by reg_date desc) 
+		<![CDATA[where auth_check = 'N') where r >= #{start} and r <= #{end}]]>
+	</select>
+	
+	<select id="getListAuthCheckReviewCount" resultType="int">
+		select count(*) from review where auth_check = 'N'
+	</select>
+	
+	<update id="okAuthCheck" parameterType="int">
+		update review set auth_check = 'Y' where no = #{value}
+	</update>
+	
+	<update id="noAuthCheck" parameterType="int">
+		update review set auth_check = 'D' where no = #{value}
+	</update>
+	
+	<select id="selectByReviewNo" parameterType="int" resultType="reviewDTO">
+		select * from review where no = #{value}
+	</select>
 </mapper>

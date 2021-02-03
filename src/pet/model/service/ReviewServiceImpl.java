@@ -22,24 +22,6 @@ public class ReviewServiceImpl implements ReviewService{
 	}
 
 	@Override
-	public void updateReview(ReviewDTO reviewDTO) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void deleteReview(ReviewDTO reviewDTO) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public ReviewDTO myReview(String member_email) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public int selectNewReview() throws Exception {
 		int no = dao.selectOne("review.selectNewNo");
 		return no;
@@ -70,6 +52,34 @@ public class ReviewServiceImpl implements ReviewService{
 	@Override
 	public int getNotRecomCount(String hospital_name) throws Exception {
 		return dao.selectOne("review.getNotRecomCount", hospital_name);
+	}
+
+	@Override
+	public List getListAuthCheckReview(int start, int end) throws Exception {
+		Map map = new HashMap();
+		map.put("start", start);
+		map.put("end", end);
+		return dao.selectList("review.getListAuthCheckReview", map);
+	}
+
+	@Override
+	public int getListAuthCheckReviewCount() throws Exception {
+		return dao.selectOne("review.getListAuthCheckReviewCount");
+	}
+
+	@Override
+	public void okAuthCheck(int review_no) throws Exception {
+		dao.update("review.okAuthCheck", review_no);		
+	}
+
+	@Override
+	public void noAuthCheck(int review_no) throws Exception {
+		dao.update("reivew.noAuthCheck", review_no);		
+	}
+
+	@Override
+	public ReviewDTO selectByReviewNo(int review_no) throws Exception {
+		return dao.selectOne("review.selectByReviewNo", review_no);
 	}
 
 }

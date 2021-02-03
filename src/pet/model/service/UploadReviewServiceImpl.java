@@ -38,10 +38,20 @@ public class UploadReviewServiceImpl implements UploadReviewService{
 		
 	}
 
+	public UploadReviewDTO getAuthByReviewNo(int review_no) throws Exception {
+		return dao.selectOne("uploadReview.getAuthByReviewNo", review_no);
+	}
+
 	@Override
-	public List selectFileNo(int review_no) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public List getHospitalByReviewNo(int review_no) throws Exception {
+		return dao.selectList("uploadReview.getCureByReviewNo", review_no);
+
+	}
+
+	@Override
+	public List getCureByReviewNo(int review_no) throws Exception {
+		return dao.selectList("uploadReview.getHospitalByReviewNo", review_no);
+
 	}
 
 }
