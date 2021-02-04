@@ -122,5 +122,26 @@ function categorySearchType(){
 		</div>
 	</div>
 </c:forEach>
+
+<div class="center">
+	<div class="pagination">
+	    <c:if test="${pageDTO.startPage > 10}">
+	        <a href="/pet/review/contentsreview.do?pageNum=${pageDTO.startPage - 10}&searchType=${searchType}&hospital_name=테스트병원">&laquo;</a>
+	    </c:if>
+	        
+        <c:forEach var ="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}">
+        	<c:if test="${pageDTO.currentPage == i}">
+	        	<a href="/pet/review/contentsreview.do?pageNum=${i}&searchType=${searchType}&hospital_name=테스트병원" class="active">${i}</a>
+			</c:if>
+			<c:if test="${pageDTO.currentPage != i}">
+	        	<a href="/pet/review/contentsreview.do?pageNum=${i}&searchType=${searchType}&hospital_name=테스트병원">${i}</a>
+	        </c:if>
+		</c:forEach>
+	        
+        <c:if test="${pageDTO.endPage < pageDTO.pageCount}">
+	        <a href="/pet/review/contentsreview.do?pageNum=${pageDTO.startPage + 10}&searchType=${searchType}&hospital_name=테스트병원">&raquo;</a>
+        </c:if>
+	</div>
+</div>
 </body>
 </html>

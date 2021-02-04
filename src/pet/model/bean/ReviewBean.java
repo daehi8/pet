@@ -156,7 +156,7 @@ public class ReviewBean {
 			DocPictureDTO docPictureDTO,
 			DocInfoDTO docInfoDTO,
 			Model model,
-			String searchType) throws Exception {
+			@RequestParam(defaultValue ="regOrder") String searchType) throws Exception {
 		
 		// 페이징 처리
 		if(pageNum == 0) {
@@ -262,6 +262,8 @@ public class ReviewBean {
 		model.addAttribute("docMyHospitalDTO", docMyHospitalDTO);
 		model.addAttribute("docPictureDTO", docPictureDTO);
 		model.addAttribute("docInfoDTO", docInfoDTO);
+		model.addAttribute("pageDTO", pageDTO);
+		model.addAttribute("searchType", searchType);
 		
 		return "review/contentsReview";
 	}
