@@ -92,4 +92,20 @@
 	<select id="selectByReviewNo" parameterType="int" resultType="reviewDTO">
 		select * from review where no = #{value}
 	</select>
+	
+	<select id="selectByHospitalName" parameterType="String" resultType="pet.model.dto.DocMyHospitalDTO">
+		select * from doc_myhospital where hospital_name = #{value}
+	</select>
+	
+	<select id="getDocPicture" parameterType="String" resultType="pet.model.dto.DocPictureDTO">
+		select * from (select * from
+		(select * from doc_myhospital join doc_info on doc_myhospital.doc_no = doc_info.doc_no)
+		join doc_picture on doc_no = doc_picture.doc_no) where hospital_name = #{value}
+	</select>
+	
+	<select id="getDocInfo" parameterType="String" resultType="pet.model.dto.DocInfoDTO">
+		select * from
+		(select * from doc_myhospital join doc_info on doc_myhospital.doc_no = doc_info.doc_no)
+		where hospital_name = #{value}
+	</select>
 </mapper>

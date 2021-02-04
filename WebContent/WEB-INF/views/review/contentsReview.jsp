@@ -37,13 +37,25 @@ function categorySearchType(){
 </head>
 <body>
 
-<div>상단 병원 이미지</div>
+<div>
+	<img alt="병원사진" src="/pet/save/${docMyHospitalDTO.hospital_pic_org}">
+</div>
 
-<div>의사프로필 병원주소 등 간단하게 요약</div>
+<div>
+	병원 이름 : ${docMyHospitalDTO.hospital_name}
+	병원 주소 : ${docMyHospitalDTO.hospital_adr}
+	병원 홈페이지 : ${docMyHospitalDTO.homepage}
+</div>
 
-<div>의사 정보</div>
+<div>
+	<img alt="의사 사진" src="/pete/save/${docPictureDTO.org_pic}">
+	의사 이름 : ${docInfoDTO.doc_name}
+</div>
 
-<div>병원 정보</div>
+<div>
+	병원 영업시간 : ${docMyHospitalDTO.hospital_hours}
+	병원 이력 : ${docMyHospitalDTO.hospital_contents}
+</div>
 
 <div>
 	<p>리뷰 개수 : ${count}</p>
@@ -67,6 +79,7 @@ function categorySearchType(){
 
 <div>
 <select name="searchType" id="searchType" onchange="categorySearchType()">
+	<option>--</option>
 	<option value="regOrder">최신순</option>
 	<option value="ratingOrder">평점높은순</option>
 	<option value="likeOrder">좋아요</option>

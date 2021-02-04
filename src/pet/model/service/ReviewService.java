@@ -2,6 +2,9 @@ package pet.model.service;
 
 import java.util.List;
 
+import pet.model.dto.DocInfoDTO;
+import pet.model.dto.DocMyHospitalDTO;
+import pet.model.dto.DocPictureDTO;
 import pet.model.dto.ReviewDTO;
 
 public interface ReviewService {
@@ -39,4 +42,12 @@ public interface ReviewService {
 	// 리뷰 고유번호로 리뷰 정보 확인
 	public ReviewDTO selectByReviewNo(int review_no)throws Exception;
 	
+	// 병원정보 확인
+	public DocMyHospitalDTO selectByHospitalName(String hospital_name)throws Exception;
+	
+	// 의사 사진정보 확인
+	public DocPictureDTO getDocPicture(String hospital_name)throws Exception;
+
+	// 의사 정보 확인
+	public DocInfoDTO getDocInfo(String hospital_name)throws Exception;
 }

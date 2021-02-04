@@ -15,6 +15,8 @@
 	<bean id="priceReviewDTO" class="pet.model.dto.PriceReviewDTO"/>
 	<bean id="commentReviewDTO" class="pet.model.dto.CommentReviewDTO"/>
 	<bean id="pageDTO" class="pet.model.dto.PageDTO"/>
-	
+	<bean id="docMyHospitalDTO" class="pet.model.dto.DocMyHospitalDTO"/>
+	<bean id="DocPictureDTO" class="pet.model.dto.DocPictureDTO"/>
+	<bean id="DocInfoDTO" class="pet.model.dto.DocInfoDTO"/>
 	
 </beans>

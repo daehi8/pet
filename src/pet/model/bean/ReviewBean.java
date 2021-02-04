@@ -19,6 +19,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import pet.model.dto.CommentReviewDTO;
+import pet.model.dto.DocInfoDTO;
+import pet.model.dto.DocMyHospitalDTO;
+import pet.model.dto.DocPictureDTO;
 import pet.model.dto.PageDTO;
 import pet.model.dto.PriceReviewDTO;
 import pet.model.dto.RatingReviewDTO;
@@ -142,12 +145,16 @@ public class ReviewBean {
 		return "review/insertReviewPro";
 	}
 	
+	// 상세페이지
 	@RequestMapping("contentsreview.do")
 	public String contentsReview(@ModelAttribute PageDTO pageDTO,
 			@RequestParam(defaultValue ="1") int pageNum,
 			ReviewDTO reviewDTO,
 			RatingReviewDTO ratingReviewDTO,
 			CommentReviewDTO commentReviewDTO,
+			DocMyHospitalDTO docMyHospitalDTO,
+			DocPictureDTO docPictureDTO,
+			DocInfoDTO docInfoDTO,
 			Model model,
 			String searchType) throws Exception {
 		
@@ -181,6 +188,7 @@ public class ReviewBean {
 		int afterRating = 0;
 		int meanRating = 0;
 		
+		// 리뷰DTO 연결
 		for(int i=0; i < reviewList.size(); i++) {
 			ratingReviewDTO = null;
 			commentReviewDTO = null;
@@ -194,7 +202,8 @@ public class ReviewBean {
 			
 			ratingList.add(ratingReviewDTO);
 			commentList.add(commentReviewDTO);
-			priceMap.put(i,priceByNoList);			
+			priceMap.put(i,priceByNoList);
+			
 			// 평점 합계 구하기
 			int clean = Integer.parseInt(ratingReviewDTO.getClean());
 			int price = Integer.parseInt(ratingReviewDTO.getPrice());
@@ -226,6 +235,15 @@ public class ReviewBean {
 		int recomCount = reviewService.getRecomCount(reviewDTO.getHospital_name());
 		int notRecomCount = reviewService.getNotRecomCount(reviewDTO.getHospital_name());
 		
+		// 병원 정보
+		docMyHospitalDTO = reviewService.selectByHospitalName(reviewDTO.getHospital_name());
+		
+		// 의사 사진 정보 
+		docPictureDTO = reviewService.getDocPicture(reviewDTO.getHospital_name());
+		
+		// 의사 정보
+		docInfoDTO = reviewService.getDocInfo(reviewDTO.getHospital_name());
+		
 		model.addAttribute("count", count);
 		model.addAttribute("meanCleanRating", meanCleanRating);
 		model.addAttribute("meanPriceRating", meanPriceRating);
@@ -241,10 +259,14 @@ public class ReviewBean {
 		model.addAttribute("commentList", commentList);
 		model.addAttribute("priceMap", priceMap);
 		model.addAttribute("reviewList", reviewList);
+		model.addAttribute("docMyHospitalDTO", docMyHospitalDTO);
+		model.addAttribute("docPictureDTO", docPictureDTO);
+		model.addAttribute("docInfoDTO", docInfoDTO);
 		
 		return "review/contentsReview";
 	}
 	
+	// 리뷰리스트
 	@RequestMapping("adminreviewlist.do")
 	public String reviewList(@RequestParam(defaultValue ="1") int pageNum,
 			PageDTO pageDTO,
@@ -252,6 +274,7 @@ public class ReviewBean {
 			Model model,
 			@RequestParam(defaultValue ="N") String searchType
 			) throws Exception{
+		
 		// 페이징 처리
 		if(pageNum == 0) {
 			pageDTO.setPageNum("1");
@@ -273,6 +296,7 @@ public class ReviewBean {
 		return "review/adminReviewList";
 	}
 	
+	// 리뷰 승인
 	@RequestMapping("okauthcheck.do")
 	public String okAuthcheck(int review_no)throws Exception{
 		reviewService.okAuthCheck(review_no);
@@ -280,6 +304,7 @@ public class ReviewBean {
 		return "review/adminReviewAuthCheck";
 	}
 	
+	// 리뷰 미승인
 	@RequestMapping("noauthcheck.do")
 	public String noAuthcheck(int review_no)throws Exception{
 		reviewService.noAuthCheck(review_no);
@@ -287,6 +312,7 @@ public class ReviewBean {
 		return "review/adminReviewAuthCheck";
 	}
 	
+	//어드민 리뷰 상세페이지
 	@RequestMapping("admincontentsreview.do")
 	public String adminContentsReview(int review_no,
 			ReviewDTO reviewDTO,

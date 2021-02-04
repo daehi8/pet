@@ -8,6 +8,9 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import pet.model.dto.DocInfoDTO;
+import pet.model.dto.DocMyHospitalDTO;
+import pet.model.dto.DocPictureDTO;
 import pet.model.dto.ReviewDTO;
 
 @Service("reviewService")
@@ -81,6 +84,21 @@ public class ReviewServiceImpl implements ReviewService{
 	@Override
 	public ReviewDTO selectByReviewNo(int review_no) throws Exception {
 		return dao.selectOne("review.selectByReviewNo", review_no);
+	}
+
+	@Override
+	public DocMyHospitalDTO selectByHospitalName(String hospital_name) throws Exception {
+		return dao.selectOne("review.selectByHospitalName", hospital_name);
+	}
+
+	@Override
+	public DocPictureDTO getDocPicture(String hospital_name) throws Exception {
+		return dao.selectOne("review.getDocPicture", hospital_name);
+	}
+
+	@Override
+	public DocInfoDTO getDocInfo(String hospital_name) throws Exception {
+		return dao.selectOne("review.getDocInfo", hospital_name);
 	}
 
 }
