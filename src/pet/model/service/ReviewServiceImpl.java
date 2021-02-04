@@ -75,7 +75,7 @@ public class ReviewServiceImpl implements ReviewService{
 
 	@Override
 	public void noAuthCheck(int review_no) throws Exception {
-		dao.update("reivew.noAuthCheck", review_no);		
+		dao.update("review.noAuthCheck", review_no);		
 	}
 
 	@Override

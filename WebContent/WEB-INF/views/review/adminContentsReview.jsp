@@ -69,8 +69,12 @@
 	</div>
 	
 	<div>
-		<a href="/pet/review/okauthcheck.do?review_no=${reviewDTO.no}">승인</a>
-		<a href="/pet/review/noauthcheck.do?review_no=${reviewDTO.no}">미승인</a>
+		<c:if test="${reviewDTO.auth_check == 'N' || reviewDTO.auth_check == 'D'}">
+			<a href="/pet/review/okauthcheck.do?review_no=${reviewDTO.no}">승인</a>
+		</c:if>
+		<c:if test="${reviewDTO.auth_check != 'D'}">
+			<a href="/pet/review/noauthcheck.do?review_no=${reviewDTO.no}">미승인</a>
+		</c:if>
 		<a href="/pet/review/adminreviewlist.do">목록</a>
 	</div>
 </body>

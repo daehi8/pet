@@ -250,7 +250,7 @@ public class ReviewBean {
 			PageDTO pageDTO,
 			ReviewDTO reviewDTO,
 			Model model,
-			String searchType
+			@RequestParam(defaultValue ="N") String searchType
 			) throws Exception{
 		// 페이징 처리
 		if(pageNum == 0) {
@@ -266,21 +266,23 @@ public class ReviewBean {
 		int end = pageDTO.getEndRow();
 		List authCheckList = reviewService.getListAuthCheckReview(start, end, searchType);
 
+		model.addAttribute("searchType", searchType);
 		model.addAttribute("authCheckList", authCheckList);
+		model.addAttribute("pageDTO", pageDTO);
 		
 		return "review/adminReviewList";
 	}
 	
 	@RequestMapping("okauthcheck.do")
 	public String okAuthcheck(int review_no)throws Exception{
-		//reviewService.okAuthCheck(review_no);
+		reviewService.okAuthCheck(review_no);
 
 		return "review/adminReviewAuthCheck";
 	}
 	
 	@RequestMapping("noauthcheck.do")
 	public String noAuthcheck(int review_no)throws Exception{
-		//reviewService.noAuthCheck(review_no);
+		reviewService.noAuthCheck(review_no);
 	
 		return "review/adminReviewAuthCheck";
 	}
