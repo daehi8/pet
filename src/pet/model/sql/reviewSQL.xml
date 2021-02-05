@@ -40,12 +40,12 @@
 		</choose>
 		) 
 		where 
-		hospital_name = #{hospital_name} and auth_check = 'N' and public_check = 'Y')
+		hospital_name = #{hospital_name} and auth_check = 'Y' and public_check = 'Y')
 		<![CDATA[where r >= #{start} and r <= #{end}]]>
 	</select>
 	
 	<select id="getListReviewCount" resultType="int">
-		select count(*) from review where hospital_name = #{hospital_name} and auth_check = 'N' and public_check = 'Y'
+		select count(*) from review where hospital_name = #{hospital_name} and auth_check = 'Y' and public_check = 'Y'
 	</select>
 	
 	<select id="getRecomCount" parameterType="String" resultType="int">

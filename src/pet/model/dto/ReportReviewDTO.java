@@ -2,7 +2,7 @@ package pet.model.dto;
 
 import java.sql.Timestamp;
 
-public class RepotReviewDTO {
+public class ReportReviewDTO {
 	//고유번호
 	private int no;
 	//리뷰 고유번호
@@ -13,7 +13,16 @@ public class RepotReviewDTO {
 	private String comment;
 	//신고한 시간
 	private Timestamp reg_date;
+	//관리자 확인
+	private String view_check; 
 	
+
+	public String getView_check() {
+		return view_check;
+	}
+	public void setView_check(String view_check) {
+		this.view_check = view_check;
+	}
 	public int getNo() {
 		return no;
 	}

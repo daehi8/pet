@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="likeReview">
+	<select id="likeCheck" parameterType="String" resultType="int">
+		select count(member_email) from review_like where member_email = #{value}
+	</select>
+	
+	<insert id="insertLikeReview" parameterType="hashMap">
+		insert into review_like(
+			no,
+			review_no,
+			member_email,
+			target_email
+		)values(
+			review_like_seq.nextval,
+			#{review_no},
+			#{member_email},
+			#{target_email}
+		)
+	</insert>
+	
+	<select id="getLikeReviewCount" parameterType="int" resultType="int">
+		select count(review_no) from review_like where review_no = #{value}
+	</select>
+</mapper>
+

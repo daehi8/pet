@@ -21,6 +21,9 @@ public class ReviewServiceImpl implements ReviewService{
 	
 	@Override
 	public void insertReview(ReviewDTO reviewDTO) throws Exception {
+		if(reviewDTO.getPublic_check() == null) {
+			reviewDTO.setPublic_check("N");
+		}
 		dao.insert("review.insertReview", reviewDTO);
 	}
 

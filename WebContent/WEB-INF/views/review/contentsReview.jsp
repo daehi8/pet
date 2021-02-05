@@ -118,7 +118,10 @@ function categorySearchType(){
 					<br>
 				</c:forEach>
 			</div>
-			<div>신고 및 좋아요</div>
+			<div>
+				<a href="/pet/review/likereview.do?review_no=${reviewList.no}&target_email=${reviewList.member_email}&member_email=test&hospital_name=${docMyHospitalDTO.hospital_name}">추천</a>
+				추천 : ${likeCount}
+			</div>
 		</div>
 	</div>
 </c:forEach>

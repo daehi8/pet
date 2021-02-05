@@ -28,6 +28,7 @@ import pet.model.dto.RatingReviewDTO;
 import pet.model.dto.ReviewDTO;
 import pet.model.dto.UploadReviewDTO;
 import pet.model.service.CommentReviewService;
+import pet.model.service.LikeReviewService;
 import pet.model.service.PriceReviewService;
 import pet.model.service.RatingReviewService;
 import pet.model.service.ReviewService;
@@ -51,6 +52,9 @@ public class ReviewBean {
 	
 	@Autowired
 	private PriceReviewService priceReviewService;
+	
+	@Autowired
+	private LikeReviewService likeReviewService;
 	
 	@RequestMapping("insertreview.do")
 	public String insertReview() throws Exception {
@@ -244,6 +248,9 @@ public class ReviewBean {
 		// 의사 정보
 		docInfoDTO = reviewService.getDocInfo(reviewDTO.getHospital_name());
 		
+		// 리뷰 추천한 사람 수
+		int likeCount = likeReviewService.getLikeReviewCount(reviewDTO.getNo());
+		
 		model.addAttribute("count", count);
 		model.addAttribute("meanCleanRating", meanCleanRating);
 		model.addAttribute("meanPriceRating", meanPriceRating);
@@ -264,6 +271,7 @@ public class ReviewBean {
 		model.addAttribute("docInfoDTO", docInfoDTO);
 		model.addAttribute("pageDTO", pageDTO);
 		model.addAttribute("searchType", searchType);
+		model.addAttribute("likeCount",likeCount);
 		
 		return "review/contentsReview";
 	}
@@ -340,5 +348,23 @@ public class ReviewBean {
 		model.addAttribute("hospitalFileReviewList", hospitalFileReviewList);
 		
 		return "review/adminContentsReview";
+	}
+	
+	//추천 기능
+	@RequestMapping("likereview.do")
+	public String likeReview(String member_email,
+			String target_email,
+			int review_no,
+			String hospital_name,
+			Model model)throws Exception{
+		int check = likeReviewService.likeCheck(member_email);
+		if(check < 1) {
+			likeReviewService.insertLikeReview(review_no, member_email, target_email);
+		}
+		
+		model.addAttribute("hospital_name", hospital_name);
+		model.addAttribute("check", check);
+		
+		return "review/likeReviewPro";
 	}
 }
