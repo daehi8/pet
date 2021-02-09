@@ -7,10 +7,13 @@ public class DocInfoDTO {
 	private String doc_mail;
 	private String doc_pw;
 	private String doc_name;
+	private String doc_org;
+	private String doc_save;
 	private int doc_state;
 	private String authKey;
 	private int authstate;
 	private int mem_type;
+	private int hospital_no;
 	private Timestamp reg_date;
 	
 	public int getDoc_no() {
@@ -43,6 +46,22 @@ public class DocInfoDTO {
 		this.doc_name = doc_name;
 	}
 	
+	public String getDoc_org() {
+		return doc_org;
+	}
+	
+	public void setDoc_org (String doc_org) {
+		this.doc_org = doc_org;
+	}
+	
+	public String getDoc_save() {
+		return doc_save;
+	}
+	
+	public void setDoc_save (String doc_save) {
+		this.doc_save = doc_save;
+	}
+	
 	public int getDoc_state() {
 		return doc_state;
 	}
@@ -69,6 +88,13 @@ public class DocInfoDTO {
 	}
 	public void setMem_type(int mem_type) {
 		this.mem_type = mem_type;
+	}
+	
+	public int getHospital_no() {
+		return hospital_no;
+	}
+	public void setHospital_no(int hospital_no) {
+		this.hospital_no = hospital_no;
 	}
 	
 	public Timestamp getReg_date(){

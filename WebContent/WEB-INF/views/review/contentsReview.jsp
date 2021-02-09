@@ -119,8 +119,8 @@ function categorySearchType(){
 				</c:forEach>
 			</div>
 			<div>
-				<a href="/pet/review/likereview.do?review_no=${reviewList.no}&target_email=${reviewList.member_email}&member_email=test&hospital_name=${docMyHospitalDTO.hospital_name}">추천</a>
-				추천 : ${likeCount}
+				<a href="/pet/review/likereview.do?review_no=${reviewList.no}&target_email=test&member_email=test&hospital_name=테스트병원">추천</a>
+				추천 : ${likeList[status.index]}
 			</div>
 		</div>
 	</div>

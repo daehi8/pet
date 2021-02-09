@@ -33,6 +33,9 @@ public interface ReviewService {
 	// 리스트 갯수 확인
 	public int getListAuthCheckReviewCount(String searchType)throws Exception;
 
+	// 리뷰 체크정보 확인
+	public String selectAuth(int review_no)throws Exception;
+	
 	// 리뷰 승인
 	public void okAuthCheck(int review_no)throws Exception;
 	

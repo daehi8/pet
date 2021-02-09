@@ -104,4 +104,9 @@ public class ReviewServiceImpl implements ReviewService{
 		return dao.selectOne("review.getDocInfo", hospital_name);
 	}
 
+	@Override
+	public String selectAuth(int review_no) throws Exception {
+		return dao.selectOne("review.selectAuth", review_no);
+	}
+
 }

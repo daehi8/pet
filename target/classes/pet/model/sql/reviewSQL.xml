@@ -81,6 +81,10 @@
 		</where>
 	</select>
 	
+	<select id="selectAuth" parameterType="int" resultType="String">
+		select auth_check from review where no = #{value}
+	</select>
+	
 	<update id="okAuthCheck" parameterType="int">
 		update review set auth_check = 'Y' where no = #{value}
 	</update>

@@ -1,15 +1,22 @@
 package pet.model.dto;
 
 public class DocMyHospitalDTO {
+	private int add_no;
 	private int hospital_no;
 	private String doc_mail;
-	private String hospital_name;
-	private String hospital_adr;
 	private String hospital_pic_org;
 	private String hospital_pic_save;
 	private String hospital_hours;
 	private String hospital_contents;
+	private String hospital_call;
 	private String homepage;
+	
+	public int getAdd_no() {
+		return add_no;
+	}
+	public void setAdd_no(int add_no) {
+		this.add_no = add_no;
+	}
 	
 	public int getHospital_no() {
 		return hospital_no;
@@ -25,19 +32,6 @@ public class DocMyHospitalDTO {
 		this.doc_mail = doc_mail;
 	}
 	
-	public String getHospital_name() {
-		return hospital_name;
-	}
-	public void setHospital_name (String hospital_name) {
-		this.hospital_name = hospital_name;
-	}
-	
-	public String getHospital_adr() {
-		return hospital_adr;
-	}
-	public void setHospital_adr (String hospital_adr) {
-		this.hospital_adr = hospital_adr;
-	}
 	public String getHospital_pic_org() {
 		return hospital_pic_org;
 	}
@@ -61,6 +55,13 @@ public class DocMyHospitalDTO {
 	}
 	public void setHospital_contents (String hospital_contents) {
 		this.hospital_contents = hospital_contents;
+	}
+	
+	public String getHospital_call() {
+		return hospital_call;
+	}
+	public void setHospital_call(String hospital_call) {
+		this.hospital_call = hospital_call;
 	}
 	
 	public String getHompage() {

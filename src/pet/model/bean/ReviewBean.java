@@ -2,6 +2,7 @@ package pet.model.bean;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -22,6 +23,8 @@ import pet.model.dto.CommentReviewDTO;
 import pet.model.dto.DocInfoDTO;
 import pet.model.dto.DocMyHospitalDTO;
 import pet.model.dto.DocPictureDTO;
+import pet.model.dto.LikeReviewDTO;
+import pet.model.dto.MemberDTO;
 import pet.model.dto.PageDTO;
 import pet.model.dto.PriceReviewDTO;
 import pet.model.dto.RatingReviewDTO;
@@ -112,12 +115,12 @@ public class ReviewBean {
 		
 		// 리뷰 평점 평균 구하기
 		int [] meanRating = {
-				Integer.parseInt(ratingReviewDTO.getAfter()), 
-				Integer.parseInt(ratingReviewDTO.getClean()), 
-				Integer.parseInt(ratingReviewDTO.getDetail()),
-				Integer.parseInt(ratingReviewDTO.getKind()),
-				Integer.parseInt(ratingReviewDTO.getPrice()),
-				Integer.parseInt(ratingReviewDTO.getWaiting())
+				ratingReviewDTO.getAfter(), 
+				ratingReviewDTO.getClean(), 
+				ratingReviewDTO.getDetail(),
+				ratingReviewDTO.getKind(),
+				ratingReviewDTO.getPrice(),
+				ratingReviewDTO.getWaiting()
 		};
 		
 		// 총점 값
@@ -168,7 +171,8 @@ public class ReviewBean {
 		}else {
 			pageDTO.setPageNum(Integer.toString(pageNum));
 		}		
-		int count = reviewService.getListReviewCount(reviewDTO.getHospital_name());		
+		int count = reviewService.getListReviewCount(reviewDTO.getHospital_name());
+		System.out.println(reviewDTO.getHospital_name());
 		pageDTO.setCount(count);
 		pageDTO.paging(pageDTO.getPageNum(), count);
 		
@@ -182,6 +186,7 @@ public class ReviewBean {
 		List priceByNoList = new ArrayList();
 		List priceList = new ArrayList();
 		Map priceMap = new HashMap();
+		List likeList = new ArrayList();
 		
 		// 필요한 평점 생성
 		int cleanRating = 0;
@@ -209,12 +214,12 @@ public class ReviewBean {
 			priceMap.put(i,priceByNoList);
 			
 			// 평점 합계 구하기
-			int clean = Integer.parseInt(ratingReviewDTO.getClean());
-			int price = Integer.parseInt(ratingReviewDTO.getPrice());
-			int kind = Integer.parseInt(ratingReviewDTO.getKind());
-			int waiting = Integer.parseInt(ratingReviewDTO.getWaiting());
-			int detail = Integer.parseInt(ratingReviewDTO.getDetail());
-			int after = Integer.parseInt(ratingReviewDTO.getAfter());
+			int clean = ratingReviewDTO.getClean();
+			int price = ratingReviewDTO.getPrice();
+			int kind = ratingReviewDTO.getKind();
+			int waiting = ratingReviewDTO.getWaiting();
+			int detail = ratingReviewDTO.getDetail();
+			int after = ratingReviewDTO.getAfter();
 			int mean = (int) (ratingReviewDTO.getMean());
 			
 			cleanRating += clean;
@@ -224,16 +229,21 @@ public class ReviewBean {
 			detailRating += detail;
 			afterRating += after;
 			meanRating += mean;
+			
+			// 리뷰 추천 수 리스트 구하기
+			int likeCount = likeReviewService.getLikeReviewCount(review_no);
+			likeList.add(likeCount);
+			System.out.println(likeCount);
 		}
 		
 		// 평점  평균 구하기
-		int meanCleanRating = cleanRating / count;
-		int meanPriceRating = priceRating / count;
-		int meanKindRating = kindRating / count;
-		int meanWaitingRating = waitingRating / count;
-		int meanDetailRating = detailRating / count;
-		int meanAfterRating = afterRating / count;
-		int meanRatingResult = meanRating / count;
+			int meanCleanRating = cleanRating / count;
+			int meanPriceRating = priceRating / count;
+			int meanKindRating = kindRating / count;
+			int meanWaitingRating = waitingRating / count;
+			int meanDetailRating = detailRating / count;
+			int meanAfterRating = afterRating / count;
+			int meanRatingResult = meanRating / count;
 		
 		// 리뷰 재방문 추천 수
 		int recomCount = reviewService.getRecomCount(reviewDTO.getHospital_name());
@@ -248,8 +258,6 @@ public class ReviewBean {
 		// 의사 정보
 		docInfoDTO = reviewService.getDocInfo(reviewDTO.getHospital_name());
 		
-		// 리뷰 추천한 사람 수
-		int likeCount = likeReviewService.getLikeReviewCount(reviewDTO.getNo());
 		
 		model.addAttribute("count", count);
 		model.addAttribute("meanCleanRating", meanCleanRating);
@@ -271,7 +279,7 @@ public class ReviewBean {
 		model.addAttribute("docInfoDTO", docInfoDTO);
 		model.addAttribute("pageDTO", pageDTO);
 		model.addAttribute("searchType", searchType);
-		model.addAttribute("likeCount",likeCount);
+		model.addAttribute("likeList",likeList);
 		
 		return "review/contentsReview";
 	}
@@ -282,7 +290,7 @@ public class ReviewBean {
 			PageDTO pageDTO,
 			ReviewDTO reviewDTO,
 			Model model,
-			@RequestParam(defaultValue ="N") String searchType
+			@RequestParam(defaultValue ="no") String searchType
 			) throws Exception{
 		
 		// 페이징 처리
@@ -303,7 +311,7 @@ public class ReviewBean {
 		model.addAttribute("authCheckList", authCheckList);
 		model.addAttribute("pageDTO", pageDTO);
 		
-		return "review/adminReviewList";
+		return "admin/review/adminReviewList";
 	}
 	
 	// 리뷰 승인
@@ -311,7 +319,7 @@ public class ReviewBean {
 	public String okAuthcheck(int review_no)throws Exception{
 		reviewService.okAuthCheck(review_no);
 
-		return "review/adminReviewAuthCheck";
+		return "admin/review/adminReviewAuthCheck";
 	}
 	
 	// 리뷰 미승인
@@ -319,7 +327,7 @@ public class ReviewBean {
 	public String noAuthcheck(int review_no)throws Exception{
 		reviewService.noAuthCheck(review_no);
 	
-		return "review/adminReviewAuthCheck";
+		return "admin/review/adminReviewAuthCheck";
 	}
 	
 	//어드민 리뷰 상세페이지
@@ -347,19 +355,18 @@ public class ReviewBean {
 		model.addAttribute("cureFileReviewList", cureFileReviewList);
 		model.addAttribute("hospitalFileReviewList", hospitalFileReviewList);
 		
-		return "review/adminContentsReview";
+		return "admin/review/adminContentsReview";
 	}
 	
 	//추천 기능
 	@RequestMapping("likereview.do")
-	public String likeReview(String member_email,
-			String target_email,
-			int review_no,
+	public String likeReview(
+			LikeReviewDTO likeReviewDTO,
 			String hospital_name,
 			Model model)throws Exception{
-		int check = likeReviewService.likeCheck(member_email);
+		int check = likeReviewService.likeCheck(likeReviewDTO.getMember_email());
 		if(check < 1) {
-			likeReviewService.insertLikeReview(review_no, member_email, target_email);
+			likeReviewService.insertLikeReview(likeReviewDTO);
 		}
 		
 		model.addAttribute("hospital_name", hospital_name);

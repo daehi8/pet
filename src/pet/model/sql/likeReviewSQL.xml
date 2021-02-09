@@ -7,7 +7,7 @@
 		select count(member_email) from review_like where member_email = #{value}
 	</select>
 	
-	<insert id="insertLikeReview" parameterType="hashMap">
+	<insert id="insertLikeReview" parameterType="likeReviewDTO">
 		insert into review_like(
 			no,
 			review_no,

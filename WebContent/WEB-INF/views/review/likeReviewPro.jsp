@@ -7,6 +7,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script>
+var hospital_name = ${hospital_name};
+</script>
 </head>
 <body>
 	<c:if test="${check >= 1}">
@@ -15,8 +18,8 @@
 		</script>
 	</c:if>
 	<script>
-		var hospital_name = ${hospital_name};
-		location.href="/pet/review/contentsReview?hospital_name="+hospital_name+"";
+		location.href="/pet/review/contentsreview.do?hospital_name=테스트병원";
 	</script>
+
 </body>
 </html>

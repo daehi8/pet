@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="admin">
+
+	<select id="selectMemberAll" parameterType="hashMap" resultType="memberDTO">
+		select no, email, pw, name, phone, pen_name, org_profile, save_profile, 
+		size_profile, marketing, reg_date, log_date, 
+		approval_status, approval_key,r from
+		(select no, email, pw, name, phone, pen_name, org_profile, save_profile, 
+		size_profile, marketing, reg_date, log_date, 
+		approval_status, approval_key, rownum r from
+		(select * from member order by reg_date)
+		<where> 
+			<if test="searchType == null">and approval_status = 0</if>
+			<if test="searchType == 'no'">and approval_status = 0</if>
+			<if test="searchType == 'ok'">and approval_status = 1</if>
+			<if test="searchType == 'del'">and approval_status = -1</if>
+		</where>
+		) 		
+		<![CDATA[where r >= #{start} and r <= #{end}]]>
+	</select>
+	
+	<select id="getCountMemberAll" resultType="int" parameterType="String">
+		select count(*) from member
+		<where> 
+			<if test="searchType == null">and approval_status = 0</if>
+			<if test="searchType == 'no'">and approval_status = 0</if>
+			<if test="searchType == 'ok'">and approval_status = 1</if>
+			<if test="searchType == 'del'">and approval_status = -1</if>
+		</where>
+	</select>
+
+	<select id="selectDocAll" parameterType="hashMap" resultType="docInfoDTO">
+		select doc_no, doc_mail, doc_pw, doc_name, doc_org, doc_save, doc_state, authkey, authstate, mem_type, hospital_no, reg_date, r from
+		(select doc_no, doc_mail, doc_pw, doc_name, doc_org, doc_save, doc_state, authkey, authstate, mem_type, hospital_no, reg_date, rownum r from
+		(select * from doc_info order by reg_date)
+		<where> 
+			<if test="searchType == null">and doc_state = 0</if>
+			<if test="searchType == 'no'">and doc_state = 0</if>
+			<if test="searchType == 'ok'">and doc_state = 1</if>
+			<if test="searchType == 'del'">and doc_state = -1</if>
+		</where>
+		) 		
+		<![CDATA[where r >= #{start} and r <= #{end}]]>
+	</select>
+	
+	<select id="getCountDocAll" resultType="int" parameterType="String">
+		select count(*) from doc_info
+		<where> 
+			<if test="searchType == null">and doc_state = 0</if>
+			<if test="searchType == 'no'">and doc_state = 0</if>
+			<if test="searchType == 'ok'">and doc_state = 1</if>
+			<if test="searchType == 'del'">and doc_state = -1</if>
+		</where>
+	</select>
+	
+	<select id="getDocInfo" parameterType="int" resultType="docInfoDTO">
+		select * from doc_info where doc_no = #{value}
+	</select>
+	
+	<select id="getDocPicture" parameterType="String" resultType="docPictureDTO">
+		select * from doc_picture where doc_mail = #{value}
+	</select>
+	
+	<update id="okAuthCheck" parameterType="String">
+		update doc_info set authstate = 1 where doc_mail = #{value}
+	</update>
+	
+	<update id="noAuthCheck" parameterType="String">
+		update doc_info set authstate = -1 where doc_mail = #{value}
+	</update>
+		
+</mapper>
+

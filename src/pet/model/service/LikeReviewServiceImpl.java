@@ -21,13 +21,8 @@ public class LikeReviewServiceImpl implements LikeReviewService {
 	}
 
 	@Override
-	public void insertLikeReview(int review_no, String member_email, String target_email) throws Exception {
-		Map map = new HashMap();
-		map.put("review_no", review_no);
-		map.put("memeber_email", member_email);
-		map.put("target_email", target_email);
-		
-		dao.insert("likeReview.insertLikeReview", map);	
+	public void insertLikeReview(LikeReviewDTO likeReviewDTO) throws Exception {
+		dao.insert("likeReview.insertLikeReview", likeReviewDTO);	
 	}
 
 	@Override
