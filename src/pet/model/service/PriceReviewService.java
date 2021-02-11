@@ -11,4 +11,7 @@ public interface PriceReviewService {
 	
 	// 리뷰 고유번호로 DTO 찾기
 	public List selectByReviewNo(int review_no) throws Exception;
+	
+	// 진료과목 리스트
+	public List selectSubjectList() throws Exception;
 }

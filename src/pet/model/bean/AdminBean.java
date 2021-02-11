@@ -2,10 +2,13 @@ package pet.model.bean;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import pet.model.dto.DocInfoDTO;
@@ -20,6 +23,11 @@ public class AdminBean {
 
 	@Autowired
 	private AdminService adminService;
+	
+	@RequestMapping("adminmain.do")
+	public String adminMain() throws Exception{
+		return "admin/main/adminMain";
+	}
 	
 	@RequestMapping("memberlist.do")
 	public String memeberList(PageDTO pageDTO,
@@ -86,16 +94,37 @@ public class AdminBean {
 		return "admin/docter/adminContentsDoc";
 	}
 	
-	@RequestMapping("okauthcheck.do")
-	public String okAuthCheck(String doc_mail) throws Exception{
-		adminService.okAuthCheck(doc_mail);
+	@RequestMapping("okdocauthcheck.do")
+	public String okDocAuthCheck(String doc_mail) throws Exception{
+		adminService.okDocAuthCheck(doc_mail);
+		System.out.println(doc_mail);
 		return "admin/docter/adminDocAuthCheck";
 	}
 	
-	@RequestMapping("noauthcheck.do")
-	public String noAuthCheck(String doc_mail) throws Exception{
-		adminService.noAuthCheck(doc_mail);
+	@RequestMapping("nodocauthcheck.do")
+	public String noDocAuthCheck(String doc_mail) throws Exception{
+		adminService.noDocAuthCheck(doc_mail);
 		return "admin/docter/adminDocAuthCheck";
 	}
 	
+	@RequestMapping("adminpricetag.do")
+	public String priceTagAll(Model model)throws Exception{		
+		List tagList = adminService.selectSubjectAll();
+		model.addAttribute("tagList", tagList);
+		return "admin/review/adminPriceTag";
+	}
+	
+	@RequestMapping("insertpricetag.do")
+	public String insertPriceTag(String subject)throws Exception{
+		adminService.insertPriceTag(subject);
+		
+		return "admin/review/adminInsertTag";
+	}
+
+	@RequestMapping("deletepricetag.do")
+	public String deletePriceTag(String subject)throws Exception{
+		adminService.delSubject(subject);
+		
+		return "admin/review/adminInsertTag";
+	}
 }

@@ -60,7 +60,12 @@ public class ReviewBean {
 	private LikeReviewService likeReviewService;
 	
 	@RequestMapping("insertreview.do")
-	public String insertReview() throws Exception {
+	public String insertReview(Model model) throws Exception {
+		
+		// 리뷰 진료과목 정보
+		List subjectList = priceReviewService.selectSubjectList();
+		model.addAttribute("subjectList", subjectList);
+		
 		return "review/insertReview";
 	}
 	
@@ -284,7 +289,7 @@ public class ReviewBean {
 		return "review/contentsReview";
 	}
 	
-	// 리뷰리스트
+	// 관리자 리뷰리스트
 	@RequestMapping("adminreviewlist.do")
 	public String reviewList(@RequestParam(defaultValue ="1") int pageNum,
 			PageDTO pageDTO,

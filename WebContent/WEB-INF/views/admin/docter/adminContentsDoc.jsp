@@ -23,8 +23,8 @@
 	</c:forEach>
 	
 	<div>
-		<a href="/pet/admin/okauthcheck.do?doc_mail=${docInfoDTO.doc_mail}">승인</a>
-		<a href="/pet/admin/noauthcheck.do?doc_mail=${docInfoDTO.doc_mail}">미승인</a>
+		<a href="/pet/admin/okdocauthcheck.do?doc_mail=${docInfoDTO.doc_mail}">승인</a>
+		<a href="/pet/admin/noadocuthcheck.do?doc_mail=${docInfoDTO.doc_mail}">미승인</a>
 		<a href="/pet/admin/doclist.do">목록</a>
 	</div>
 	

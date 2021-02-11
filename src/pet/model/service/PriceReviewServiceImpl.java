@@ -23,4 +23,9 @@ public class PriceReviewServiceImpl implements PriceReviewService{
 	public List selectByReviewNo(int review_no) throws Exception {
 		return dao.selectList("priceReview.selectByReviewNo", review_no);
 	}
+
+	@Override
+	public List selectSubjectList() throws Exception {
+		return dao.selectList("priceReview.selectSubjectList");
+	}
 }

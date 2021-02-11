@@ -26,8 +26,17 @@ public interface AdminService {
 	public List getDocPicture(String doc_mail) throws Exception;
 	
 	// 의사 인증 승인
-	public void okAuthCheck(String doc_mail) throws Exception;
+	public void okDocAuthCheck(String doc_mail) throws Exception;
 	
 	// 의사 인증 미승인
-	public void noAuthCheck(String doc_mail) throws Exception;
+	public void noDocAuthCheck(String doc_mail) throws Exception;
+	
+	// 진료태그 추가
+	public void insertPriceTag(String subject) throws Exception;
+	
+	// 진료태그 모두 확인
+	public List selectSubjectAll() throws Exception;
+	
+	// 진료태그 삭제
+	public void delSubject(String subject) throws Exception;
 }

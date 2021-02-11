@@ -35,8 +35,14 @@ function categorySearchType(){
 	<c:forEach var="list" items="${memberList}">
 		<tr>
 			<td>${number}</td>
-			<td><a href="/pet/review/admincontentsreview.do?review_no=${list.no}">${list.email}</a></td>
-			<td>${list.approval_status}</td>
+			<td>${list.email}</td>
+			<td>
+				<c:choose>
+					<c:when test="${list.approval_status == 0}">인증대기</c:when>
+					<c:when test="${list.approval_status == 1}">인증완료</c:when>
+					<c:when test="${list.approval_status == -1}">탈퇴</c:when>
+				</c:choose>
+			</td>
 		</tr>
 		<c:set var="number" value="${number-1}"/>
 	</c:forEach>

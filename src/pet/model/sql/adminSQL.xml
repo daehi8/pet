@@ -64,13 +64,24 @@
 		select * from doc_picture where doc_mail = #{value}
 	</select>
 	
-	<update id="okAuthCheck" parameterType="String">
-		update doc_info set authstate = 1 where doc_mail = #{value}
+	<update id="okDocAuthCheck" parameterType="String">
+		update doc_info set doc_state = 1 where doc_mail = #{value}
 	</update>
 	
-	<update id="noAuthCheck" parameterType="String">
-		update doc_info set authstate = -1 where doc_mail = #{value}
+	<update id="noDocAuthCheck" parameterType="String">
+		update doc_info set doc_state = -1 where doc_mail = #{value}
 	</update>
-		
+	
+	<insert id="insertPriceTag" parameterType="String">
+		insert into review_subject values(review_subject_seq.nextval, #{value})
+	</insert>
+	
+	<select id="selectSubjectAll" resultType="String">
+		select subject from review_subject
+	</select>
+	
+	<delete id="delSubject" parameterType="String">
+		delete from review_subject where subject = #{value}
+	</delete>	
 </mapper>
 

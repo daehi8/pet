@@ -18,9 +18,9 @@ function categorySearchType(){
 <body>
 <select name="searchType" id="searchType" onchange="categorySearchType()">
 	<option value="no">--</option>
-	<option value="no">미인증회원</option>
-	<option value="ok">인증회원</option>
-	<option value="del">탈퇴회원</option>
+	<option value="no">대기회원</option>
+	<option value="ok">승인회원</option>
+	<option value="del">미승인회원</option>
 </select>
 <table>
 	<tr>
@@ -36,9 +36,15 @@ function categorySearchType(){
 	<c:forEach var="list" items="${docList}">
 		<tr>
 			<td>${number}</td>
-			<td><a href="/pet/admin/contentsdoc.do?doc_email=${list.doc_email}&doc_no=${list.doc_no}">${list.doc_email}</a></td>
+			<td><a href="/pet/admin/contentsdoc.do?doc_mail=${list.doc_mail}&doc_no=${list.doc_no}">${list.doc_mail}</a></td>
 			<td>${list.authstate}</td>
-			<td>${list.doc_state}</td>
+			<td>
+				<c:choose>
+					<c:when test="${list.doc_state == 0}">승인대기</c:when>
+					<c:when test="${list.doc_state == 1}">승인완료</c:when>
+					<c:when test="${list.doc_state == -1}">승인거부</c:when>
+				</c:choose>
+			</td>
 		</tr>
 		<c:set var="number" value="${number-1}"/>
 	</c:forEach>

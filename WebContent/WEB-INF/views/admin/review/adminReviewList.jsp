@@ -36,7 +36,13 @@ function categorySearchType(){
 		<tr>
 			<td>${number}</td>
 			<td><a href="/pet/review/admincontentsreview.do?review_no=${list.no}">${list.member_email}</a></td>
-			<td>${list.auth_check}</td>
+			<td>
+				<c:choose>
+					<c:when test="${list.auth_check eq 'N'}">승인대기</c:when>
+					<c:when test="${list.auth_check eq 'Y'}">승인완료</c:when>
+					<c:when test="${list.auth_check eq 'D'}">승인거부</c:when>
+				</c:choose>
+			</td>
 		</tr>
 		<c:set var="number" value="${number-1}"/>
 	</c:forEach>

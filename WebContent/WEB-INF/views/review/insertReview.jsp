@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix ="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix ="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -319,7 +322,13 @@ let rating = new Rating();//별점 인스턴스 생성
 		</div>
 		
 		<div id="priceReview">
-			<input type="text" id="add_subject" placeholder ="진료 과목">
+			<!--<input type="text" id="add_subject" placeholder ="진료 과목">  -->
+			<select name="add_subject" id="add_subject">
+				<option selected>진료과목</option>
+				<c:forEach var="subjectList" items="${subjectList}">
+					<option value="${subjectList}">${subjectList}</option>
+				</c:forEach>
+			</select>
 			<input type="text" id="add_price" placeholder="가격" >
 			<button type="button" id="append_row">추가</button>
    		</div>

@@ -14,6 +14,7 @@ public class DocInfoDTO {
 	private int authstate;
 	private int mem_type;
 	private int hospital_no;
+	private int agree;
 	private Timestamp reg_date;
 	
 	public int getDoc_no() {
@@ -95,6 +96,13 @@ public class DocInfoDTO {
 	}
 	public void setHospital_no(int hospital_no) {
 		this.hospital_no = hospital_no;
+	}
+	
+	public int getAgree() {
+		return agree;
+	}
+	public void setAgree(int agree) {
+		this.agree = agree;
 	}
 	
 	public Timestamp getReg_date(){

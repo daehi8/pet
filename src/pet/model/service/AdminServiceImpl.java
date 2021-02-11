@@ -56,13 +56,29 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public void okAuthCheck(String doc_mail) throws Exception {
-		dao.update("admin.okAuthCheck", doc_mail);
+	public void okDocAuthCheck(String doc_mail) throws Exception {
+		dao.update("admin.okDocAuthCheck", doc_mail);
 	}
 
 	@Override
-	public void noAuthCheck(String doc_mail) throws Exception {
-		dao.update("admin.noAuthCheck", doc_mail);
+	public void noDocAuthCheck(String doc_mail) throws Exception {
+		dao.update("admin.noDocAuthCheck", doc_mail);
+	}
+
+	@Override
+	public void insertPriceTag(String subject) throws Exception {
+		dao.insert("admin.insertPriceTag", subject);
+		
+	}
+
+	@Override
+	public List selectSubjectAll() throws Exception {
+		return dao.selectList("admin.selectSubjectAll");
+	}
+
+	@Override
+	public void delSubject(String subject) throws Exception {
+		dao.delete("admin.delSubject", subject);
 	}
 	
 	
