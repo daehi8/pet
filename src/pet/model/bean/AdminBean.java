@@ -24,11 +24,13 @@ public class AdminBean {
 	@Autowired
 	private AdminService adminService;
 	
+	// 관리자 메인페이지
 	@RequestMapping("adminmain.do")
 	public String adminMain() throws Exception{
 		return "admin/main/adminMain";
 	}
 	
+	// 회원관리
 	@RequestMapping("memberlist.do")
 	public String memeberList(PageDTO pageDTO,
 			MemberDTO memberDTO,
@@ -56,6 +58,7 @@ public class AdminBean {
 		return "admin/member/adminMemberList";
 	}
 	
+	// 의사회원 관리
 	@RequestMapping("doclist.do")
 	public String docList(PageDTO pageDTO,
 			Model model,
@@ -82,6 +85,7 @@ public class AdminBean {
 		return "admin/docter/adminDocList";
 	}
 	
+	// 의사회원 정보 확인
 	@RequestMapping("contentsdoc.do")
 	public String docContents(DocPictureDTO docPictureDTO,
 			DocInfoDTO docInfoDTO,
@@ -94,6 +98,7 @@ public class AdminBean {
 		return "admin/docter/adminContentsDoc";
 	}
 	
+	// 의사회원 승인
 	@RequestMapping("okdocauthcheck.do")
 	public String okDocAuthCheck(String doc_mail) throws Exception{
 		adminService.okDocAuthCheck(doc_mail);
@@ -101,12 +106,14 @@ public class AdminBean {
 		return "admin/docter/adminDocAuthCheck";
 	}
 	
+	// 의사회원 미승인
 	@RequestMapping("nodocauthcheck.do")
 	public String noDocAuthCheck(String doc_mail) throws Exception{
 		adminService.noDocAuthCheck(doc_mail);
 		return "admin/docter/adminDocAuthCheck";
 	}
 	
+	// 진료과목 태그 관리
 	@RequestMapping("adminpricetag.do")
 	public String priceTagAll(Model model)throws Exception{		
 		List tagList = adminService.selectSubjectAll();
@@ -114,13 +121,15 @@ public class AdminBean {
 		return "admin/review/adminPriceTag";
 	}
 	
+	// 진료과목 태그 추가
 	@RequestMapping("insertpricetag.do")
 	public String insertPriceTag(String subject)throws Exception{
 		adminService.insertPriceTag(subject);
 		
 		return "admin/review/adminInsertTag";
 	}
-
+	
+	// 진료과목태그 삭제
 	@RequestMapping("deletepricetag.do")
 	public String deletePriceTag(String subject)throws Exception{
 		adminService.delSubject(subject);

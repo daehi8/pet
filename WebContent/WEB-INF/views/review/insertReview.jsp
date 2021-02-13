@@ -11,6 +11,7 @@
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/css/select2.min.css" rel="stylesheet" />
 
 <style>
 * {
@@ -165,8 +166,20 @@ let rating = new Rating();//별점 인스턴스 생성
 		<input type="hidden" name="member_email" value="test">
 						
 		<div>
-			병원 이름 :
-			<input type="text" name="hospital_name"> <br />
+			병원 검색
+			<div style="margin-left:10px;">
+				<select class="form-control" name="hospital_no">
+					<c:forEach var="hospitalList" items="${hospitalList}">
+					<option value="${hospitalList.no}">${hospitalList.name}, ${hospitalList.road_adr}</option>
+					</c:forEach>
+				</select>
+   		 	</div>
+   		 	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/js/select2.min.js"></script>
+			<script>
+			// select2 초기화
+			$('select').select2();
+			</script>
+			
 			의사 이름 :
 			<input type="text" name="doc_name"> <br />
 			

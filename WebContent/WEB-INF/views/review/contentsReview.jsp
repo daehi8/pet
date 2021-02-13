@@ -12,8 +12,8 @@
 <script>
 function categorySearchType(){
 	var searchType = $("#searchType").val();
-	var hospital_name = "테스트병원";
-	location.href="contentsreview.do?hospital_name="+hospital_name+"&searchType="+searchType+"";
+	var hospital_no = "88";
+	location.href="contentsreview.do?hospital_no="+hospital_no+"&searchType="+searchType+"";
 }
 </script>
 <style>
@@ -42,9 +42,8 @@ function categorySearchType(){
 </div>
 
 <div>
-	병원 이름 : ${docMyHospitalDTO.hospital_name}
-	병원 주소 : ${docMyHospitalDTO.hospital_adr}
-	병원 홈페이지 : ${docMyHospitalDTO.homepage}
+	병원 이름 : ${hospitalDTO.name}
+	병원 주소 : ${hospitalDTO.road_adr}
 </div>
 
 <div>

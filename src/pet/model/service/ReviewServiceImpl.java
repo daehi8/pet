@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import pet.model.dto.DocInfoDTO;
 import pet.model.dto.DocMyHospitalDTO;
 import pet.model.dto.DocPictureDTO;
+import pet.model.dto.HospitalDTO;
 import pet.model.dto.ReviewDTO;
 
 @Service("reviewService")
@@ -34,11 +35,11 @@ public class ReviewServiceImpl implements ReviewService{
 	}
 
 	@Override
-	public List getListReview(int start, int end, String hospital_name, String SearchType) throws Exception {
+	public List getListReview(int start, int end, int hospital_no, String SearchType) throws Exception {
 		Map map = new HashMap();
 		map.put("start", start);
 		map.put("end", end);
-		map.put("hospital_name", hospital_name);
+		map.put("hospital_no", hospital_no);
 		if(SearchType != null) {
 			map.put("searchType", SearchType);
 		}
@@ -46,18 +47,18 @@ public class ReviewServiceImpl implements ReviewService{
 	}
 
 	@Override
-	public int getListReviewCount(String hospital_name) throws Exception {
-		return dao.selectOne("review.getListReviewCount", hospital_name);
+	public int getListReviewCount(int hospital_no) throws Exception {
+		return dao.selectOne("review.getListReviewCount", hospital_no);
 	}
 
 	@Override
-	public int getRecomCount(String hospital_name) throws Exception {
-		return dao.selectOne("review.getRecomCount", hospital_name);
+	public int getRecomCount(int hospital_no) throws Exception {
+		return dao.selectOne("review.getRecomCount", hospital_no);
 	}
 
 	@Override
-	public int getNotRecomCount(String hospital_name) throws Exception {
-		return dao.selectOne("review.getNotRecomCount", hospital_name);
+	public int getNotRecomCount(int hospital_no) throws Exception {
+		return dao.selectOne("review.getNotRecomCount", hospital_no);
 	}
 
 	@Override
@@ -90,23 +91,33 @@ public class ReviewServiceImpl implements ReviewService{
 	}
 
 	@Override
-	public DocMyHospitalDTO selectByHospitalName(String hospital_name) throws Exception {
-		return dao.selectOne("review.selectByHospitalName", hospital_name);
+	public DocPictureDTO getDocPicture(int hospital_no) throws Exception {
+		return dao.selectOne("review.getDocPicture", hospital_no);
 	}
 
 	@Override
-	public DocPictureDTO getDocPicture(String hospital_name) throws Exception {
-		return dao.selectOne("review.getDocPicture", hospital_name);
-	}
-
-	@Override
-	public DocInfoDTO getDocInfo(String hospital_name) throws Exception {
-		return dao.selectOne("review.getDocInfo", hospital_name);
+	public DocInfoDTO getDocInfo(int hospital_no) throws Exception {
+		return dao.selectOne("review.getDocInfo", hospital_no);
 	}
 
 	@Override
 	public String selectAuth(int review_no) throws Exception {
 		return dao.selectOne("review.selectAuth", review_no);
+	}
+
+	@Override
+	public DocMyHospitalDTO selectMyhospitalByHospitalNo(int hospital_no) throws Exception {
+		return dao.selectOne("review.selectMyhospitalByHospitalNo", hospital_no);
+	}
+
+	@Override
+	public HospitalDTO selectHospitalByHospitalNo(int hospital_no) throws Exception {
+		return dao.selectOne("review.selectHospitalByHospitalNo", hospital_no);
+	}
+
+	@Override
+	public List selectHospitalAll() throws Exception {
+		return dao.selectList("review.selectHospitalAll");
 	}
 
 }

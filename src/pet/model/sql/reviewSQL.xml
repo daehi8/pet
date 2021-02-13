@@ -7,16 +7,16 @@
 		insert into review(
 			no,
 			member_email,
-			hospital_name,
-			doc_name,
+			hospital_no,
+			doc_mail,
 			revisit,
 			public_check,
 			reg_date
 		)values(
 			review_seq.nextval,
 			#{member_email},
-			#{hospital_name},
-			#{doc_name},
+			#{hospital_no},
+			#{doc_mail},
 			#{revisit},
 			#{public_check},
 			sysdate
@@ -28,10 +28,10 @@
 	</select>
 	
 	<select id="getListReview" parameterType="hashMap" resultType="reviewDTO">
-		select no,member_email,hospital_name,doc_name,revisit,public_check,auth_check,reg_date,r 
-		from (select no,member_email,hospital_name,doc_name,revisit,public_check,auth_check,reg_date,rownum r 
+		select no,member_email,hospital_no,doc_mail,revisit,public_check,auth_check,reg_date,r 
+		from (select no,member_email,hospital_no,doc_mail,revisit,public_check,auth_check,reg_date,rownum r 
 		from (select * 
-		from (select review.no,member_email,hospital_name,doc_name,revisit,public_check,auth_check,reg_date,mean 
+		from (select review.no,member_email,hospital_no,doc_mail,revisit,public_check,auth_check,reg_date,mean 
 		from review join review_rating on review.no = review_rating.review_no) 
 		order by 
 		<choose>
@@ -40,25 +40,25 @@
 		</choose>
 		) 
 		where 
-		hospital_name = #{hospital_name} and auth_check = 'Y' and public_check = 'Y')
+		hospital_no = #{hospital_no} and auth_check = 'Y' and public_check = 'Y')
 		<![CDATA[where r >= #{start} and r <= #{end}]]>
 	</select>
 	
-	<select id="getListReviewCount" resultType="int">
-		select count(*) from review where hospital_name = #{hospital_name} and auth_check = 'Y' and public_check = 'Y'
+	<select id="getListReviewCount" parameterType="int" resultType="int">
+		select count(*) from review where hospital_no = #{hospital_no} and auth_check = 'Y' and public_check = 'Y'
 	</select>
 	
-	<select id="getRecomCount" parameterType="String" resultType="int">
-		select count(revisit) from review where revisit = 'Y' and hospital_name = #{value}
+	<select id="getRecomCount" parameterType="int" resultType="int">
+		select count(revisit) from review where revisit = 'Y' and hospital_no = #{value}
 	</select>
 	
-	<select id="getNotRecomCount" parameterType="String" resultType="int">
-		select count(revisit) from review where revisit = 'N' and hospital_name = #{value}
+	<select id="getNotRecomCount" parameterType="int" resultType="int">
+		select count(revisit) from review where revisit = 'N' and hospital_no = #{value}
 	</select>
 	
 	<select id="getListAuthCheckReview" parameterType="hashMap" resultType="reviewDTO">
-		select no,member_email,hospital_name,doc_name,revisit,public_check,auth_check,reg_date,r from 
-		(select no,member_email,hospital_name,doc_name,revisit,public_check,auth_check,reg_date,rownum r from 
+		select no,member_email,hospital_no,doc_mail,revisit,public_check,auth_check,reg_date,r from 
+		(select no,member_email,hospital_no,doc_mail,revisit,public_check,auth_check,reg_date,rownum r from 
 		(select * from review order by 
 		reg_date desc) 
 		<where>
@@ -97,19 +97,29 @@
 		select * from review where no = #{value}
 	</select>
 	
-	<select id="selectByHospitalName" parameterType="String" resultType="pet.model.dto.DocMyHospitalDTO">
-		select * from doc_myhospital where hospital_name = #{value}
+	<select id="selectMyhospitalByHospitalNo" parameterType="int" resultType="pet.model.dto.DocMyHospitalDTO">
+		select * from doc_myhospital join hospital 
+		on doc_myhospital.hospital_no = hospital.no where hospital_no = #{value}
 	</select>
 	
-	<select id="getDocPicture" parameterType="String" resultType="pet.model.dto.DocPictureDTO">
+	<select id="selectHospitalByHospitalNo" parameterType="int" resultType="pet.model.dto.HospitalDTO">
+		select * from doc_myhospital join hospital 
+		on doc_myhospital.hospital_no = hospital.no where hospital_no = #{value}
+	</select>
+	
+	<select id="getDocPicture" parameterType="int" resultType="pet.model.dto.DocPictureDTO">
 		select * from (select * from
-		(select * from doc_myhospital join doc_info on doc_myhospital.doc_no = doc_info.doc_no)
-		join doc_picture on doc_no = doc_picture.doc_no) where hospital_name = #{value}
+		(select * from doc_myhospital join doc_info on doc_myhospital.doc_mail = doc_info.doc_mail)
+		join doc_picture on doc_mail = doc_picture.doc_mail) where hospital_no = #{value}
 	</select>
 	
-	<select id="getDocInfo" parameterType="String" resultType="pet.model.dto.DocInfoDTO">
+	<select id="getDocInfo" parameterType="int" resultType="pet.model.dto.DocInfoDTO">
 		select * from
-		(select * from doc_myhospital join doc_info on doc_myhospital.doc_no = doc_info.doc_no)
-		where hospital_name = #{value}
+		(select * from doc_myhospital join doc_info on doc_myhospital.doc_mail = doc_info.doc_mail)
+		where hospital_no = #{value}
+	</select>
+	
+	<select id="selectHospitalAll" resultType="pet.model.dto.HospitalDTO">
+		select * from hospital where state='정상'
 	</select>
 </mapper>

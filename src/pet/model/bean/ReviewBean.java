@@ -23,6 +23,7 @@ import pet.model.dto.CommentReviewDTO;
 import pet.model.dto.DocInfoDTO;
 import pet.model.dto.DocMyHospitalDTO;
 import pet.model.dto.DocPictureDTO;
+import pet.model.dto.HospitalDTO;
 import pet.model.dto.LikeReviewDTO;
 import pet.model.dto.MemberDTO;
 import pet.model.dto.PageDTO;
@@ -61,10 +62,13 @@ public class ReviewBean {
 	
 	@RequestMapping("insertreview.do")
 	public String insertReview(Model model) throws Exception {
+		List hospitalList = reviewService.selectHospitalAll();
 		
 		// 리뷰 진료과목 정보
 		List subjectList = priceReviewService.selectSubjectList();
+		
 		model.addAttribute("subjectList", subjectList);
+		model.addAttribute("hospitalList", hospitalList);
 		
 		return "review/insertReview";
 	}
@@ -75,9 +79,12 @@ public class ReviewBean {
 			CommentReviewDTO commentReviewDTO,
 			RatingReviewDTO ratingReviewDTO,
 			PriceReviewDTO priceReviewDTO,
+			int hospital_no,
 			MultipartHttpServletRequest request) throws Exception {
 		
 		// 리뷰 입력
+		// 병원번호 DTO에 입력
+		reviewDTO.setHospital_no(hospital_no);
 		reviewService.insertReview(reviewDTO);
 		int review_no = reviewService.selectNewReview();
 		
@@ -154,6 +161,7 @@ public class ReviewBean {
 			priceReviewService.insertPriceReview(priceReviewDTO);
 		}
 		
+		
 		return "review/insertReviewPro";
 	}
 	
@@ -167,6 +175,7 @@ public class ReviewBean {
 			DocMyHospitalDTO docMyHospitalDTO,
 			DocPictureDTO docPictureDTO,
 			DocInfoDTO docInfoDTO,
+			HospitalDTO hospitalDTO,
 			Model model,
 			@RequestParam(defaultValue ="regOrder") String searchType) throws Exception {
 		
@@ -176,14 +185,13 @@ public class ReviewBean {
 		}else {
 			pageDTO.setPageNum(Integer.toString(pageNum));
 		}		
-		int count = reviewService.getListReviewCount(reviewDTO.getHospital_name());
-		System.out.println(reviewDTO.getHospital_name());
+		int count = reviewService.getListReviewCount(reviewDTO.getHospital_no());
 		pageDTO.setCount(count);
 		pageDTO.paging(pageDTO.getPageNum(), count);
 		
 		int start = pageDTO.getStartRow();
 		int end = pageDTO.getEndRow();
-		List reviewList = reviewService.getListReview(start, end, reviewDTO.getHospital_name(), searchType);		
+		List reviewList = reviewService.getListReview(start, end, reviewDTO.getHospital_no(), searchType);		
 		
 		// 필요한 리뷰정보 리스트 생성
 		List ratingList = new ArrayList();
@@ -251,17 +259,20 @@ public class ReviewBean {
 			int meanRatingResult = meanRating / count;
 		
 		// 리뷰 재방문 추천 수
-		int recomCount = reviewService.getRecomCount(reviewDTO.getHospital_name());
-		int notRecomCount = reviewService.getNotRecomCount(reviewDTO.getHospital_name());
+		int recomCount = reviewService.getRecomCount(reviewDTO.getHospital_no());
+		int notRecomCount = reviewService.getNotRecomCount(reviewDTO.getHospital_no());
 		
 		// 병원 정보
-		docMyHospitalDTO = reviewService.selectByHospitalName(reviewDTO.getHospital_name());
+		docMyHospitalDTO = reviewService.selectMyhospitalByHospitalNo(reviewDTO.getHospital_no());
+		
+		// 병원 추가 정보
+		hospitalDTO = reviewService.selectHospitalByHospitalNo(reviewDTO.getHospital_no());
 		
 		// 의사 사진 정보 
-		docPictureDTO = reviewService.getDocPicture(reviewDTO.getHospital_name());
+		docPictureDTO = reviewService.getDocPicture(reviewDTO.getHospital_no());
 		
 		// 의사 정보
-		docInfoDTO = reviewService.getDocInfo(reviewDTO.getHospital_name());
+		docInfoDTO = reviewService.getDocInfo(reviewDTO.getHospital_no());
 		
 		
 		model.addAttribute("count", count);
@@ -285,6 +296,7 @@ public class ReviewBean {
 		model.addAttribute("pageDTO", pageDTO);
 		model.addAttribute("searchType", searchType);
 		model.addAttribute("likeList",likeList);
+		model.addAttribute("hospitalDTO", hospitalDTO);
 		
 		return "review/contentsReview";
 	}
