@@ -60,4 +60,7 @@ public interface ReviewService {
 	
 	// 모든 병원 정보 확인
 	public List selectHospitalAll() throws Exception;
+	
+	// 의사 이름으로 의사 메일 확인
+	public String selectDocMailByName(DocInfoDTO docInfoDTO) throws Exception;
 }

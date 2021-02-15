@@ -122,4 +122,8 @@
 	<select id="selectHospitalAll" resultType="pet.model.dto.HospitalDTO">
 		select * from hospital where state='정상'
 	</select>
+	
+	<select id="selectDocMailByName" parameterType="pet.model.dto.DocInfoDTO" resultType="String">
+		select doc_mail from doc_info where doc_name=#{doc_name} and hospital_no=#{hospital_no}
+	</select>
 </mapper>

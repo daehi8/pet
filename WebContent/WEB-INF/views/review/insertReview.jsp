@@ -157,11 +157,97 @@ let rating = new Rating();//별점 인스턴스 생성
 		input.value  = $();
 		
 		theForm.appendChild(input);
+		
+		check();
+	}
+
+	function check(){
+		var form = document.reviewForm;
+		
+		if(form.doc_name.value == ''){
+			alert('의사이름을 입력해주세요.');
+			form.doc_name.focus();
+			return false;
+		}
+		
+		if(form.auth.value == ''){
+			alert('인증사진을 올려주세요.');
+			form.auth.focus();
+			return false;
+		}
+		
+		if(form.docter_review.value == ''){
+			alert('리뷰를 입력해주세요.');
+			form.docter_review.focus();
+			return false;
+		}
+		
+		if(form.hospital_review.value == ''){
+			alert('리뷰를 입력해주세요.');
+			form.hospital_review.focus();
+			return false;
+		}
+		
+		if(form.summary.value == ''){
+			alert('리뷰를 입력해주세요.');
+			form.summary.focus();
+			return false;
+		}
+		
+		if($('input[name="subject_info"]').length == 0){
+			alert('진료과목을 입력해주세요.');
+			form.add_subject.focus();
+			return false;
+		}
+		
+		if(form.revisit.value == ''){
+			alert('재방문추천을 입력해주세요.');
+			form.revisit.focus();
+			return false;
+		}
+		
+		if(form.kind.value == 0){
+			alert('평점을 입력해주세요.');
+			form.kind.focus();
+			return false;
+		}
+		
+		if(form.waiting.value == 0){
+			alert('평점을 입력해주세요.');
+			form.waiting.focus();
+			return false;
+		}
+		
+		if(form.clean.value == 0){
+			alert('평점을 입력해주세요.');
+			form.clean.focus();
+			return false;
+		}
+		
+		if(form.detail.value == 0){
+			alert('평점을 입력해주세요.');
+			form.detail.focus();
+			return false;
+		}
+		
+		if(form.price.value == 0){
+			alert('평점을 입력해주세요.');
+			form.price.focus();
+			return false;
+		}
+		
+		if(form.after.value == 0){
+			alert('평점을 입력해주세요.');
+			form.after.focus();
+			return false;
+		}
+		
+		form.submit();
 	}
 
 </script>
 
-	<form name="reviewForm" method = "post" enctype="multipart/form-data"  action="/pet/review/insertreviewpro.do" onsubmit="ratingSubmit()";>
+	<form name="reviewForm" method = "post" enctype="multipart/form-data"  action="/pet/review/insertreviewpro.do">
 		<!-- 테스트용 코드 -->
 		<input type="hidden" name="member_email" value="test">
 						
@@ -364,12 +450,12 @@ let rating = new Rating();//별점 인스턴스 생성
 			<h4>나의 페이지에 공개</h4>
 			<input type="checkbox" name="public_check" value="Y">나의페이지에공개
 		</div>
-		<input type="submit" value="확인"/>
+		<button type="button" onclick="ratingSubmit();">리뷰 작성</button>
 	</form>
 </body>
 <script type="text/javascript">
 
-// 추가
+// 진료과목 추가
 $("#append_row").on("click", function() {
 	var subject = $("#add_subject").val();
 	var price = $("#add_price").val()

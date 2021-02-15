@@ -120,4 +120,9 @@ public class ReviewServiceImpl implements ReviewService{
 		return dao.selectList("review.selectHospitalAll");
 	}
 
+	@Override
+	public String selectDocMailByName(DocInfoDTO docInfoDTO) throws Exception {
+		return dao.selectOne("review.selectDocMailByName", docInfoDTO);
+	}
+
 }

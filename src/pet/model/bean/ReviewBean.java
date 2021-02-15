@@ -79,12 +79,20 @@ public class ReviewBean {
 			CommentReviewDTO commentReviewDTO,
 			RatingReviewDTO ratingReviewDTO,
 			PriceReviewDTO priceReviewDTO,
-			int hospital_no,
+			DocInfoDTO docInfoDTO,
 			MultipartHttpServletRequest request) throws Exception {
 		
 		// 리뷰 입력
-		// 병원번호 DTO에 입력
-		reviewDTO.setHospital_no(hospital_no);
+		// 병원정보 입력
+		String doc_mail = "";
+		if(docInfoDTO.getDoc_name() != null) {
+			if(reviewService.selectDocMailByName(docInfoDTO) != null) {
+				doc_mail = reviewService.selectDocMailByName(docInfoDTO);
+			}
+		}
+		
+		reviewDTO.setHospital_no(docInfoDTO.getHospital_no());
+		reviewDTO.setDoc_mail(doc_mail);
 		reviewService.insertReview(reviewDTO);
 		int review_no = reviewService.selectNewReview();
 		
