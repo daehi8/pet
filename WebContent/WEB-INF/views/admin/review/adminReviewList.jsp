@@ -35,7 +35,7 @@ function categorySearchType(){
 	<c:forEach var="list" items="${authCheckList}">
 		<tr>
 			<td>${number}</td>
-			<td><a href="/pet/review/admincontentsreview.do?review_no=${list.no}">${list.member_email}</a></td>
+			<td><a href="/pet/review/admincontentsreview.do?review_no=${list.no}&pageNum=${pageDTO.pageNum}&searchType=${searchType}">${list.member_email}</a></td>
 			<td>
 				<c:choose>
 					<c:when test="${list.auth_check eq 'N'}">승인대기</c:when>

@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix ="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix ="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
+<%@ include file="../nav.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -247,14 +247,18 @@ let rating = new Rating();//별점 인스턴스 생성
 
 </script>
 
+
+	<div style="margin-top: 40px;text-align: center	">
+	<div class="p-4" style="width: 1000x; display: inline-block;">
+	
+
 	<form name="reviewForm" method = "post" enctype="multipart/form-data"  action="/pet/review/insertreviewpro.do">
 		<!-- 테스트용 코드 -->
 		<input type="hidden" name="member_email" value="test">
 						
-		<div>
-			병원 검색
-			<div style="margin-left:10px;">
-				<select class="form-control" name="hospital_no">
+		<div style="text-align: left" >
+		<h6 style="text-align: left"><span class="badge badge-pill badge-dark">1. 병원조회</span> 병원이름을 입력하세요</h6>
+			<select class="form-control" name="hospital_no">
 					<c:forEach var="hospitalList" items="${hospitalList}">
 					<option value="${hospitalList.no}">${hospitalList.name}, ${hospitalList.road_adr}</option>
 					</c:forEach>
@@ -265,22 +269,27 @@ let rating = new Rating();//별점 인스턴스 생성
 			// select2 초기화
 			$('select').select2();
 			</script>
-			
-			의사 이름 :
-			<input type="text" name="doc_name"> <br />
-			
-			인증사진
-			<input type="file" name="auth">
-		</div>
+		<br>	
+		<h6 style="text-align: left"><span class="badge badge-pill badge-dark">2. 의사입력	</span> 진료받은 의사를 입력하세요</h6>
+		<div style="text-align: left" ><input type="text" name="doc_name"> <br /></div>
+		<br>
+		<h6 style="text-align: left"><span class="badge badge-pill badge-dark">3. 자료첨부</span> 진료자료를 업로드해주세요</h6>
+		<div style="text-align: left" ><input type="file" name="auth"></div>
+		<br>
+		<br>
+
+		<h6 style="text-align: left"><span class="badge badge-pill badge-dark">4.별점등록</span>
+		'매우 그렇다'면  5점, '전혀 그렇지 않다'면 1점을 주세요</h6>
 		
 		<div class="review_rating">
-		<h3>평점</h3>
-			<div>친절함</div>
-            <div class="rating">
-            	<div class="ratefill" style="width: 300px;"></div>
+		<div class="rating">
+                    <ul class="list-group list-group-flush">
+		  		<li class="list-group-item pl-0 pr-0 pt-3">
+  		 <div class="d-flex justify-content-between align-items-center">
+  			<div class="ratefill" style="width: 300px;">친절함</div>
                 <!-- 해당 별점을 클릭하면 해당 별과 그 왼쪽의 모든 별의 체크박스에 checked 적용 -->
                 <input type="checkbox" name="kindChk" id="rating11" value="1" class="rate_radio" title="1점">
-                <label for="rating11"></label>
+                <label for="rating11"></label>		
                 <input type="checkbox" name="kindChk" id="rating12" value="2" class="rate_radio" title="2점">
                 <label for="rating12"></label>
                 <input type="checkbox" name="kindChk" id="rating13" value="3" class="rate_radio" title="3점" >
@@ -289,17 +298,14 @@ let rating = new Rating();//별점 인스턴스 생성
                 <label for="rating14"></label>
                 <input type="checkbox" name="kindChk" id="rating15" value="5" class="rate_radio" title="5점">
                 <label for="rating15"></label>
-                <input type="hidden" name="kind" id="kind" value="0"> 
-            </div>
-        </div>
-	
-		<div class="review_rating">
-			<div>대기시간</div>
-            <div class="rating">
-            	<div class="ratefill" style="width: 300px;"></div>
+                <input type="hidden" name="kind" id="kind" value="0"></div> </li>
+                
+  		<li class="list-group-item pl-0 pr-0 pt-3">
+  		<div class="d-flex justify-content-between align-items-center">
+  			<div class="ratefill" style="width: 300px;">대기시간</div>
                 <!-- 해당 별점을 클릭하면 해당 별과 그 왼쪽의 모든 별의 체크박스에 checked 적용 -->
                 <input type="checkbox" name="waitingChk" id="rating21" value="1" class="rate_radio" title="1점">
-                <label for="rating21"></label>
+                <label for="rating21	"></label>
                 <input type="checkbox" name="waitingChk" id="rating22" value="2" class="rate_radio" title="2점">
                 <label for="rating22"></label>
                 <input type="checkbox" name="waitingChk" id="rating23" value="3" class="rate_radio" title="3점" >
@@ -308,14 +314,11 @@ let rating = new Rating();//별점 인스턴스 생성
                 <label for="rating24"></label>
                 <input type="checkbox" name="waitingChk" id="rating25" value="5" class="rate_radio" title="5점">
                 <label for="rating25"></label>
-                <input type="hidden" name="waiting" id="waiting" value="0">
-            </div>
-        </div>
-        
-		<div class="review_rating">
-			<div>청결함</div>
-            <div class="rating">
-            	<div class="ratefill" style="width: 300px;"></div>
+                <input type="hidden" name="waiting" id="waiting" value="0"></div></li>
+                
+ 		<li class="list-group-item pl-0 pr-0 pt-3">
+  		<div class="d-flex justify-content-between align-items-center">
+  			<div class="ratefill" style="width: 300px;">청결함</div>
                 <!-- 해당 별점을 클릭하면 해당 별과 그 왼쪽의 모든 별의 체크박스에 checked 적용 -->
                 <input type="checkbox" name="cleanChk" id="rating31" value="1" class="rate_radio" title="1점">
                 <label for="rating31"></label>
@@ -327,14 +330,11 @@ let rating = new Rating();//별점 인스턴스 생성
                 <label for="rating34"></label>
                 <input type="checkbox" name="cleanChk" id="rating35" value="5" class="rate_radio" title="5점">
                 <label for="rating35"></label>
-                <input type="hidden" name="clean" id="clean" value="0">
-            </div>
-        </div>
-        
-        <div class="review_rating">
-			<div>진료설명</div>
-            <div class="rating">
-            	<div class="ratefill" style="width: 300px;"></div>
+                <input type="hidden" name="clean" id="clean" value="0"></div></li>
+                
+  		<li class="list-group-item pl-0 pr-0 pt-3">
+  		<div class="d-flex justify-content-between align-items-center">
+  			<div class="ratefill" style="width: 300px;">진료 설명</div>
                 <!-- 해당 별점을 클릭하면 해당 별과 그 왼쪽의 모든 별의 체크박스에 checked 적용 -->
                 <input type="checkbox" name="detailChk" id="rating41" value="1" class="rate_radio" title="1점">
                 <label for="rating41"></label>
@@ -346,14 +346,11 @@ let rating = new Rating();//별점 인스턴스 생성
                 <label for="rating44"></label>
                 <input type="checkbox" name="detailChk" id="rating45" value="5" class="rate_radio" title="5점">
                 <label for="rating45"></label>
-                <input type="hidden" name="detail" id="detail" value="0">
-            </div>
-        </div>
-        
-        <div class="review_rating">
-			<div>가격</div>
-            <div class="rating">
-            	<div class="ratefill" style="width: 300px;"></div>
+                <input type="hidden" name="detail" id="detail" value="0"></div></li>
+                              
+  		<li class="list-group-item pl-0 pr-0 pt-3">
+  		<div class="d-flex justify-content-between align-items-center">
+  			<div class="ratefill" style="width: 300px;">가격</div>
                 <!-- 해당 별점을 클릭하면 해당 별과 그 왼쪽의 모든 별의 체크박스에 checked 적용 -->
                 <input type="checkbox" name="priceChk" id="rating51" value="1" class="rate_radio" title="1점">
                 <label for="rating51"></label>
@@ -365,14 +362,11 @@ let rating = new Rating();//별점 인스턴스 생성
                 <label for="rating54"></label>
                 <input type="checkbox" name="priceChk" id="rating55" value="5" class="rate_radio" title="5점">
                 <label for="rating55"></label>
-                <input type="hidden" name="price" id="price" value="0">
-            </div>
-        </div>
-        
-        <div class="review_rating">
-			<div>치료후 결과</div>
-            <div class="rating">
-            	<div class="ratefill" style="width: 300px;"></div>
+                <input type="hidden" name="price" id="price" value="0"></div></li>
+                
+         <li class="list-group-item pl-0 pr-0 pt-3">
+  		<div class="d-flex justify-content-between align-items-center">
+  			<div class="ratefill" style="width: 300px;">치료 후 결과</div>
                 <!-- 해당 별점을 클릭하면 해당 별과 그 왼쪽의 모든 별의 체크박스에 checked 적용 -->
                 <input type="checkbox" name="afterChk" id="rating61" value="1" class="rate_radio" title="1점">
                 <label for="rating61"></label>
@@ -384,24 +378,27 @@ let rating = new Rating();//별점 인스턴스 생성
                 <label for="rating64"></label>
                 <input type="checkbox" name="afterChk" id="rating65" value="5" class="rate_radio" title="5점">
                 <label for="rating65"></label>
-                <input type="hidden" name="after" id="after" value="0">
-            </div>
-        </div>
-        		
-		<div>
-			의사리뷰
-			<textarea name="docter_review"></textarea><br>
+                <input type="hidden" name="after" id="after" value="0"></div></li>
+        		</ul>
+        		</div>
+        		</div>	
+       	<br>
+       	<br>		
+		<div style="text-align: center">
+		<h6 style="text-align: left"><span class="badge badge-pill badge-dark">5. 텍스트리뷰</span></h6>
+		
+			의사리뷰 <textarea  name="docter_review"  rows="3" cols="50"></textarea><br>
 			
-			병원리뷰
-			<textarea name="hospital_review"></textarea><br>
+			병원리뷰<textarea name="hospital_review" rows="3" cols="50"></textarea><br>
 			
 			한줄평 
 			<input type="text" name="summary" maxlength="30"><br>
 		</div>
-		
+		<br>
+		<br>		
 		<div>
-		    <h4>진료 가격</h4>
-			<table id="list_table">
+		<h6 style="text-align: left"><span class="badge badge-pill badge-dark">6. 가격정보</span></h6>
+			<table id="list_table" class="table-dark">
 				<colgroup>
 					<col style="width: 200px">
 					<col style="width: 300px">
@@ -431,27 +428,34 @@ let rating = new Rating();//별점 인스턴스 생성
 			<input type="text" id="add_price" placeholder="가격" >
 			<button type="button" id="append_row">추가</button>
    		</div>
-   		
-   		<div>
-			<h4>재방문 추천</h4>	
+   		<br>
+   		<br>	
+   		<div style="text-align: left">
+   		<h6 style="text-align: left"><span class="badge badge-pill badge-dark">7. 재방문 추천</span></h6>
 			<input type="radio" name="revisit" value="Y">YES
 			<input type="radio" name="revisit" value="N">NO
 		</div>
-		
-		<div>
-			<h4>병원사진</h4>
+		<br>
+		<div style="text-align: left">
+		<h6 style="text-align: left"><span class="badge badge-pill badge-dark">8. 병원사진</span></h6>
 			<input multiple="multiple" type="file" name="hospital" maxlength="3">
-			
-			<h4>치료사진</h4>
+		<br>
+		<br>	
+		<h6 style="text-align: left"><span class="badge badge-pill badge-dark">9. 치료사진</span></h6>
 			<input multiple="multiple" type="file" name="cure" maxlength="3">
 		</div>
-		
-		<div>
-			<h4>나의 페이지에 공개</h4>
-			<input type="checkbox" name="public_check" value="Y">나의페이지에공개
+		<br>
+		<br>
+		<div style="text-align: left">
+		<h6 style="text-align: left"><span class="badge badge-pill badge-dark">10. 나의 페이지에 공개</span></h6>
+			<input type="checkbox" name="public_check" value="Y">나의 페이지에 공개
 		</div>
-		<button type="button" onclick="ratingSubmit();">리뷰 작성</button>
+		<br>
+		<button class="btn btn-dark p-2 w-50" type="button" onclick="ratingSubmit();">리뷰 작성하기</button>
 	</form>
+	</div>
+	</div>
+	</div>
 </body>
 <script type="text/javascript">
 

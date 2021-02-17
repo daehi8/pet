@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+	<insert id="insertBoard" parameterType="noticeInfoDTO">	
+		insert into notice_info(num,id,email,subject,contents,cnt,reg_date) values(notice_info_seq.NEXTVAL, #{id} , #{email},#{subject},#{contents},0,sysdate)
+	</insert>
+	<update id="fileUpdate" parameterType="noticeInfoDTO">
+		update notice_info set boardimage=#{boardimage} where num=#{num}
+	</update>
+	<select id="maxNum" resultType="int">
+		select max(num) from notice_info
+	</select>
+	
+	<!-- 페이징 처리 -->
+	<select id="noticeAll" resultType="noticeInfoDTO" parameterType="HashMap">
+		select num, id, email, subject, contents, cnt, reg_date, r from
+		(select num, id, email, subject, contents, cnt, reg_date, rownum r from
+		(select * from notice_info order by num desc))
+		where r<![CDATA[ >= ]]>#{startRow} and r<![CDATA[ <= ]]> #{endRow}
+	</select>
+		
+	<select id="noticeContent" resultType="noticeInfoDTO" parameterType="int">
+		select * from notice_info where num=#{value}
+	</select>
+	
+	<update id="NoticeInfoCnt" parameterType="int">
+		update notice_info set cnt= cnt +1 where num = #{num}  
+	</update>
+	
+	<update id="Noticeupdate" parameterType="noticeInfoDTO">
+		update notice_info
+         <set>
+            <if test = "subject != null"> subject=#{subject},</if>
+            <if test = "email != null"> email=#{email},</if>
+            <if test = "contents != null"> contents=#{contents},</if>
+            <if test = "boardimage != null"> boardimage=#{boardimage}</if>
+         </set>
+      	where num=#{num}		
+	</update>  
+	<select id="getArticleCount" resultType="int">
+		select count(*) from notice_info
+	</select>	
+	<select id="getsearchCount" resultType="int" parameterType="hashmap">
+		select count(*) from notice_info where ${col} like '%'||#{search}||'%'
+	</select>	
+
+	<delete id="noticeinfoDel" parameterType="int">
+		delete from notice_info where num=#{num}
+	</delete>
+		
+	<!-- 댓글 -->
+	
+	<select id="getReplyList" resultType="boardReplyDTO" parameterType="int">
+		select * from board_reply where num=#{num} order by rno desc
+	</select>
+	
+	<!-- 댓글 작성 -->
+	<insert id="writeReply" parameterType="boardReplyDTO" >
+		insert into board_reply(num,rno,content,writer)
+		values( #{num}, board_reply_seq.nextval,#{content}, #{writer})
+	</insert>
+	
+	<!-- 댓글 수정 -->
+	<update id="updateReply" parameterType="boardReplyDTO">
+		update board_reply set content = #{content} where rno = #{rno} 
+	</update>
+	
+	<!-- 댓글 삭제 -->
+	<delete id="deleteReply" parameterType="boardReplyDTO">
+		delete from board_reply where rno = #{rno}
+	</delete>
+	
+	<!-- 검색 -->
+	<select id="search" resultType="noticeInfoDTO" parameterType="hashmap">
+		<!-- (select * from notice_info where ${col} like '%'||#{search}||'%') -->
+		<![CDATA[SELECT * from
+		(select num, id, email, subject, contents, cnt, reg_date, rownum r from
+		(select * from notice_info where ${col} like '%'||#{search}||'%')
+		order by num) where r >= #{startRow} and r<= #{endRow}]]>
+	</select>
+	
+	
+	
+	
+	
+</mapper>
+
+
+
+
+

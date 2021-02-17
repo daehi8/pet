@@ -132,8 +132,38 @@
        <artifactId>aspectjrt</artifactId>
        <version>1.9.6</version>
    </dependency>
-      
-   
-  
+
+   <!-- 인증메일용 메이븐 추가 -->
+	<!-- mail -->
+	<dependency>
+		<groupId>javax.mail</groupId>
+		<artifactId>mail</artifactId>
+		<version>1.4.7</version>
+	</dependency>  
+ 
+	<dependency>
+		<groupId>javax.inject</groupId>
+		<artifactId>javax.inject</artifactId>
+		<version>1</version>
+	</dependency>
+	<!-- Mail 서포트-->
+	<!-- https://mvnrepository.com/artifact/org.springframework/spring-context-support -->
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-context-support</artifactId>
+		<version>4.3.29.RELEASE</version>
+	</dependency>
+	<!-- Mail library-->
+	<dependency>
+		<groupId>com.sun.mail</groupId>
+		<artifactId>javax.mail</artifactId>
+		<version>1.6.1</version>
+	</dependency>
+	<!-- 메일 관련 api -->
+	<dependency>
+		<groupId>org.apache.commons</groupId>
+		<artifactId>commons-email</artifactId>
+		<version>1.2</version>
+	</dependency>
   </dependencies>
 </project>

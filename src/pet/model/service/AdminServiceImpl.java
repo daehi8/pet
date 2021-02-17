@@ -80,6 +80,11 @@ public class AdminServiceImpl implements AdminService{
 	public void delSubject(String subject) throws Exception {
 		dao.delete("admin.delSubject", subject);
 	}
+
+	@Override
+	public void delMember(int no) throws Exception {
+		dao.update("admin.deleteMember", no);
+	}
 	
 	
 }

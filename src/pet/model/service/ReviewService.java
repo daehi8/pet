@@ -51,9 +51,6 @@ public interface ReviewService {
 	
 	// 병원 정보 확인
 	public HospitalDTO selectHospitalByHospitalNo(int hospital_no)throws Exception;
-		
-	// 의사 사진정보 확인
-	public DocPictureDTO getDocPicture(int hospital_no)throws Exception;
 
 	// 의사 정보 확인
 	public DocInfoDTO getDocInfo(int hospital_no)throws Exception;
@@ -63,4 +60,7 @@ public interface ReviewService {
 	
 	// 의사 이름으로 의사 메일 확인
 	public String selectDocMailByName(DocInfoDTO docInfoDTO) throws Exception;
+	
+	// 병원 번호로 병원 이름 확인
+	public String selectHospitalName(int hospital_no) throws Exception;
 }

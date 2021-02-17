@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info">
+	
+	<!-- subject_info 컬럼  중복 제거된 페이징 -->
+	<select id="page" resultType="PriceReviewDTO" parameterType="SearchCriteria">     
+    	SELECT * 
+    	FROM ( 
+         SELECT subject_info,
+         ROW_NUMBER() OVER(ORDER BY subject_info DESC) AS RNUM 			
+           FROM review_price GROUP BY subject_info
+    	 ) 
+    	WHERE RNUM BETWEEN #{rowStart} AND #{rowEnd}
+	</select>
+	
+	<!-- 페이징 카운트 -->
+	<select id="ct" resultType="int">
+		SELECT COUNT(DISTINCT subject_info) FROM review_price
+	</select>
+	
+	 <!-- subject_info의 가격 카운트 -->
+ 	 <select id="count" resultType="int" parameterType="hashMap">
+ 		SELECT COUNT(*) FROM review_price WHERE price_info <![CDATA[>=]]> 
+ 		#{start} AND price_info <![CDATA[<=]]> #{end} AND subject_info = #{subject_info}
+ 	 </select>
+	
+	<!-- subject_info 카운트 -->
+	<select id="scount" resultType="int">
+	SELECT COUNT(*) FROM review_price WHERE subject_info = #{subejct_info}	
+	</select>
+	
+ 	<!-- 테이블 조인 -->
+	<resultMap type="PriceReviewDTO" id="PriceReviewDTO">
+		<result column="review_no" property="review_no" />
+		<result column="subject_info" property="subject_info" />
+		<result column="price_info" property="price_info" />
+	</resultMap>	
+	
+	<resultMap type="HospitalDTO" id="HospitalDTO">
+		<result column="no" property="no" />
+		<result column="name" property="name" />
+		<result column="subject_info" property="subject_info" />
+		<result column="price_info" property="price_info" />
+	<collection property="PriceReviewDTO" resultMap="PriceReviewDTO" />
+	</resultMap>
+
+	<!-- (Review)병원이름  + (Review_price)진료과목  + 가격 조인 -->
+	<select id="read" parameterType="HospitalDTO" resultMap="HospitalDTO">
+  		SELECT
+        	a.no
+        	, a.name
+        	, b.review_no
+        	, b.subject_info
+        	, b.price_info
+    	FROM
+        	hospital a
+    	LEFT JOIN
+        	review_price b
+    	ON
+        	a.no = b.review_no
+        WHERE b.subject_info = #{value}
+	</select>
+
+	<!-- 그래프 클릭시 출력-->
+	<select id="join" parameterType="HospitalDTO" resultMap="HospitalDTO">
+  		SELECT
+        	a.no
+        	, a.name
+        	, b.review_no
+        	, b.subject_info
+        	, b.price_info
+    	FROM
+        	hospital a
+    	LEFT JOIN
+        	review_price b
+    	ON
+        	a.no = b.review_no
+   	 	WHERE price_info <![CDATA[>=]]> #{start} AND price_info 
+   	 	<![CDATA[<=]]> #{end} AND subject_info = #{subject_info}     
+	</select>
+
+	<!-- 가격 최대, 평균, 최소 -->
+	<select id="max" resultType="int">
+		SELECT MAX(price_info) FROM review_price WHERE subject_info = #{value} 
+	</select>
+	<select id="min" resultType="int">
+		SELECT MIN(price_info) FROM review_price WHERE subject_info = #{value} 
+	</select>
+	<select id="avg" resultType="int">
+		SELECT AVG(price_info) FROM review_price WHERE subject_info = #{value}
+	</select>
+	
+</mapper>

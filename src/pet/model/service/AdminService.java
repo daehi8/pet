@@ -39,4 +39,7 @@ public interface AdminService {
 	
 	// 진료태그 삭제
 	public void delSubject(String subject) throws Exception;
+	
+	// 회원 탈퇴
+	public void delMember(int no) throws Exception;
 }

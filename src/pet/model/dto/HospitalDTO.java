@@ -9,6 +9,22 @@ public class HospitalDTO {
 	private String name;
 	private double coordinate_x;
 	private double coordinate_y;
+	private String subject_info;
+	private PriceReviewDTO PriceReviewDTO;
+	
+	public String getSubject_info() {
+		return subject_info;
+	}
+	public void setSubject_info(String subject_info) {
+		this.subject_info = subject_info;
+	}
+	public String getPrice_info() {
+		return price_info;
+	}
+	public void setPrice_info(String price_info) {
+		this.price_info = price_info;
+	}
+	private String price_info;
 	
 	public int getNo() {
 		return no;

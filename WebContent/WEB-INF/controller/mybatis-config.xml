@@ -14,8 +14,19 @@
 		<typeAlias type="pet.model.dto.ReportReviewDTO" alias="reportReviewDTO"/>
 		<typeAlias type="pet.model.dto.LikeReviewDTO" alias="likeReviewDTO"/>
 		<typeAlias type="pet.model.dto.MemberDTO" alias="memberDTO"/>
+		<typeAlias type="pet.model.dto.MemberDTO" alias="register"/>
 		<typeAlias type="pet.model.dto.DocInfoDTO" alias="docInfoDTO"/>
 		<typeAlias type="pet.model.dto.DocPictureDTO" alias="docPictureDTO"/>
+		<typeAlias alias="DocMyHospitalDTO" type="pet.model.dto.DocMyHospitalDTO"/>
+		<typeAlias alias="HospitalDTO" type="pet.model.dto.HospitalDTO"/>
+		<typeAlias type="pet.model.dto.CheckDTO" alias="CheckDTO"/>
+		<typeAlias type="pet.model.dto.DictDTO" alias="DictDTO"/>
+		<typeAlias type="pet.model.dto.PriceReviewDTO" alias="PriceReviewDTO"/>
+		<typeAlias type="pet.model.dto.SearchCriteria" alias="SearchCriteria"/>
+		<typeAlias alias="noticeInfoDTO" type="pet.model.service.NoticeInfoDTO"/>
+		<typeAlias alias="boardReplyDTO" type="pet.model.service.BoardReplyDTO"/>
+		<typeAlias alias="NoticefreedomDTO" type="pet.model.service.NoticefreedomDTO"/>
+		<typeAlias alias="FreeReplyDTO" type="pet.model.service.FreeReplyDTO"/>
 	</typeAliases>
 	
 	<mappers>
@@ -27,6 +38,14 @@
 		<mapper resource="/pet/model/sql/likeReviewSQL.xml"/>
 		<mapper resource="/pet/model/sql/reportReviewSQL.xml"/>
 		<mapper resource="/pet/model/sql/adminSQL.xml"/>
+		<mapper resource="/pet/model/sql/DocSql.xml"/>
+		<mapper resource="/pet/model/sql/HospitalSql.xml"/>
+		<mapper resource="/pet/model/sql/CheckSQL.xml"/>
+		<mapper resource="/pet/model/sql/DictSQL.xml"/>
+		<mapper resource="/pet/model/sql/InfoSQL.xml"/>
+		<mapper resource="/pet/model/sql/sql.xml"/>
+		<mapper resource="/pet/model/sql/boardSQL.xml"/>
+		<mapper resource="/pet/model/sql/FreeSQL.xml"/>
 	</mappers>
 
 </configuration>

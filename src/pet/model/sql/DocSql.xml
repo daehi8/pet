@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  
+<mapper namespace="doctor">
+	<!-- sql query 작성  -->
+<!-- 의사목록 꺼내기 -->
+	<select id="selectAll" resultType="DocInfoDTO" parameterType="String">
+		select * from doc_info
+	</select>
+	
+<!--  회원가입 1단계 메일,비번으로 인증메일 보내기 -->
+	<insert id ="insertDoc">
+		insert into doc_info(doc_no,doc_mail, doc_pw) values(doc_info_seq.nextval, #{doc_mail}, #{doc_pw})
+	</insert>
+<!-- doc_myhospital에 해당메일로 인서트  -->	
+	<insert id="insertHospital">
+		insert into doc_myhospital(add_no, doc_mail) values(doc_myhospital_seq.nextval, #{doc_mail})
+	</insert>
+	
+	
+<!-- 인증키 저장 -->	
+	<update id="updateAuthKey" parameterType="DocInfoDTO" >
+		update doc_info set authkey=#{authKey} where doc_mail=#{doc_mail}
+	</update>
+	
+<!-- 인증키 일치하는지 확인 -->
+	<select id="authKeyOk" resultType="DocInfoDTO" parameterType="DocInfoDTO">
+		select * from doc_info where authKey=#{authKey} and doc_mail=#{doc_mail}
+	</select>
+
+
+<!-- 최대번호값 리턴받기 -->
+	<select id="maxNo" resultType="int">
+		select max(pic_no) from doc_picture
+	</select>
+	
+<!-- 파일 인서트 하기 -->	
+	<insert id="insertFile">
+		insert into doc_picture(pic_no, doc_mail, org_pic) values(doc_Picture_seq.nextval, #{doc_mail}, #{org_pic})
+	</insert>
+<!-- 파일 저장하기 -->
+	<update id="fileUpdate" parameterType="DocPictureDTO">
+		update doc_picture set
+		org_pic = #{org_pic}, save_pic = #{save_pic}, file_type = #{file_type}
+		where pic_no = #{pic_no}
+	</update>
+
+<!-- file_type 으로 해당메일에 license있는지 검색 -->
+	<select id = "selectLicense" resultType="String" parameterType="DocPictureDTO">
+		select doc_mail from doc_picture where file_type='license' and doc_mail=#{doc_mail,jdbcType=VARCHAR}
+	</select>
+<!-- file_type 으로 해당메일에 registration있는지 검색 -->
+	<select id = "selectRegistration" resultType="String" parameterType="DocPictureDTO">
+		select doc_mail from doc_picture where file_type='registration' and doc_mail=#{doc_mail,jdbcType=VARCHAR}
+	</select>	
+<!-- doc_picture에 agreement있는지 검색  -->
+	<select id="selectAgree" resultType="String" parameterType="DocPictureDTO">
+		select doc_mail from doc_picture where file_type='agreement' and doc_mail=#{doc_mail,jdbcType=VARCHAR}
+	</select>
+<!-- doc_picture에 agreement있으면 1로 변경 -->
+	<update id="updateAgree" parameterType="DocInfoDTO">
+		update doc_info set agree=#{agree,jdbcType=NUMERIC} where doc_mail = #{doc_mail,jdbcType=VARCHAR}
+	</update>
+
+<!-- 관리자가 가입상태를 보고  doc_state가 1로 업뎃 -->	
+	<update id="stateChange" parameterType="DocInfoDTO">
+		update doc_info set doc_state= 1 where doc_mail = #{doc_mail,jdbcType=VARCHAR} and authstate=#{authstate,jdbcType=NUMERIC}
+	</update>
+
+<!-- 메일과 사진첨부 인증을 모두 했을 경우, 메일과 인증키가 일치하는 authState 1로 변경. -->
+	<update id = "updateAuthState" parameterType="DocInfoDTO">
+		update doc_info set authstate = #{authstate,jdbcType=NUMERIC} where doc_mail = #{doc_mail,jdbcType=VARCHAR}
+	</update>
+
+
+<!-- userCheck와 confirmId를 동적쿼리로 동시에 처리 가능. -->
+ 	<select id="userCheck" resultType="int" parameterType="DocInfoDTO" >
+ 		select count(*) from doc_info where doc_mail=#{doc_mail,jdbcType=VARCHAR}
+ 		<if test="doc_pw != null" >
+ 			and doc_pw= #{doc_pw,jdbcType=VARCHAR}
+ 		</if>
+ 	</select>
+ 	
+<!-- doc_mail의 doc_info정보꺼내기용. -->
+	<select id="getDoctor" resultType="DocInfoDTO" parameterType="String">
+		select * from doc_info where doc_mail = #{doc_mail,jdbcType=VARCHAR}
+	</select>
+	
+	
+<!-- doc_info정보 수정 -->	
+   	<update id="updateModify" parameterType="DocInfoDTO">
+      update doc_info 
+                  <set>
+                        <if test = "doc_org != null"> doc_org=#{doc_org},</if>
+                        <if test = "doc_save != null"> doc_save=#{doc_save},</if>
+                        <if test = "doc_name != null"> doc_name=#{doc_name}</if>
+                  </set>
+      where doc_mail=#{doc_mail,jdbcType=VARCHAR} 
+   </update>
+
+<!-- doc_info 비번 수정 -->
+	<update id="changePw" parameterType="DocInfoDTO">
+		update doc_info set doc_pw =#{doc_pw,jdbcType=VARCHAR} where doc_mail =#{doc_mail,jdbcType=VARCHAR}
+	</update>
+
+<!-- doc_picture정보 수정 -->	
+	<update id="updatePicture" parameterType="DocPictureDTO">
+		update doc_picture set <if test= "save_pic != null"> save_pic= #{save_pic} </if>
+		where doc_mail = #{doc_mail,jdbcType=VARCHAR}
+	</update>
+
+<!-- doc_myhospital 정보 doc_mail에 해당하는 것 꺼내기. -->
+	<select id="getHospital" resultType="DocMyHospitalDTO">
+		select * from doc_myhospital where doc_mail = #{doc_mail,jdbcType=VARCHAR}
+	</select>
+<!-- hospital DB 정보 no(병원번호)에 해당 값 꺼내기 -->	
+	<select id="getHospitalDB" resultType="HospitalDTO">
+		select * from hospital where no = #{no}
+	</select>
+	
+
+<!-- doc_myhospital 정보 수정. -->
+	<update id="hospitalUpdate" parameterType="DocMyHospitalDTO">
+		update doc_myhospital 
+			<set>
+	 			<if test="hospital_contents != null"> hospital_contents=#{hospital_contents},</if>
+				<if test="hospital_hours != null"> hospital_hours=#{hospital_hours},</if>
+				<if test="hospital_call != null"> hospital_call=#{hospital_call},</if>
+				<if test="hospital_pic_org != null"> hospital_pic_org=#{hospital_pic_org},</if>
+				<if test="hospital_pic_save != null"> hospital_pic_save=#{hospital_pic_save}</if>
+			</set>
+		where doc_mail=#{doc_mail,jdbcType=VARCHAR}
+	</update>
+
+<!-- doc_info 탈퇴  doc_state를 -1로 변경 -->
+	<update id="deleteDoctor" parameterType="DocInfoDTO">
+		update doc_info set doc_state= -1 where doc_mail=#{doc_mail,jdbcType=VARCHAR}
+	</update>
+
+
+</mapper>
+

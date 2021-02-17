@@ -254,18 +254,26 @@ public class ReviewBean {
 			// 리뷰 추천 수 리스트 구하기
 			int likeCount = likeReviewService.getLikeReviewCount(review_no);
 			likeList.add(likeCount);
-			System.out.println(likeCount);
 		}
 		
 		// 평점  평균 구하기
-			int meanCleanRating = cleanRating / count;
-			int meanPriceRating = priceRating / count;
-			int meanKindRating = kindRating / count;
-			int meanWaitingRating = waitingRating / count;
-			int meanDetailRating = detailRating / count;
-			int meanAfterRating = afterRating / count;
-			int meanRatingResult = meanRating / count;
+		int meanCleanRating = 0;
+		int meanPriceRating = 0;
+		int meanKindRating = 0;
+		int meanWaitingRating = 0;
+		int meanDetailRating = 0;
+		int meanAfterRating = 0;
+		int meanRatingResult = 0;
 		
+		if(count != 0) {
+			meanCleanRating = cleanRating / count;
+			meanPriceRating = priceRating / count;
+			meanKindRating = kindRating / count;
+			meanWaitingRating = waitingRating / count;
+			meanDetailRating = detailRating / count;
+			meanAfterRating = afterRating / count;
+			meanRatingResult = meanRating / count;
+		}
 		// 리뷰 재방문 추천 수
 		int recomCount = reviewService.getRecomCount(reviewDTO.getHospital_no());
 		int notRecomCount = reviewService.getNotRecomCount(reviewDTO.getHospital_no());
@@ -275,9 +283,6 @@ public class ReviewBean {
 		
 		// 병원 추가 정보
 		hospitalDTO = reviewService.selectHospitalByHospitalNo(reviewDTO.getHospital_no());
-		
-		// 의사 사진 정보 
-		docPictureDTO = reviewService.getDocPicture(reviewDTO.getHospital_no());
 		
 		// 의사 정보
 		docInfoDTO = reviewService.getDocInfo(reviewDTO.getHospital_no());
@@ -299,7 +304,6 @@ public class ReviewBean {
 		model.addAttribute("priceMap", priceMap);
 		model.addAttribute("reviewList", reviewList);
 		model.addAttribute("docMyHospitalDTO", docMyHospitalDTO);
-		model.addAttribute("docPictureDTO", docPictureDTO);
 		model.addAttribute("docInfoDTO", docInfoDTO);
 		model.addAttribute("pageDTO", pageDTO);
 		model.addAttribute("searchType", searchType);
@@ -312,10 +316,10 @@ public class ReviewBean {
 	// 관리자 리뷰리스트
 	@RequestMapping("adminreviewlist.do")
 	public String reviewList(@RequestParam(defaultValue ="1") int pageNum,
+			@RequestParam(defaultValue ="no") String searchType,
 			PageDTO pageDTO,
 			ReviewDTO reviewDTO,
-			Model model,
-			@RequestParam(defaultValue ="no") String searchType
+			Model model
 			) throws Exception{
 		
 		// 페이징 처리
@@ -357,20 +361,28 @@ public class ReviewBean {
 	
 	//어드민 리뷰 상세페이지
 	@RequestMapping("admincontentsreview.do")
-	public String adminContentsReview(int review_no,
+	public String adminContentsReview(
+			@RequestParam(defaultValue ="1") int pageNum,
+			@RequestParam(defaultValue ="no") String searchType,
+			int review_no,
 			ReviewDTO reviewDTO,
 			RatingReviewDTO ratingReviewDTO,
 			CommentReviewDTO commentReviewDTO,
 			UploadReviewDTO uploadReviewDTO,
+			DocInfoDTO docInfoDTO,
 			Model model)throws Exception{
 		
 		reviewDTO = reviewService.selectByReviewNo(review_no);
 		commentReviewDTO = commentReviewService.selectByReviewNo(review_no);
 		ratingReviewDTO = ratingReviewService.selectByReviewNo(review_no);
-		List priceByNoList = priceReviewService.selectByReviewNo(review_no);
 		uploadReviewDTO = uploadReviewService.getAuthByReviewNo(review_no);
+		docInfoDTO = reviewService.getDocInfo(reviewDTO.getHospital_no());
+		
 		List cureFileReviewList = uploadReviewService.getHospitalByReviewNo(review_no);
 		List hospitalFileReviewList = uploadReviewService.getCureByReviewNo(review_no);
+		List priceByNoList = priceReviewService.selectByReviewNo(review_no);
+				
+		String hospitalName = reviewService.selectHospitalName(reviewDTO.getHospital_no());
 		
 		model.addAttribute("reviewDTO", reviewDTO);
 		model.addAttribute("commentReviewDTO", commentReviewDTO);
@@ -379,6 +391,10 @@ public class ReviewBean {
 		model.addAttribute("uploadReviewDTO", uploadReviewDTO);
 		model.addAttribute("cureFileReviewList", cureFileReviewList);
 		model.addAttribute("hospitalFileReviewList", hospitalFileReviewList);
+		model.addAttribute("hospitalName", hospitalName);
+		model.addAttribute("docInfoDTO", docInfoDTO);
+		model.addAttribute("pageNum", pageNum);
+		model.addAttribute("searchType", searchType);
 		
 		return "admin/review/adminContentsReview";
 	}
@@ -387,14 +403,14 @@ public class ReviewBean {
 	@RequestMapping("likereview.do")
 	public String likeReview(
 			LikeReviewDTO likeReviewDTO,
-			String hospital_name,
+			int hospital_no,
 			Model model)throws Exception{
-		int check = likeReviewService.likeCheck(likeReviewDTO.getMember_email());
+		int check = likeReviewService.likeCheck(likeReviewDTO);
 		if(check < 1) {
 			likeReviewService.insertLikeReview(likeReviewDTO);
 		}
 		
-		model.addAttribute("hospital_name", hospital_name);
+		model.addAttribute("hospital_no", hospital_no);
 		model.addAttribute("check", check);
 		
 		return "review/likeReviewPro";

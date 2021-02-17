@@ -10,9 +10,8 @@
 </head>
 <body>
 	<div>
-		이메일 : ${reviwDTO.member_email}
-		병원이름 : ${reviewDTO.hospital_name}
-		의사이름 : ${reviewDTO.doc_name}
+		병원 이름 : ${hospitalName}
+		의사 이름 : ${docInfoDTO.doc_name}
 	</div>
 	
 	<div>
@@ -75,7 +74,7 @@
 		<c:if test="${reviewDTO.auth_check != 'D'}">
 			<a href="/pet/review/noauthcheck.do?review_no=${reviewDTO.no}">미승인</a>
 		</c:if>
-		<a href="/pet/review/adminreviewlist.do">목록</a>
+		<a href="/pet/review/adminreviewlist.do?pageNum=${pageNum}&searchType=${searchType}">목록</a>
 	</div>
 </body>
 </html>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="check">
+	<!--  목록 -->
+	<select id="check" resultType="CheckDTO">
+	 select * from checklist
+	</select>
+
+	<!-- 작성 -->
+ 	<insert id="add" parameterType="CheckDTO">
+ 		INSERT INTO
+ 			checklist (no, check_no, quest_no, quest_title, quest_ans1, quest_ans2, quest_ans3, quest_ans4, quest_ans5)
+ 			values(checklist_seq.nextval, #{check_no}, #{quest_no}, #{quest_title},
+ 					#{quest_ans1}, #{quest_ans2}, #{quest_ans3}, #{quest_ans4}, #{quest_ans5})
+ 	</insert>
+ 	
+ 	<select id="read" parameterType="int" resultType="CheckDTO">
+ 	
+ 	  SELECT  no, 
+       					check_no, 
+       					quest_no, 
+       					quest_title, 
+       					quest_ans1, 
+       					quest_ans2,
+       					quest_ans3, 
+       					quest_ans4, 
+       					quest_ans5
+
+	FROM checklist
+	
+	WHERE no = #{no}
+ 	 </select>
+ 	 
+ 	 <!-- 수정 -->
+ 	 <update id="update" parameterType="CheckDTO">
+ 		 UPDATE checklist
+ 	 			SET		quest_no = #{quest_no},
+ 	 					quest_title = #{quest_title},
+ 	 					quest_ans1 = #{quest_ans1},
+ 	 					quest_ans2 = #{quest_ans2},
+ 	 					quest_ans3 = #{quest_ans3},
+ 	 					quest_ans4 = #{quest_ans4},
+ 	 					quest_ans5 = #{quest_ans5}
+ 	 					
+ 	 					WHERE no = #{no}
+ 	 </update>
+ 	 
+ 	 
+ 	 <!-- 삭제 -->
+ 	 <delete id="delete" parameterType="int">
+ 	 	DELETE 
+ 	 	FROM 	checklist
+ 	 	WHERE 	no = #{no}
+ 	 </delete>
+ 	 
+ 	 <!-- 카운트 -->
+ 	 <select id="count" resultType="int">
+ 	SELECT COUNT(quest_no)
+	FROM checklist
+ 	 </select>
+</mapper>

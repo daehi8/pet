@@ -11,6 +11,8 @@
    	<!-- properties파일 자동 로드 -->
 	<context:property-placeholder location="classpath:pet/main/resources/*.properties"/>
    
+	<bean class="pet.model.bean.DownloadView" id="download"/>
+   
    <bean id="downloadViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
        <property name="order" value="0" />
     </bean>

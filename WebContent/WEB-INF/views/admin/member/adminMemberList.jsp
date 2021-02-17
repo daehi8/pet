@@ -43,6 +43,9 @@ function categorySearchType(){
 					<c:when test="${list.approval_status == -1}">탈퇴</c:when>
 				</c:choose>
 			</td>
+			<c:if test="${list.approval_status != -1}">
+				<td><a href="/pet/admin/delmember.do?no=${list.no}">탈퇴</a></td>
+			</c:if>
 		</tr>
 		<c:set var="number" value="${number-1}"/>
 	</c:forEach>

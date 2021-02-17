@@ -3,8 +3,8 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="likeReview">
-	<select id="likeCheck" parameterType="String" resultType="int">
-		select count(member_email) from review_like where member_email = #{value}
+	<select id="likeCheck" parameterType="likeReviewDTO" resultType="int">
+		select count(member_email) from review_like where member_email = #{member_email} and review_no = #{review_no}
 	</select>
 	
 	<insert id="insertLikeReview" parameterType="likeReviewDTO">

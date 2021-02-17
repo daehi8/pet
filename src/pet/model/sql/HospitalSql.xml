@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  
+<mapper namespace="admin">
+
+<!-- int getCount 검색쿼리 -->
+	<select id="getPictureCount" resultType="int">
+		select count(*) from doc_picture
+	</select>
+	
+<!--의사메일에 맞는 doc_picture정보 꺼내기 -->
+	<select id="getDoc_picture" resultType="DocPictureDTO" parameterType="String">
+		select * from doc_picture where doc_mail = #{doc_mail,jdbcType=VARCHAR} 
+	</select>
+	
+<!-- 의사리스트검색 -->	
+	<select id="selectAll" resultType="DocInfoDTO" parameterType="String">
+		select * from doc_info
+	</select>
+	
+<!-- int getNameCount 검색쿼리 -->
+	<select id="getNameCount" resultType="int">
+		select count(*) from hospital
+	</select>	
+	
+<!-- hospitalDB에서 동물병원이름으로 검색 값이 있는지 확인. -->
+ 	<select id="nameList" resultType="HospitalDTO" parameterType="HospitalDTO" >
+ 		select no, name, road_adr  from hospital where name=#{name,jdbcType=VARCHAR}
+ 	</select>
+ 	
+<!-- doc_myhospital에서 해당메일에 (hospital_no, hospital_call, hospital_hours) 수정 -->
+	<update id="updateHospital" parameterType="DocMyHospitalDTO" >
+		update doc_myhospital
+							<set>
+								<if test="hospital_no != null" > hospital_no=#{hospital_no}, </if>
+								<if test="hospital_call != null" > hospital_call=#{hospital_call}, </if>
+								<if test="hospital_hours != null" > hospital_hours=#{hospital_hours} </if>
+							</set>
+		where doc_mail = #{doc_mail,jdbcType=VARCHAR}
+	</update>
+<!-- doc_info 에  병원 번호 수정해주기. -->	
+	<update id="updateDoc_info" parameterType="DocInfoDTO">
+		update doc_info set hospital_no=#{hospital_no}, doc_name=#{doc_name,jdbcType=VARCHAR} where doc_mail=#{doc_mail,jdbcType=VARCHAR}
+	</update>
+	
+
+
+</mapper>

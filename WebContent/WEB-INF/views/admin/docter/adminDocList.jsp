@@ -36,7 +36,7 @@ function categorySearchType(){
 	<c:forEach var="list" items="${docList}">
 		<tr>
 			<td>${number}</td>
-			<td><a href="/pet/admin/contentsdoc.do?doc_mail=${list.doc_mail}&doc_no=${list.doc_no}">${list.doc_mail}</a></td>
+			<td><a href="/pet/admin/contentsdoc.do?doc_mail=${list.doc_mail}&doc_no=${list.doc_no}&pageNum=${pageDTO.pageNum}&searchType=${searchType}">${list.doc_mail}</a></td>
 			<td>${list.authstate}</td>
 			<td>
 				<c:choose>

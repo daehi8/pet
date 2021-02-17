@@ -26,6 +26,9 @@
         	/WEB-INF/controller/mybatis-config.xml
             /WEB-INF/controller/spring-servlet.xml
             /WEB-INF/controller/db-servlet.xml
+            /WEB-INF/controller/mail-servlet.xml
+            /WEB-INF/controller/member-servlet.xml
+            /WEB-INF/controller/reviewbean-servlet.xml
          </param-value>
       </init-param>
    </servlet>

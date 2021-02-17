@@ -24,8 +24,8 @@
 	
 	<div>
 		<a href="/pet/admin/okdocauthcheck.do?doc_mail=${docInfoDTO.doc_mail}">승인</a>
-		<a href="/pet/admin/noadocuthcheck.do?doc_mail=${docInfoDTO.doc_mail}">미승인</a>
-		<a href="/pet/admin/doclist.do">목록</a>
+		<a href="/pet/admin/nodocauthcheck.do?doc_mail=${docInfoDTO.doc_mail}">미승인</a>
+		<a href="/pet/admin/doclist.do?pageNum=${pageNum}&searchType=${searchType}">목록</a>
 	</div>
 	
 </body>

@@ -82,6 +82,10 @@
 	
 	<delete id="delSubject" parameterType="String">
 		delete from review_subject where subject = #{value}
-	</delete>	
+	</delete>
+	
+	<update id = "deleteMember" parameterType="int">
+		update member set approval_status = -1 where no = #{value} 
+	</update>
 </mapper>
 

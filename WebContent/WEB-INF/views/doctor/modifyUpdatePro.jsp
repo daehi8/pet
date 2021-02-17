@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>modifyUpdatePro</title>
 </head>
 <body>
-	test
+	<meta http-equiv="Refresh" content="0;url=/pet/doctor/modify.do" >
 </body>
 </html>

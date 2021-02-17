@@ -16,8 +16,8 @@ public class LikeReviewServiceImpl implements LikeReviewService {
 	private SqlSessionTemplate dao = null;
 	
 	@Override
-	public int likeCheck(String member_email) throws Exception {
-		return dao.selectOne("likeReview.likeCheck", member_email);
+	public int likeCheck(LikeReviewDTO likeReviewDTO) throws Exception {
+		return dao.selectOne("likeReview.likeCheck", likeReviewDTO);
 	}
 
 	@Override

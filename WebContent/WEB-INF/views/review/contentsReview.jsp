@@ -12,7 +12,7 @@
 <script>
 function categorySearchType(){
 	var searchType = $("#searchType").val();
-	var hospital_no = "88";
+	var hospital_no = ${hospitalDTO.no};
 	location.href="contentsreview.do?hospital_no="+hospital_no+"&searchType="+searchType+"";
 }
 </script>
@@ -118,7 +118,7 @@ function categorySearchType(){
 				</c:forEach>
 			</div>
 			<div>
-				<a href="/pet/review/likereview.do?review_no=${reviewList.no}&target_email=test&member_email=test&hospital_name=테스트병원">추천</a>
+				<a href="/pet/review/likereview.do?review_no=${reviewList.no}&target_email=test&member_email=test&hospital_no=${hospitalDTO.no}">추천</a>
 				추천 : ${likeList[status.index]}
 			</div>
 		</div>
@@ -128,20 +128,20 @@ function categorySearchType(){
 <div class="center">
 	<div class="pagination">
 	    <c:if test="${pageDTO.startPage > 10}">
-	        <a href="/pet/review/contentsreview.do?pageNum=${pageDTO.startPage - 10}&searchType=${searchType}&hospital_name=테스트병원">&laquo;</a>
+	        <a href="/pet/review/contentsreview.do?pageNum=${pageDTO.startPage - 10}&searchType=${searchType}&hospital_no=${hospitalDTO.no}">&laquo;</a>
 	    </c:if>
 	        
         <c:forEach var ="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}">
         	<c:if test="${pageDTO.currentPage == i}">
-	        	<a href="/pet/review/contentsreview.do?pageNum=${i}&searchType=${searchType}&hospital_name=테스트병원" class="active">${i}</a>
+	        	<a href="/pet/review/contentsreview.do?pageNum=${i}&searchType=${searchType}&hospital_no=${hospitalDTO.no}" class="active">${i}</a>
 			</c:if>
 			<c:if test="${pageDTO.currentPage != i}">
-	        	<a href="/pet/review/contentsreview.do?pageNum=${i}&searchType=${searchType}&hospital_name=테스트병원">${i}</a>
+	        	<a href="/pet/review/contentsreview.do?pageNum=${i}&searchType=${searchType}&hospital_no=${hospitalDTO.no}">${i}</a>
 	        </c:if>
 		</c:forEach>
 	        
         <c:if test="${pageDTO.endPage < pageDTO.pageCount}">
-	        <a href="/pet/review/contentsreview.do?pageNum=${pageDTO.startPage + 10}&searchType=${searchType}&hospital_name=테스트병원">&raquo;</a>
+	        <a href="/pet/review/contentsreview.do?pageNum=${pageDTO.startPage + 10}&searchType=${searchType}&hospital_no=${hospitalDTO.no}">&raquo;</a>
         </c:if>
 	</div>
 </div>

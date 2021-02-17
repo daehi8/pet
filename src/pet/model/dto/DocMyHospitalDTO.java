@@ -64,7 +64,7 @@ public class DocMyHospitalDTO {
 		this.hospital_call = hospital_call;
 	}
 	
-	public String getHompage() {
+	public String getHomepage() {
 		return homepage;
 	}
 	public void setHomepage (String homepage) {

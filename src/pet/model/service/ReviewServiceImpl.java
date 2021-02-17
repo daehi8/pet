@@ -91,11 +91,6 @@ public class ReviewServiceImpl implements ReviewService{
 	}
 
 	@Override
-	public DocPictureDTO getDocPicture(int hospital_no) throws Exception {
-		return dao.selectOne("review.getDocPicture", hospital_no);
-	}
-
-	@Override
 	public DocInfoDTO getDocInfo(int hospital_no) throws Exception {
 		return dao.selectOne("review.getDocInfo", hospital_no);
 	}
@@ -123,6 +118,11 @@ public class ReviewServiceImpl implements ReviewService{
 	@Override
 	public String selectDocMailByName(DocInfoDTO docInfoDTO) throws Exception {
 		return dao.selectOne("review.selectDocMailByName", docInfoDTO);
+	}
+
+	@Override
+	public String selectHospitalName(int hospital_no) throws Exception {
+		return dao.selectOne("review.selectHospitalName", hospital_no);
 	}
 
 }
