@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pet.model.bean.CheckBean;
+import pet.model.dto.CheckAddDTO;
 import pet.model.dto.CheckDTO;
 
 @Service("Cdao")
@@ -17,8 +18,8 @@ public class CheckServiceImpl implements CheckService{
 	private SqlSessionTemplate Cdao = null;
 
 	@Override
-	public List<CheckDTO> list() throws Exception {
-		return Cdao.selectList("check.check");
+	public List<CheckDTO> list(int check_no) throws Exception {
+		return Cdao.selectList("check.check", check_no);
 	}
 
 	@Override
@@ -43,8 +44,28 @@ public class CheckServiceImpl implements CheckService{
 	}
 
 	@Override
-	public int count() throws Exception {
-		return Cdao.selectOne("check.count");
+	public int count(int check_no) throws Exception {
+		return Cdao.selectOne("check.count", check_no);
+	}
+
+	@Override
+	public List checkList() throws Exception {
+		return Cdao.selectList("check.checkList");
+	}
+
+	@Override
+	public void deleteList(int check_no) throws Exception {
+		Cdao.delete("check.deleteList", check_no);
+	}
+
+	@Override
+	public String selectCheckNameByNo(int check_no) throws Exception {
+		return Cdao.selectOne("check.selectCheckNameByNo", check_no);
+	}
+
+	@Override
+	public CheckAddDTO checkadd(int check_no) {
+		return Cdao.selectOne("check.checkadd",check_no);
 	}
 
 	

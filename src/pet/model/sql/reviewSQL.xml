@@ -30,17 +30,17 @@
 	<select id="getListReview" parameterType="hashMap" resultType="reviewDTO">
 		select no,member_email,hospital_no,doc_mail,revisit,public_check,auth_check,reg_date,r 
 		from (select no,member_email,hospital_no,doc_mail,revisit,public_check,auth_check,reg_date,rownum r 
-		from (select * 
-		from (select review.no,member_email,hospital_no,doc_mail,revisit,public_check,auth_check,reg_date,mean 
-		from review join review_rating on review.no = review_rating.review_no) 
-		order by 
-		<choose>
-		<when test="searchType == 'ratingOrder'">mean desc</when> 
-		<otherwise>reg_date desc</otherwise>
-		</choose>
-		) 
-		where 
-		hospital_no = #{hospital_no} and auth_check = 'Y' and public_check = 'Y')
+			from (select * 
+				from (select review.no,member_email,hospital_no,doc_mail,revisit,public_check,auth_check,reg_date,mean 
+				from review join review_rating 
+			on review.no = review_rating.review_no) 
+			order by 
+			<choose>
+				<when test="searchType == 'ratingOrder'">mean desc</when> 
+				<otherwise>reg_date desc</otherwise>
+			</choose>
+			) 
+		where hospital_no = #{hospital_no} and auth_check = 'Y' and public_check = 'Y')
 		<![CDATA[where r >= #{start} and r <= #{end}]]>
 	</select>
 	
@@ -98,13 +98,11 @@
 	</select>
 	
 	<select id="selectMyhospitalByHospitalNo" parameterType="int" resultType="pet.model.dto.DocMyHospitalDTO">
-		select * from doc_myhospital join hospital 
-		on doc_myhospital.hospital_no = hospital.no where hospital_no = #{value}
+		select * from doc_myhospital where hospital_no = #{value}
 	</select>
 	
 	<select id="selectHospitalByHospitalNo" parameterType="int" resultType="pet.model.dto.HospitalDTO">
-		select * from doc_myhospital join hospital 
-		on doc_myhospital.hospital_no = hospital.no where hospital_no = #{value}
+		select * from hospital where no = #{value}
 	</select>
 	
 	<select id="getDocInfo" parameterType="int" resultType="pet.model.dto.DocInfoDTO">
@@ -121,5 +119,9 @@
 	
 	<select id="selectHospitalName" parameterType="int" resultType="String">
 		select name from hospital where no = #{value}
+	</select>
+	
+	<select id="selectNickByEmail" parameterType="String" resultType="String">
+		select pen_name from member where email = #{value}
 	</select>
 </mapper>

@@ -40,20 +40,27 @@
 	<!-- 네비게이션 바 -->
  	
 	
- 	<nav class="navbar navbar-expand-lg navbar-dark	bg-dark">	
-  	<a class="navbar-brand" href="/pet/member/main.do">모두닥</a>
-  	
-
+<nav class="navbar navbar-expand sticky-top navbar-dark bg-dark">
+    <div style="width: 1000px;" class="d-flex mx-auto">
+		 <li class="nav-item d-flex align-items-center">
+  	    <a class="navbar-brand text-white mr-3" href="/pet/sc.do"> 펫츠리뷰 </a></li>
+ 
+	        <div class="w-100 align-item-center">
+	
     <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
-    <li class="nav-item">
-        <a class="nav-link" href="/pet/doctor/main.do">의사회원</a>
+                <li class="nav-item d-flex align-items-center">
+        <a class="nav-link d-flex align-items-center" href="/pet/doctor/main.do">의사회원</a>
+      </li>
+      </ul>
+            
+     	<ul class="navbar-nav ml-auto d-flex align-items-center">
+     	
+        <li class="nav-link">
+        <a class="nav-link" href="/pet/sc.do">병원찾기</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">병원찾기</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">리뷰쓰기</a>
+        <a class="nav-link" href="/pet/review/insertreview.do">리뷰쓰기</a>
       </li>
       <li class="nav-item dropdown">
         <a href="#" 
@@ -66,12 +73,18 @@
     
       <a class="dropdown-item" href="/pet/dict/dict.do">먹이사전</a>
     
-      <a class="dropdown-item" href="/pet/check/check.do">체크리스트</a>
+      <a class="dropdown-item" href="/pet/check/checklist.do">체크리스트</a>
       
-      <a class="dropdown-item" href="#">게시판</a>
+      <a class="dropdown-item" href="/pet/board/list.do">정보 게시판</a>
+      
+      <a class="dropdown-item" href="/pet/boardfree/list.do">자유 게시판</a>
     </div>
       </li>
-      
+            <c:if test="${member.approval_status == 2}" >
+            <li class="nav-item">
+        <a class="nav-link" href="/pet/admin/adminmain.do">관리자 모드</a>
+      </li>
+      </c:if>
       <c:if test="${member == null}">
        <li class="nav-item">
         <a class="nav-link" href="/pet/member/register.do">회원가입</a>
@@ -100,5 +113,6 @@
      </c:if>
     </ul>
   </div>
-  
+  </div>
+  </div>
 </nav>

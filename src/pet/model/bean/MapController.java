@@ -16,9 +16,9 @@ public class MapController {
 	@Autowired
 	private MapService MapServiceImpl = null;
 	
-	@RequestMapping("map.do")
+	//@RequestMapping("test.do")
 	public String map(Model model) throws Exception{
-		model.addAttribute("map", mapDAO.selectAll());	
-		return "/map";
+		model.addAttribute("map", mapDAO.selectAll());
+		return "main/test";
 	}
 }

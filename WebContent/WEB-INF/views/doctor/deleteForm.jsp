@@ -5,14 +5,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>deleteForm</title>
+<title>펫츠리뷰 for doctors | 회원탈퇴</title>
 </head>
 <body>	
-	<div style="margin-top: 40px;text-align: center">
-	<div class="p-4" style="width: 1000px; display: inline-block;">
-	
-	<h2 style="text-align:left">나의 회원정보</h2>
-	<br>
+		<div style="margin-top: 35px; text-align: center">
+		<div class="p-4" style="width: 1000px; display: inline-block;">
+		
+	  	<h2 style="text-align:left; margin-bottom: 40px;"><strong>나의 회원정보</strong></h2>
 	
 	<nav>
 	   	<ul class="nav nav-pills nav-fill">
@@ -30,22 +29,23 @@
   		</li>  	
  		</ul>
 	</nav>
-	<br>
-	<br>
+	<br>	
 	<form action="/pet/doctor/deletePro.do" method="post" onSubmit="return checkIt()">
-		<table class="table">
+		<table class="table" style="text-align:center;">
 			  
 			<tr height="30">
 				<td colspan="2" align="middle">
-				<font size="+1" ><b>회원 탈퇴</b></font></td></tr>
+				<font size="+1" ><b>비밀번호를 입력시 회원 탈퇴가 진행됩니다.</b></font></td></tr>
 			<tr height="30">
 				<td width="110" align=center>비밀번호</td>
 				<td width="150" align=center>
 					<input type=password name="doc_pw"  size="15" maxlength="12">
 		</table>
-				<input class="btn btn-dark"  type=submit value="회원탈퇴"> 
-					<input class="btn btn-light" type="button" value="취  소" onclick="javascript:window.location='/pet/doctor/main.do'">
+				<input class="btn btn-dark"  type=submit value="탈퇴"> 
+					<input class="btn btn-light" type="button" value="취소" onclick="window.location='/pet/doctor/modify.do'"/>
 				
 	</form>
+	</div>
+	</div>
 </body>
 </html>

@@ -14,16 +14,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import pet.model.dto.CheckDTO;
 import pet.model.dto.DocInfoDTO;
+import pet.model.dto.DocMyHospitalDTO;
 import pet.model.dto.DocPictureDTO;
+import pet.model.dto.HospitalDTO;
 import pet.model.dto.MemberDTO;
 import pet.model.dto.PageDTO;
 import pet.model.dto.PageMaker;
 import pet.model.dto.SearchCriteria;
 import pet.model.service.AdminService;
 import pet.model.service.BoardDaoService;
+import pet.model.service.CheckService;
 import pet.model.service.DictService;
+import pet.model.service.DocDAOService;
 import pet.model.service.FreeDaoService;
+import pet.model.service.ReviewService;
 
 @RestController
 @RequestMapping("/admin/")
@@ -31,6 +37,9 @@ public class AdminBean {
 
 	@Autowired
 	private AdminService adminService;
+	
+	@Autowired
+	private ReviewService reviewService; 
 	
 	@Autowired
 	private BoardDaoService noticeInfoDAO;
@@ -41,9 +50,28 @@ public class AdminBean {
 	@Autowired
 	private DictService Ddao;
 	
+	@Autowired
+	private DocDAOService docDao;
+	
+	@Autowired
+	private CheckService Cdao;
+	
 	// 관리자 메인페이지
 	@RequestMapping("adminmain.do")
-	public String adminMain() throws Exception{
+	public String adminMain(Model model) throws Exception{
+		String searchType = null;
+		
+		int docCount = adminService.getCountDocAll(searchType);
+		int reviewCount = reviewService.getListAuthCheckReviewCount(searchType);
+		
+		List reviewList = adminService.selectAuthNoReviewList();
+		List docList = adminService.selectAuthNoDocList();
+		
+		model.addAttribute("docCount", docCount);
+		model.addAttribute("reviewCount", reviewCount);
+		model.addAttribute("reviewList", reviewList);
+		model.addAttribute("docList", docList);
+		
 		return "admin/main/adminMain";
 	}
 	
@@ -275,5 +303,87 @@ public class AdminBean {
 			int no)throws Exception{
 		adminService.delMember(no);
 		return "admin/member/adminDelMember";
+	}
+	
+	@RequestMapping("hospitalForm.do")
+	   public String hospitalForm(DocPictureDTO docPictureDto
+	                        ,DocInfoDTO docInfoDto, Model model
+	                        , HospitalDTO hospitalDto, DocMyHospitalDTO docMyHospitalDto) throws Exception {
+	      System.out.println("hospitalForm.do 실행");
+	      System.out.println("doc_mail  : " + docPictureDto.getDoc_mail());
+	      String doc_mail = docInfoDto.getDoc_mail();
+	      DocInfoDTO doctor = docDao.getDoctor(doc_mail);
+	      int no = doctor.getHospital_no();
+
+	      // 병원 추가정보 꺼내기
+	      DocMyHospitalDTO hospital = docDao.getHospital(doc_mail);
+	                     
+	      // 병원정보 꺼내기
+	      HospitalDTO hospitalDB = docDao.getHospitalDB(no);
+	      
+	      List pictureList = adminService.getDocPicture(doc_mail);
+
+	      model.addAttribute("pictureList", pictureList);
+	      model.addAttribute("doc_mail", doc_mail);
+	      model.addAttribute("hospital", hospital);
+	      model.addAttribute("hospitalDB", hospitalDB);
+	      
+	      return "admin/hospitalForm";
+	   }
+	
+	
+	// hospital테이블에서 병원이름 검색.
+	@RequestMapping("confirmName.do")
+	public String confirmName(HospitalDTO hospitalDto, String hospital_name, Model model) throws Exception {
+		System.out.println("confirmName 실행 ");
+		System.out.println("hospital_name  : " + hospital_name);
+		hospitalDto.setName(hospital_name);
+		System.out.println("DTO name : " + hospitalDto.getName());
+		
+		List nameList = null;	// 중복이름목록
+		int nameCount = adminService.getNameCount();	// 동일 이름 갯수 검색.
+		if(nameCount > 0) { // 동일이름 있으면 List로 목록꺼내기
+			nameList = adminService.nameList(hospitalDto);//현재 페이지에 해당하는 글 목록
+		}else {
+			nameList = Collections.EMPTY_LIST;
+		}
+		model.addAttribute("nameList", nameList);
+		model.addAttribute("nameCount", new Integer(nameCount));
+        
+		return "admin/confirmName";
+	}
+	@RequestMapping("hospitalPro.do")
+	public String hospitalPro(DocMyHospitalDTO docMyHospitalDto
+								,DocInfoDTO docInfoDto) throws Exception {
+		System.out.println("hospitalPro실행 ");
+		// 파라미터 받아 병원추가정보입력.
+		System.out.println(docMyHospitalDto.getDoc_mail());
+		adminService.updateHospital(docMyHospitalDto);
+		// doc_info에 병원 번호 , 의사이름 (hospital_no, doc_name ) 수정해주기.
+		adminService.updateDoc_info(docInfoDto);
+		
+		return "admin/hospitalPro";
+	}
+	
+	@RequestMapping("admincheck.do")
+	public String admincheck(Model model) throws Exception{
+		List checkList = Cdao.checkList();
+		model.addAttribute("checkList", checkList);
+
+		return "admin/check/adminCheck";
+	}
+	
+	@RequestMapping("admincheckcontents.do")
+	public String CheckContents(Model model, CheckDTO checkDTO) throws Exception{
+		List<CheckDTO> list = Cdao.list(checkDTO.getCheck_no());
+		model.addAttribute("list", list);
+		
+		return "admin/check/adminCheckContents";
+	}
+	
+	@RequestMapping("admincheckdel.do")
+	public String deleteList(Model model, CheckDTO checkDTO) throws Exception{
+		Cdao.deleteList(checkDTO.getCheck_no());
+		return "admin/check/adminDelCheck";
 	}
 }

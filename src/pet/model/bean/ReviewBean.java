@@ -1,12 +1,15 @@
 package pet.model.bean;
 
 import java.io.File;
+import java.lang.reflect.Member;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -97,29 +100,40 @@ public class ReviewBean {
 		int review_no = reviewService.selectNewReview();
 		
 		// 다중 파일업로드
-		// 파일 이름 차례대로 검색 후 이름에 맞는 파일 모두 업로드
+		// 파일 이름을 검색후 이름 수만큼 반복
 		Iterator<String> fileTypeNames = request.getFileNames();
 		while(fileTypeNames.hasNext()) {
 			String fileTypeName = fileTypeNames.next();
 			List<MultipartFile> mf = request.getFiles(fileTypeName);
 			
+			// 파일 이름에 해당하는 파일의 수만큼 반복
 			for(int i = 0; i < mf.size(); i++) {
 				if(mf.get(i).isEmpty()) {
 					break;
 				}
 				
+				// 파일 원본 이름
 				String fileName = mf.get(i).getOriginalFilename();				
 				uploadReviewDTO.setOrg_name(fileName);
 				uploadReviewDTO.setReview_no(review_no);
+				
+				// DB에 저장 후 파일 고유 번호 불러오기  
 				int no = uploadReviewService.insertFile(uploadReviewDTO);
+				
+				// 파일 확장자 분리
 				String ext = fileName.substring(fileName.lastIndexOf("."));			
+				
+				// 서버에 저장될 파일 이름 생성 후 DB에 저장
 				String saveName = "file_"+no+ext;
 				uploadReviewDTO.setNo(no);
 				uploadReviewDTO.setSave_name(saveName);
 				uploadReviewDTO.setFile_type(fileTypeName);
 				uploadReviewService.fileUpdate(uploadReviewDTO);
 				
+				// 파일 저장경로 생성
 				String savePath = request.getRealPath("save");
+				
+				// 파일 생성 후 업로드
 				File saveFile = new File(savePath+"\\"+saveName); 	
 				try {
 					mf.get(i).transferTo(saveFile);
@@ -185,6 +199,7 @@ public class ReviewBean {
 			DocInfoDTO docInfoDTO,
 			HospitalDTO hospitalDTO,
 			Model model,
+			int hospital_no,
 			@RequestParam(defaultValue ="regOrder") String searchType) throws Exception {
 		
 		// 페이징 처리
@@ -208,6 +223,7 @@ public class ReviewBean {
 		List priceList = new ArrayList();
 		Map priceMap = new HashMap();
 		List likeList = new ArrayList();
+		List memNickList = new ArrayList();
 		
 		// 필요한 평점 생성
 		int cleanRating = 0;
@@ -229,7 +245,9 @@ public class ReviewBean {
 			ratingReviewDTO = ratingReviewService.selectByReviewNo(review_no);
 			commentReviewDTO = commentReviewService.selectByReviewNo(review_no);
 			priceByNoList = priceReviewService.selectByReviewNo(review_no);
+			String memNick = reviewService.selectNickByEmail(((ReviewDTO) reviewList.get(i)).getMember_email());
 			
+			memNickList.add(memNick);
 			ratingList.add(ratingReviewDTO);
 			commentList.add(commentReviewDTO);
 			priceMap.put(i,priceByNoList);
@@ -286,8 +304,6 @@ public class ReviewBean {
 		
 		// 의사 정보
 		docInfoDTO = reviewService.getDocInfo(reviewDTO.getHospital_no());
-		
-		
 		model.addAttribute("count", count);
 		model.addAttribute("meanCleanRating", meanCleanRating);
 		model.addAttribute("meanPriceRating", meanPriceRating);
@@ -309,6 +325,8 @@ public class ReviewBean {
 		model.addAttribute("searchType", searchType);
 		model.addAttribute("likeList",likeList);
 		model.addAttribute("hospitalDTO", hospitalDTO);
+		model.addAttribute("hospital_no", hospital_no);
+		model.addAttribute("memNickList", memNickList);
 		
 		return "review/contentsReview";
 	}
@@ -405,6 +423,7 @@ public class ReviewBean {
 			LikeReviewDTO likeReviewDTO,
 			int hospital_no,
 			Model model)throws Exception{
+		// 같은 아이디로 중복추천 불가능하게 추천한 아이디가 있는지 체크
 		int check = likeReviewService.likeCheck(likeReviewDTO);
 		if(check < 1) {
 			likeReviewService.insertLikeReview(likeReviewDTO);

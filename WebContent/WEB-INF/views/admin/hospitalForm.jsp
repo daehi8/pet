@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="/WEB-INF/views/nav.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>hospitalForm</title>
+<title>펫츠리뷰 | 관리자 | 병원정보입력</title>
 </head>
 <script language="JavaScript">
 	function checkIt() {
@@ -31,60 +32,82 @@
 	}
 </script>
 <body>
-	<h3> 관리자페이지 </h3>
-	<c:if test="${count == 0}">
-		저장된 사진 없음.
-	</c:if>
-	<c:if test="${count > 0}">
-		<h5> 의사 메일    |  ${doc_mail} </h5>
-		<table border="1" cellpadding="0" cellspacing="0" align="left"> 
-		    <tr height="30"> 
-		    	<td align="center"  width="100" > 저장이름</td> 
-		      	<td align="center"  width="200" > 이미지파일</td>
-		    </tr>
-			<c:forEach var="picture" items="${pictureList}">
-				<tr>
-					<td> ${picture.save_pic} </td>
+
+<div style="margin-top: 35px;text-align: center">
+	<div class="p-4" style="width: 1000px; display: inline-block;">
+	
+		<nav>
+   	<ul class="nav nav-pills nav-fill">
+  		<li class="nav-item" >
+    <a class="nav-link btn btn-outline-dark" href="memberlist.do">일반회원</a>
+  	</li>
+  	<li class="nav-item" >
+    	<a class="nav-link active btn btn-outline-dark" href="/pet/admin/doclist.do">의사회원</a>
+  	</li> 	
+  	<li class="nav-item">
+    	<a class="nav-link btn btn-outline-dark" href="/pet/admin/adminmain.do">뒤로</a>
+  	</li>  	
+ 	</ul>
+	</nav>
+	<br>
+	<br>
+	
+	<c:if test="${doc_mail != null}">
+		<table class="table" style="text-align:center;">
+		    <tr>
+		    <th style="width:20%;">의사 메일</th>
+		    	<td> ${doc_mail} </td>
+		    <tr> 
+		    	<td> 인증파일</td> 
+		      	<c:forEach var="picture" items="${pictureList}">
 					<td>
 						${picture.file_type} <br><br>
 						<img src="/pet/save/${picture.save_pic}" />
 					</td>
-				</tr>
 			</c:forEach>
+		    </tr>
+			
 		</table>
+		<br>
 		<%-- 사진이미지를 보고 추가정보를 입력해주기. --%>
 		<form id="hospitalPro" action="hospitalPro.do" name="userinput" onSubmit="return checkIt()">
-			<table>
-				<th align="center" > 병원 정보 입력 </th>
+			<table class="table" style="text-align:center;">
 				<tr>
-					<td> 병원 이름 </td>
+					<th style="width:20%;">병원 이름 </th>
 					<td>
-						<input type="text" name="hospital_name" />
-						<input type="button" value="검색" OnClick="openConfirmName(this.form)" />
+						<input  style="width:40%" type="text" name="hospital_name" value="${hospitalDB.name}"/>
+						<input class="btn btn-outline-dark" type="button" value="검색" OnClick="openConfirmName(this.form)" />
 					</td>
 				</tr>
 				<tr>
-					<td> 병원 번호 </td>
-					<td> <input type="text" name="hospital_no" onChange="hospital_no(this)" /></td>
+				<th> 의사 이름 </th>
+               <td>
+                  <input style="width:50%"type="text" name="doc_name" />
+               </td>
+				</tr>
+				<tr>
+					<th> 병원 번호 </th>
+					<td> 
+						<input style="width:50%" type="text" name="hospital_no" onChange="hospital_no(this)" value="${hospital.hospital_no}" />
+					</td>
 				</tr>
 				<%-- <tr>
 					<td> 병원 주소 </td>
 					<td> <textarea name="road_adr" rows="3" cols="40" onChange="road_adr(this)"></textarea></td>
 				</tr>  --%>
 				<tr>
-					<td> 영업시간 </td>
-					<td> <textarea name="hospital_hours" rows="10" cols="40"></textarea></td>
+					<th> 영업시간 </th>
+					<td> <textarea name="hospital_hours" rows="3" cols="50">${hospital.hospital_hours}</textarea></td>
 				</tr>
 				<tr>
-					<td> 병원 전화번호 </td>
-					<td> <input type="text" name="hospital_call" /></td>
+					<th> 병원 전화번호 </th>
+					<td> <textarea name="hospital_call" rows="3" cols="50">${hospital.hospital_call}</textarea></td>
 				</tr>
 				<tr>
 					<td colspan="2" align="center"> 
 						<input type="hidden" name="doc_mail" value="${doc_mail}" />
-						<input type="submit" value="수정" />
-						<input type="reset" value="다시작성" />
-						<input type="button" value="리스트" onClick="window.location='/pet/admin/docList.do'"/>
+						<input class="btn btn-dark" type="submit" value="수정" />
+						<input class="btn btn-light" type="reset" value="다시작성" />
 					</td>
 				</tr>
 			</table>
@@ -92,5 +115,7 @@
 		
 		
 	</c:if>
+	</div>
+	</div>
 </body>
 </html>

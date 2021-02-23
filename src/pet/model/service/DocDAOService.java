@@ -9,85 +9,87 @@ import pet.model.dto.DocPictureDTO;
 import pet.model.dto.HospitalDTO;
 
 public interface DocDAOService {
-	// ÀüÃ¼Å×ÀÌºí ·¹ÄÚµå °Ë»ö/java.util.List¸®ÅÏ
+	// ì „ì²´í…Œì´ë¸” ë ˆì½”ë“œ ê²€ìƒ‰/java.util.Listë¦¬í„´
 	public List selectAll() throws Exception;	
 	
-	// Doc_info Å×ÀÌºí¿¡ doc_no / doc_mail / doc_pw Àü¼Û.
+	// Doc_info í…Œì´ë¸”ì— doc_no / doc_mail / doc_pw ì „ì†¡.
 	public void insertDoc(DocInfoDTO docInfoDto)throws Exception;
 
-	// doc_myhospital ¿¡µµ ÀúÀå
+	// doc_myhospital ì—ë„ ì €ì¥
 	public void insertHospital(DocMyHospitalDTO docMyHospitalDto) throws Exception;
 	
-	// ÀÎÁõÅ° »ğÀÔ - map ¾È¾²°í
+	// ì¸ì¦í‚¤ ì‚½ì… - map ì•ˆì“°ê³ 
 	public void updateAuthKey(DocInfoDTO docInfoDto) throws Exception;
 	
-	// ¸ŞÀÏ, ÀÎÁõÅ°°¡ DB¿Í ÀÏÄ¡ÇÏ´ÂÁö È®ÀÎ - map ¾È¾²°í
+	// ë©”ì¼, ì¸ì¦í‚¤ê°€ DBì™€ ì¼ì¹˜í•˜ëŠ”ì§€ í™•ì¸ - map ì•ˆì“°ê³ 
 	public  List authKeyOK(DocInfoDTO docInfoDto) throws Exception;
 	
-	// pic_noÀÇ ÃÖ´ë°ª ¸®ÅÏ.
+	// pic_noì˜ ìµœëŒ€ê°’ ë¦¬í„´.
 	public int maxNo() throws Exception;
 	
-	// ·Î±×ÀÎ Ã¼Å©
+	// ë¡œê·¸ì¸ ì²´í¬
 	public int userCheck(DocInfoDTO docInfoDto)throws Exception;
 
-	// »çÁøÆÄÀÏ insert
+	// ì‚¬ì§„íŒŒì¼ insert
 	public int insertFile(DocPictureDTO docPictureDto) throws Exception;
-	// »çÁøÆÄÀÏ ÀúÀå
+	// ì‚¬ì§„íŒŒì¼ ì €ì¥
 	public void fileUpdate(DocPictureDTO docPictureDto) throws Exception;
 
-	// ¸ŞÀÏÀÎÁõ »óÅÂ º¯°æ
+	// ë©”ì¼ì¸ì¦ ìƒíƒœ ë³€ê²½
 	public void updateAuthState(DocInfoDTO docInfoDto) throws Exception;
 	
 	
 	
-	// doc_picture¿¡¼­ file_type È®ÀÎ.	
-	// license ÀÖ´Â ¸ŞÀÏ È®ÀÎÇÏ±â 
+	// doc_pictureì—ì„œ file_type í™•ì¸.	
+	// license ìˆëŠ” ë©”ì¼ í™•ì¸í•˜ê¸° 
 	public String selectLicense(DocPictureDTO docPictureDto)throws Exception;
 	
-	// registration ÀÖ´Â ¸ŞÀÏ È®ÀÎÇÏ±â 
+	// registration ìˆëŠ” ë©”ì¼ í™•ì¸í•˜ê¸° 
 	public String selectRegistration(DocPictureDTO docPictureDto)throws Exception;
 	
-	// µ¿ÀÇ¼­°¡ doc_pictuer¿¡ ÀÖ´ÂÁö È®ÀÎ
+	// ë™ì˜ì„œê°€ doc_pictuerì— ìˆëŠ”ì§€ í™•ì¸
 	public String selectAgree(DocPictureDTO docPictureDto) throws Exception;
 	
-	// µ¿ÀÇ¼­°¡ doc_pictuer¿¡ ÀÖÀ¸¸é 1·Î º¯°æ
+	// ë™ì˜ì„œê°€ doc_pictuerì— ìˆìœ¼ë©´ 1ë¡œ ë³€ê²½
 	public void updateAgree(DocInfoDTO docInfoDto) throws Exception;
 
 	
 	
-	// doc_infoÁ¤º¸ ²¨³»±â
+	// doc_infoì •ë³´ êº¼ë‚´ê¸°
 	public DocInfoDTO getDoctor(String doc_mail) throws Exception;
 	
-	// doc_info Á¤º¸ ¼öÁ¤.
+	// doc_info ì •ë³´ ìˆ˜ì •.
 	public int updateModify(DocInfoDTO docInfoDto) throws Exception;
 
-	// doc_info ºñ¹ø ¼öÁ¤
+	// doc_info ë¹„ë²ˆ ìˆ˜ì •
 	public void changePw(DocInfoDTO docInfoDto) throws Exception;
 	
-	// doc_picture Á¤º¸¼öÁ¤
+	// doc_picture ì •ë³´ìˆ˜ì •
 	public int updatePicture(DocPictureDTO docPictureDto) throws Exception;
 	
-	// doc_myhospital Á¤º¸ ²¨³»±â
+	// doc_myhospital ì •ë³´ êº¼ë‚´ê¸°
 	public DocMyHospitalDTO getHospital(String doc_mail) throws Exception;
 	
-	// hospital DBÁ¤º¸ ²¨³»±â ( ÀÌ¸§, ¹øÈ£)  no·Î °Ë»ö ÇØ¾ßÇÔ.
+	// hospital DBì •ë³´ êº¼ë‚´ê¸° ( ì´ë¦„, ë²ˆí˜¸)  noë¡œ ê²€ìƒ‰ í•´ì•¼í•¨.
 	public HospitalDTO getHospitalDB(int no) throws Exception;
 
-	// doc_myhospitalÁ¤º¸ ¼öÁ¤.
+	// doc_myhospitalì •ë³´ ìˆ˜ì •.
 	public void hospitalUpdate(DocMyHospitalDTO docMyHospitalDto) throws Exception;
 
-	// Å»Åğ (doc_info ÀÇ doc_state¸¦ -1 ·Î º¯°æ.)
+	// íƒˆí‡´ (doc_info ì˜ doc_stateë¥¼ -1 ë¡œ ë³€ê²½.)
 	public int deleteDoctor(DocInfoDTO docInfoDto) throws Exception;
 
 	
 
-	// stateChange ·Î doc_mailÀÇ  authstate°¡ 1ÀÌ¸é doc_state¸¦ 1·Î º¯°æ
+	// stateChange ë¡œ doc_mailì˜  authstateê°€ 1ì´ë©´ doc_stateë¥¼ 1ë¡œ ë³€ê²½
 	public int stateChange(DocInfoDTO docInfoDto) throws Exception;
 
 	
-
+	// ë‚´ê°€ ì“´ê¸€ ì´ê°¯ìˆ˜.
+	public int getArticleCount(NoticefreedomDTO freeDto) throws Exception;
 	
-
+	// ë‚´ê°€ ì“´ ê¸€ëª©ë¡ë“¤ 
+	public List getArticles(int startRow, int endRow, String email) throws Exception;
 	
 
 	

@@ -2,18 +2,36 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ include file="/WEB-INF/views/nav.jsp" %>
 <html>
 <head>
 <link href="/pet/resource/style/style_board.css" rel="stylesheet" type="text/css">
+<title>펫츠리뷰 | 관리자  | 자유게시판</title>
 </head>
 
 
 	<div style="margin-top: 40px;text-align: center">
 	<div class="p-4" style="width: 1000px; display: inline-block;">
 	
-	<div style="text-align:left"><b>글목록(전체 글:${count})</b></div><br>
+			<nav>
+   	<ul class="nav nav-pills nav-fill">
+  		<li class="nav-item" >
+    <a class="nav-link btn btn-outline-dark" href="/pet/admin/adminboard.do">정보게시판</a>
+  	</li>
+  	<li class="nav-item" >
+    	<a class="nav-link active btn btn-outline-dark" href="/pet/admin/adminboardfree.do">자유게시판</a>
+  	</li> 	
+  	<li class="nav-item">
+    	<a class="nav-link btn btn-outline-dark" href="/pet/admin/admindict.do">뒤로</a>
+  	</li>  	
+  	  	<li class="nav-item">
+    	<a class="nav-link btn btn-outline-dark" href="/pet/admin/adminmain.do">목록</a>
+  	</li> 
+ 	</ul>
+	</nav>
+	<div style="margin-top: 20px; text-align:left"><b>글목록(전체 글:${count})</b></div><br>
 	
-		<table class="table table-hover">
+		<table class="table table-hover" style="text-align:center">
 			<thead>
 				<tr><th>번호</th><th>제목</th><th>작성자</th><th>삭제</th></tr>
 			</thead>

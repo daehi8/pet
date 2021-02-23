@@ -4,13 +4,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>회원가입 폼</title>
+<title>펫츠리뷰 for doctors | 로그인</title>
 </head>
 <body>
 	<div style="margin-top: 40px;text-align: center">
 	<div class="p-5" style="width: 500px; display: inline-block;">
 	
-    <h5>의사회원 로그인으로<br>306392명의 회원들을 만나보세요</h5>
+    <h5>의사회원 로그인으로<br>펫츠리뷰의 회원들을 만나보세요</h5>
     <br>
     <form id="joinForm" action="loginPro.do" method="post">
     

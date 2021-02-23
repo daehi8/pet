@@ -24,13 +24,16 @@
     </table>
     
 	<c:if test="${dto.boardimage != null }" >
-	<img src="/pet/resource/noticeBoardfreeFile/${dto.boardimage}"> <br />
+	<img src="/pet/resource/noticeBoardFile/${dto.boardimage}"> <br />
 	</c:if>
 	
 
 	<input class="btn btn-dark" style="float: left;" type="button" value="목록" onclick="window.location='/pet/boardfree/list.do'" />
+	<c:if test="${sessionScope.member.email == dto.email ||sessionScope.doctorMail == dto.email || sessionScope.member.approval_status == 2}">
 	<input class="btn btn-outline-dark" style="float: right; margin-right:10px" type="button" value="삭제" onclick="window.location='/pet/boardfree/deleteForm.do?num=${dto.num}'" />		
 	<input class="btn btn-dark" style="float: right; margin-right:2px" type="button" value="수정" onclick="window.location='/pet/boardfree/updateForm.do?num=${dto.num}'" />
+	</c:if>
+	
 	<br>
 	<br>
 	<!--댓글--> 	
@@ -38,26 +41,34 @@
 	<c:forEach items= "${reply}" var="list">
 		<thead>
 			<tr>
-			<th scope="col" style="width:50%">${list.rno}. ${list.writer}</th>
+			<c:if test="${sessionScope.doctorMail == null  && sessionScope.member == null}">
+				<script>
+					alert("로그인 하신 후에 사용해주세요");
+					location.href="/pet/member/login.do";
+				</script>		
+ 			</c:if>
+ 			<th scope="col" style="width:50%">${list.rno}. ${list.writer}</th>
 			<td scope="col" style="width:50%" class="text-right">
-			<input class="btn btn-outline-dark" type="button" value="삭제" onclick="window.location='deleteReplyPro.do?rno=${list.rno}&num=${dto.num}'"><br>
+			<c:if test="${sessionScope.member.pen_name == list.writer || sessionScope.doctorMail == list.writer || sessionScope.member.approval_status == 2}">
+				<input class="btn btn-outline-dark" type="button" value="삭제" onclick="window.location='deleteReplyPro.do?rno=${list.rno}&num=${dto.num}'"><br>
+			</c:if>
 			</td>
 			</tr>
 		<tbody>
-    	<td colspan="2">${list.content}</td>
+    	<td colspan="2">${list.content}</td>	
     </tbody>
-    </c:forEach>
+    </c:forEach>    
     </table>
-
 	<form action="writeReplyPro.do" method="post">
 		<input type="text" id="rcontent" name="content" 
 		style="text-align:center; width:900px; height:50px;">
-		<input type="hidden"  name="writer" value="asd">
+		<input type="hidden"  name="writer" value="${sessionScope.member.pen_name}${sessionScope.doctorMail}">
 		<input type="hidden" name="num" value="${dto.num}">
 		<br>
 		<br>
 		<input class="btn btn-dark p-2 w-50" type="submit" value="댓글 쓰기">
 	</form>
+	
 		
 		
 	</div>

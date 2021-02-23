@@ -125,4 +125,9 @@ public class ReviewServiceImpl implements ReviewService{
 		return dao.selectOne("review.selectHospitalName", hospital_no);
 	}
 
+	@Override
+	public String selectNickByEmail(String email) throws Exception {
+		return dao.selectOne("review.selectNickByEmail", email);
+	}
+
 }

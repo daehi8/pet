@@ -130,7 +130,8 @@
 				<if test="hospital_hours != null"> hospital_hours=#{hospital_hours},</if>
 				<if test="hospital_call != null"> hospital_call=#{hospital_call},</if>
 				<if test="hospital_pic_org != null"> hospital_pic_org=#{hospital_pic_org},</if>
-				<if test="hospital_pic_save != null"> hospital_pic_save=#{hospital_pic_save}</if>
+				<if test="hospital_pic_save != null"> hospital_pic_save=#{hospital_pic_save},</if>
+				<if test="homepage != null"> homepage=#{homepage},</if>
 			</set>
 		where doc_mail=#{doc_mail,jdbcType=VARCHAR}
 	</update>
@@ -140,6 +141,16 @@
 		update doc_info set doc_state= -1 where doc_mail=#{doc_mail,jdbcType=VARCHAR}
 	</update>
 
-
+<!-- 내 가 쓴글 갯수 -->
+	<select resultType="int" id="getArticleCount">
+		select count(*) from notice_freedom where email =#{email,jdbcType=VARCHAR}
+	</select>
+<!-- 목록 첫,끝 보기 -->
+	<select id="getArticles" resultType="NoticefreedomDTO" parameterType="HashMap">
+		select num, id, email, subject, contents, cnt, reg_date, r from
+		(select num, id, email, subject, contents, cnt, reg_date, rownum r from
+		(select * from notice_freedom where email=#{email} order by num desc ))
+		where r<![CDATA[ >= ]]>#{startRow} and r<![CDATA[ <= ]]> #{endRow}
+	</select>
 </mapper>
 

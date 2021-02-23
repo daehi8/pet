@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>deletePro</title>
+<title>펫츠리뷰 for doctors</title>
 </head>
 <body>
 

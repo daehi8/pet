@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="/WEB-INF/views/nav.jsp" %>
  <head>
   <!-- 제이쿼리 -->
  <script src='https://code.jquery.com/jquery-3.3.1.min.js'></script>
@@ -62,7 +63,7 @@
 <input type="text" id="animal_feed" name="animal_feed"  value="${read.animal_feed}" readonly="readonly"/><br/>
 
 <label for="animal_reason">이유</label>
-<textarea id="animal_reason" name="animal_reason" readonly="readonly" >${read.animal_reason}</textarea><br/>
+<textarea id="animal_reason" name="animal_reason" readonly="readonly">${read.animal_reason}</textarea><br/>
 </table>
 <button type="submit" class="update_btn">수정</button>
 <button type="submit" class="delete_btn">삭제</button>

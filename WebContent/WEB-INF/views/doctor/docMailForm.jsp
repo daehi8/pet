@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>docMailForm</title>
+<title>펫츠리뷰 for doctors | 회원가입</title>
 </head>
 <script language="JavaScript">
 /* 	function email(doc_mail) {

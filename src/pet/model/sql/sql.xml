@@ -112,11 +112,11 @@
 	</select>
 	
 	<select id="select_subject" resultType="priceReviewDTO" parameterType="priceReviewDTO">
-		select subject_info from review_price where review_no = #{review_no, jdbcType=NUMERIC}
+		select * from review_price where review_no = #{review_no, jdbcType=NUMERIC}
 	</select>
 	
 	<select id="select_comment" resultType="commentReviewDTO" parameterType="commentReviewDTO">
-		select summary from review_comment where review_no = #{review_no, jdbcType=NUMERIC}
+		select * from review_comment where review_no = #{review_no, jdbcType=NUMERIC}
 	</select>
 	
 	<select id="select_rating" resultType="ratingReviewDTO" parameterType="ratingReviewDTO">

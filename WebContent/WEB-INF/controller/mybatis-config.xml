@@ -27,6 +27,10 @@
 		<typeAlias alias="boardReplyDTO" type="pet.model.service.BoardReplyDTO"/>
 		<typeAlias alias="NoticefreedomDTO" type="pet.model.service.NoticefreedomDTO"/>
 		<typeAlias alias="FreeReplyDTO" type="pet.model.service.FreeReplyDTO"/>
+		<typeAlias alias="searchDTO" type="pet.model.dto.SearchDTO"/>
+		<typeAlias alias="TestReviewDTO" type="pet.model.dto.TestReviewDTO"/>
+		<typeAlias alias="CityDTO" type="pet.model.dto.CityDTO"/>
+		<typeAlias alias="CheckAddDTO" type="pet.model.dto.CheckAddDTO"/>
 	</typeAliases>
 	
 	<mappers>
@@ -46,6 +50,8 @@
 		<mapper resource="/pet/model/sql/sql.xml"/>
 		<mapper resource="/pet/model/sql/boardSQL.xml"/>
 		<mapper resource="/pet/model/sql/FreeSQL.xml"/>
+		<mapper resource="/pet/model/sql/testSQL.xml"/>
+		<mapper resource="/pet/model/sql/MapSQL.xml"/>
 	</mappers>
 
 </configuration>

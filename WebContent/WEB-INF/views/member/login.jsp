@@ -17,13 +17,13 @@
 		});
 	})
 </script>
-<title>Login Form</title>
+<title>펫츠리뷰 | 로그인</title>
 </head>
 <body>
-	<div style="margin-top: 40px;text-align: center">
+	<div style="margin-top: 35px;text-align: center">
 	<div class="p-5" style="width: 500px; display: inline-block;">
 	
-    <h5>3초 로그인으로<br>164,894건의 리뷰를 확인하세요</h5>
+    <h5>3초 로그인으로<br>펫츠리뷰의 리뷰를 확인하세요</h5><br>
     
 	<form id="loginForm" action="/pet/member/login_member.do" method="post">
 	
@@ -36,10 +36,9 @@
 	</div>
 	<button type="submit" class="btn btn-dark w-100 p-2">로그인</button>
 	</form>
-	<p>모두닥이 처음이신가요?  <a href = "/pet/member/register.do">3초 회원가입</a> </p>
 	<div style="font-size:0.875rem;">
-	<div class="d-flex justify-content-between w-100 p-0">
-					<p>모두닥이 처음이신가요?<br>  <a href = "/pet/member/register.do">3초 회원가입</a> </p>
+	<div class="d-flex justify-content-between w-150 p-4">
+	<p>펫츠리뷰가 처음이신가요?<br>  <a href = "/pet/member/register.do">3초 회원가입</a> </p>
 				
 	<p>비밀번호를 잊으셨나요?<br> <a href = "/pet/member/find_pw_form.do">비밀번호 찾기	</a> </p> <br /></div>	
 			

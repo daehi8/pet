@@ -4,8 +4,8 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="check">
 	<!--  목록 -->
-	<select id="check" resultType="CheckDTO">
-	 select * from checklist
+	<select id="check" resultType="CheckDTO" parameterType="int">
+	 select * from checklist where check_no=#{value}
 	</select>
 
 	<!-- 작성 -->
@@ -27,7 +27,6 @@
        					quest_ans3, 
        					quest_ans4, 
        					quest_ans5
-
 	FROM checklist
 	
 	WHERE no = #{no}
@@ -56,8 +55,29 @@
  	 </delete>
  	 
  	 <!-- 카운트 -->
- 	 <select id="count" resultType="int">
+ 	 <select id="count" resultType="int" parameterType="int">
  	SELECT COUNT(quest_no)
 	FROM checklist
+	where check_no = #{value}
  	 </select>
+
+	<select id="checkList" resultType="int">
+		select check_no from checklist group by check_no
+	</select>
+	
+	<select id="selectCheckNameByNo" resultType="String" parameterType="int">
+		select check_name from checklist where check_no = #{value}
+	</select>
+	
+	<!-- 전체 삭제 -->
+ 	<delete id="deleteList" parameterType="int">
+ 	 	DELETE 
+ 	 	FROM 	checklist
+ 	 	WHERE 	check_no = #{value}
+ 	</delete>
+ 	
+ 	<select id="checkadd" parameterType="int" resultType="CheckAddDTO">
+		select * from checklist_add where check_no=#{ value }	
+	</select>
+	
 </mapper>

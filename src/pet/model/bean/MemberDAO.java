@@ -108,7 +108,7 @@ public class MemberDAO {
 		return sqlsession.selectList("member.select_subject", no);
 	}
 	public List<CommentReviewDTO> select_comment(int no){
-		return sqlsession.selectList("member.select_subject", no);
+		return sqlsession.selectList("member.select_comment", no);
 	}
 	public List<RatingReviewDTO> select_rating(int no){
 		return sqlsession.selectList("member.select_rating", no);

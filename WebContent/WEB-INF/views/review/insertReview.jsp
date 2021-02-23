@@ -7,8 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-
+<title>펫츠리뷰 | 리뷰쓰기</title>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/css/select2.min.css" rel="stylesheet" />
@@ -82,6 +81,13 @@ form.example::after {
 
 </head>
 <body>
+	<c:if test="${sessionScope.member == null }"> 
+		<script>
+			alert("로그인이 필요한 화면입니다.");
+			location.href="/pet/member/login.do";
+		</script>
+	</c:if>
+
 <script>
 document.addEventListener('DOMContentLoaded', function(){
     //별점선택 이벤트 리스너
@@ -200,6 +206,12 @@ let rating = new Rating();//별점 인스턴스 생성
 			return false;
 		}
 		
+		if($('input[name="price_info"]').length == 0){
+			alert('진료과목을 입력해주세요.');
+			form.add_price.focus();
+			return false;
+		}
+		
 		if(form.revisit.value == ''){
 			alert('재방문추천을 입력해주세요.');
 			form.revisit.focus();
@@ -247,17 +259,16 @@ let rating = new Rating();//별점 인스턴스 생성
 
 </script>
 
-
-	<div style="margin-top: 40px;text-align: center	">
+	<div style="margin-top: 35px;text-align: center	">
 	<div class="p-4" style="width: 1000x; display: inline-block;">
 	
 
 	<form name="reviewForm" method = "post" enctype="multipart/form-data"  action="/pet/review/insertreviewpro.do">
 		<!-- 테스트용 코드 -->
-		<input type="hidden" name="member_email" value="test">
+		<input type="hidden" name="member_email" value="${sessionScope.member.email}">
 						
 		<div style="text-align: left" >
-		<h6 style="text-align: left"><span class="badge badge-pill badge-dark">1. 병원조회</span> 병원이름을 입력하세요</h6>
+		<h6 style="text-align: left"><span class="badge badge-pill badge-dark">1. 병원조회</span> 병원 이름을 입력하세요.</h6>
 			<select class="form-control" name="hospital_no">
 					<c:forEach var="hospitalList" items="${hospitalList}">
 					<option value="${hospitalList.no}">${hospitalList.name}, ${hospitalList.road_adr}</option>
@@ -270,16 +281,16 @@ let rating = new Rating();//별점 인스턴스 생성
 			$('select').select2();
 			</script>
 		<br>	
-		<h6 style="text-align: left"><span class="badge badge-pill badge-dark">2. 의사입력	</span> 진료받은 의사를 입력하세요</h6>
-		<div style="text-align: left" ><input type="text" name="doc_name"> <br /></div>
+		<h6 style="text-align: left"><span class="badge badge-pill badge-dark">2. 의사입력	</span> 진료받은 의사를 입력하세요.</h6>
+		<div style="text-align: left" ><input style="width:100%;" type="text" name="doc_name"> <br /></div>
 		<br>
-		<h6 style="text-align: left"><span class="badge badge-pill badge-dark">3. 자료첨부</span> 진료자료를 업로드해주세요</h6>
+		<h6 style="text-align: left"><span class="badge badge-pill badge-dark">3. 자료첨부</span> 진료자료를 업로드해 주세요.</h6>
 		<div style="text-align: left" ><input type="file" name="auth"></div>
 		<br>
 		<br>
 
-		<h6 style="text-align: left"><span class="badge badge-pill badge-dark">4.별점등록</span>
-		'매우 그렇다'면  5점, '전혀 그렇지 않다'면 1점을 주세요</h6>
+		<h6 style="text-align: left"><span class="badge badge-pill badge-dark">4. 별점등록</span>
+		'매우 그렇다'면  5점, '전혀 그렇지 않다'면 1점을 주세요.</h6>
 		
 		<div class="review_rating">
 		<div class="rating">
@@ -364,9 +375,9 @@ let rating = new Rating();//별점 인스턴스 생성
                 <label for="rating55"></label>
                 <input type="hidden" name="price" id="price" value="0"></div></li>
                 
-         <li class="list-group-item pl-0 pr-0 pt-3">
-  		<div class="d-flex justify-content-between align-items-center">
-  			<div class="ratefill" style="width: 300px;">치료 후 결과</div>
+         <li class="list-group-item">
+  		
+  			<div class="ratefill" style="width: 500px;">치료 후 결과</div>
                 <!-- 해당 별점을 클릭하면 해당 별과 그 왼쪽의 모든 별의 체크박스에 checked 적용 -->
                 <input type="checkbox" name="afterChk" id="rating61" value="1" class="rate_radio" title="1점">
                 <label for="rating61"></label>
@@ -378,36 +389,35 @@ let rating = new Rating();//별점 인스턴스 생성
                 <label for="rating64"></label>
                 <input type="checkbox" name="afterChk" id="rating65" value="5" class="rate_radio" title="5점">
                 <label for="rating65"></label>
-                <input type="hidden" name="after" id="after" value="0"></div></li>
+                <input type="hidden" name="after" id="after" value="0"></li>
         		</ul>
         		</div>
         		</div>	
        	<br>
        	<br>		
 		<div style="text-align: center">
-		<h6 style="text-align: left"><span class="badge badge-pill badge-dark">5. 텍스트리뷰</span></h6>
+		<h6 style="text-align: left"><span class="badge badge-pill badge-dark">5. 텍스트 리뷰</span> 솔직한 리뷰를 입력해 주세요.</h6>
 		
-			의사리뷰 <textarea  name="docter_review"  rows="3" cols="50"></textarea><br>
+			<h6 style="text-align: left">의사리뷰 </h6><textarea style="width:100%; text-align:left;" name="docter_review"  rows="3" cols="50"></textarea><br>
 			
-			병원리뷰<textarea name="hospital_review" rows="3" cols="50"></textarea><br>
+			<h6 style="text-align: left">병원리뷰</h6><textarea style="width:100%; text-align:left;"name="hospital_review" rows="3" cols="50"></textarea><br>
 			
-			한줄평 
-			<input type="text" name="summary" maxlength="30"><br>
+			<h6 style="text-align: left">한줄평</h6><input style="width:100%; text-align:left;" type="text" name="summary" maxlength="30"><br>
 		</div>
 		<br>
 		<br>		
 		<div>
-		<h6 style="text-align: left"><span class="badge badge-pill badge-dark">6. 가격정보</span></h6>
+		<h6 style="text-align: left"><span class="badge badge-pill badge-dark">6. 가격정보</span> 치료받은 가격 정보를 입력해 주세요.</h6>
 			<table id="list_table" class="table-dark">
 				<colgroup>
 					<col style="width: 200px">
-					<col style="width: 300px">
-					<col style="width: 200px">	
+					<col style="width: 200px">
+					<col style="width: 50px">
 				</colgroup>
 				
 				<thead>
 					<tr>
-						<th>진료 과목</th>
+						<th>진료과목</th>
 						<th>가격</th>
 					</tr>
 				</thead>
@@ -416,8 +426,8 @@ let rating = new Rating();//별점 인스턴스 생성
 				</tbody>
 			</table>		
 		</div>
-		
-		<div id="priceReview">
+		<br>
+		<div id="priceReview" style="text-align:left">
 			<!--<input type="text" id="add_subject" placeholder ="진료 과목">  -->
 			<select name="add_subject" id="add_subject">
 				<option selected>진료과목</option>
@@ -426,22 +436,22 @@ let rating = new Rating();//별점 인스턴스 생성
 				</c:forEach>
 			</select>
 			<input type="text" id="add_price" placeholder="가격" >
-			<button type="button" id="append_row">추가</button>
+			<button class="btn btn-outline-dark" type="button" id="append_row">추가</button>
    		</div>
    		<br>
    		<br>	
    		<div style="text-align: left">
-   		<h6 style="text-align: left"><span class="badge badge-pill badge-dark">7. 재방문 추천</span></h6>
+   		<h6 style="text-align: left"><span class="badge badge-pill badge-dark">7. 재방문 추천</span> 이 병원을 재방문 하실 의사가 있나요?</h6>
 			<input type="radio" name="revisit" value="Y">YES
 			<input type="radio" name="revisit" value="N">NO
 		</div>
 		<br>
 		<div style="text-align: left">
-		<h6 style="text-align: left"><span class="badge badge-pill badge-dark">8. 병원사진</span></h6>
+		<h6 style="text-align: left"><span class="badge badge-pill badge-dark">8. 병원사진</span> 병원 인테리어 사진을 업로드해 주세요.</h6>
 			<input multiple="multiple" type="file" name="hospital" maxlength="3">
 		<br>
 		<br>	
-		<h6 style="text-align: left"><span class="badge badge-pill badge-dark">9. 치료사진</span></h6>
+		<h6 style="text-align: left"><span class="badge badge-pill badge-dark">9. 치료사진</span> 치료 사진을 업로드해 주세요.</h6>
 			<input multiple="multiple" type="file" name="cure" maxlength="3">
 		</div>
 		<br>

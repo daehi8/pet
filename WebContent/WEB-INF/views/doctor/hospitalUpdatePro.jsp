@@ -7,6 +7,6 @@
 <title>hospitalUpdatePro</title>
 </head>
 <body>
-	<meta http-equiv="Refresh" content="0;url=/pet/doctor/modify.do" >
+	<meta http-equiv="Refresh" content="0;url=/pet/doctor/hospitalInfo.do" >
 </body>
 </html>

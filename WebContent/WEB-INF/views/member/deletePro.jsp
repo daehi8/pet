@@ -3,11 +3,12 @@
 
 <html>
 <head>
-<title>È¸¿øÅ»Åð</title>
+<title>ÆêÃ÷¸®ºäÀÔ´Ï´Ù.</title>
 
 </head>
 
 <body>
+<c:if test="${sessionScope.member != null }"> 
 	<c:if test="${check == 1}" >
 	<form method="post" action="/pet/member/main.do" name="userinput" >
 	<table width="270" border="0" cellspacing="0" cellpadding="5" align="center">
@@ -30,6 +31,7 @@
 	</table>
 	</form>
 	</c:if>
+</c:if>
 
 
 

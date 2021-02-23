@@ -11,7 +11,7 @@
 	</script>
 </c:if>
 <c:if test="${sessionScope.member != null }">
-	<c:redirect url="/member/main.do"></c:redirect>
+	<c:redirect url="/sc.do"></c:redirect>
 </c:if>
 
 

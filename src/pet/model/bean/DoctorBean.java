@@ -29,497 +29,583 @@ import pet.model.dto.DocPictureDTO;
 import pet.model.dto.HospitalDTO;
 import pet.model.service.DocDAOService;
 import pet.model.service.DocDAOServiceImpl;
+import pet.model.service.NoticefreedomDTO;
 
 @Controller
-@RequestMapping("/doctor/")// ½ÇÇàÁÖ¼Ò °æ·Î¿¡¼­ /member/»ı·« °¡´É
+@RequestMapping("/doctor/")// ì‹¤í–‰ì£¼ì†Œ ê²½ë¡œì—ì„œ /member/ìƒëµ ê°€ëŠ¥
 public class DoctorBean {
-	
-	@Autowired
-	private DocDAOService docDao;
-	
-	@Autowired
-	private DocMailSendService mss;
-	
-	// °¡ÀÔ Æû
-	@RequestMapping("docMailForm.do")
-	public String docMailForm() {
-		System.out.println("docMailForm.do ½ÇÇà");
-		
-		return "doctor/docMailForm";
-	}
-	
-	// ¸ŞÀÏÁßº¹°Ë»ç
-	@RequestMapping("confirmMail.do")
-	public String confirmMail(DocInfoDTO docInfoDto, Model model) throws Exception {
-		System.out.println("confirmMail ½ÇÇà");
-		System.out.println(docInfoDto.getDoc_mail());
-		
-		// µ¿ÀûÄõ¸®·Î ·Î±×ÀÎÃ¼Å©¿Í Áßº¹°Ë»ç °¡´É.
-		int check = docDao.userCheck(docInfoDto);
-		System.out.println(check);
-//		String doc_mail = "";
-//		doc_mail = docInfoDto.getDoc_mail();
-		
-		model.addAttribute("check",check);
-		model.addAttribute("doc_mail", docInfoDto.getDoc_mail());
-		
-		return "doctor/confirmMail";
-	}
-	
-	// °¡ÀÔ Æû ½ÇÇà
-	@RequestMapping("docMailPro.do")
-	public void docMailPro(@ModelAttribute DocInfoDTO docInfoDto
-									, DocPictureDTO docPictureDto
-									, DocMyHospitalDTO docMyHospitalDto
-									, Model model) throws Exception {
-		System.out.println("docMailPro.do ½ÇÇà");
-		if(docInfoDto.getDoc_mail() != null && docInfoDto.getDoc_pw() != null) {
-			// DB ¿¡ ±âº»Á¤º¸ insert - doc_no / doc_mail / doc_pw
-			docDao.insertDoc(docInfoDto);
-			docDao.insertHospital(docMyHospitalDto);
-			System.out.println("insertDoc ½ÇÇà¿Ï·á");
-			
-			
-			// ÀÓÀÇÀÇ authKey»ı¼º & ¸ŞÀÏ ¹ß¼Û			(DTOÀÇ ÀÇ»ç¸ŞÀÏ)
-			String authKey = mss.sendAuthMail(docInfoDto.getDoc_mail());
-			docInfoDto.setAuthKey(authKey);
-			
-			System.out.println("ÀÎÁõÅ°°¡ »ı¼º‰ç³ª?" + authKey);
-			System.out.println(docInfoDto.getAuthKey());
-			
-			docDao.updateAuthKey(docInfoDto);
-	//		docDao.updateAuthKey(docInfoDto.getDoc_no());
-			System.out.println("updateAuthKey½ÇÇà ¿Ï·á");
-			System.out.println("docPictureDTO ÀÇ doc_mail : " + docPictureDto.getDoc_mail());
-		
-			
-			// ÆäÀÌÁö¿¡¼­ '¸ŞÀÏ ´Ô ¸ŞÀÏÀ» È®ÀÎÇØ ÁÖ¼¼¿ä'
-			model.addAttribute("doc_mail", docInfoDto.getDoc_mail());
-		}
-		
-	}// DB¿¡ ¹øÈ£ ¸ŞÀÏ ºñ¹ø ÀÎÁõÅ° »ğÀÔ. ¸ŞÀÏ º¸³»±â¿Ï·á
+   
+   @Autowired
+   private DocDAOService docDao;
+   
+   @Autowired
+   private DocMailSendService mss;
+   
+   // ê°€ì… í¼
+   @RequestMapping("docMailForm.do")
+   public String docMailForm() {
+      System.out.println("docMailForm.do ì‹¤í–‰");
+      
+      return "doctor/docMailForm";
+   }
+   
+   // ë©”ì¼ì¤‘ë³µê²€ì‚¬
+   @RequestMapping("confirmMail.do")
+   public String confirmMail(DocInfoDTO docInfoDto, Model model) throws Exception {
+      System.out.println("confirmMail ì‹¤í–‰");
+      System.out.println(docInfoDto.getDoc_mail());
+      
+      // ë™ì ì¿¼ë¦¬ë¡œ ë¡œê·¸ì¸ì²´í¬ì™€ ì¤‘ë³µê²€ì‚¬ ê°€ëŠ¥.
+      int check = docDao.userCheck(docInfoDto);
+      System.out.println(check);
+//      String doc_mail = "";
+//      doc_mail = docInfoDto.getDoc_mail();
+      
+      model.addAttribute("check",check);
+      model.addAttribute("doc_mail", docInfoDto.getDoc_mail());
+      
+      return "doctor/confirmMail";
+   }
+   
+   // ê°€ì… í¼ ì‹¤í–‰
+   @RequestMapping("docMailPro.do")
+   public void docMailPro(@ModelAttribute DocInfoDTO docInfoDto
+                           , DocPictureDTO docPictureDto
+                           , DocMyHospitalDTO docMyHospitalDto
+                           , Model model) throws Exception {
+      System.out.println("docMailPro.do ì‹¤í–‰");
+      if(docInfoDto.getDoc_mail() != null && docInfoDto.getDoc_pw() != null) {
+         // DB ì— ê¸°ë³¸ì •ë³´ insert - doc_no / doc_mail / doc_pw
+         docDao.insertDoc(docInfoDto);
+         docDao.insertHospital(docMyHospitalDto);
+         System.out.println("insertDoc ì‹¤í–‰ì™„ë£Œ");
+         
+         
+         // ì„ì˜ì˜ authKeyìƒì„± & ë©”ì¼ ë°œì†¡         (DTOì˜ ì˜ì‚¬ë©”ì¼)
+         String authKey = mss.sendAuthMail(docInfoDto.getDoc_mail());
+         docInfoDto.setAuthKey(authKey);
+         
+         System.out.println("ì¸ì¦í‚¤ê°€ ìƒì„±ë¬ë‚˜?" + authKey);
+         System.out.println(docInfoDto.getAuthKey());
+         
+         docDao.updateAuthKey(docInfoDto);
+   //      docDao.updateAuthKey(docInfoDto.getDoc_no());
+         System.out.println("updateAuthKeyì‹¤í–‰ ì™„ë£Œ");
+         System.out.println("docPictureDTO ì˜ doc_mail : " + docPictureDto.getDoc_mail());
+      
+         
+         // í˜ì´ì§€ì—ì„œ 'ë©”ì¼ ë‹˜ ë©”ì¼ì„ í™•ì¸í•´ ì£¼ì„¸ìš”'
+         model.addAttribute("doc_mail", docInfoDto.getDoc_mail());
+      }
+      
+   }// DBì— ë²ˆí˜¸ ë©”ì¼ ë¹„ë²ˆ ì¸ì¦í‚¤ ì‚½ì…. ë©”ì¼ ë³´ë‚´ê¸°ì™„ë£Œ
 
-	
-	// DB¿Í ¸ŞÀÏ,ÀÎÁõÅ° È®ÀÎ ÈÄ °¡ÀÔ»óÅÂ ´ë±â·Î ÇÏ±â
-	@RequestMapping("emailConfirm.do")
-	public String emailConfirm(DocInfoDTO docInfoDto, Model model) {
-		System.out.println("emailConfirm½ÇÇà");
-		// mail , authKey ÀÏÄ¡ÇÏ´ÂÁö È®ÀÎ
-		try {
-			List check = docDao.authKeyOK(docInfoDto);
-			System.out.println("check ¸®½ºÆ® : " + check);
-			String doc_mail = "";
-			String authKey = "";
-			if (check != null) {	// db¿¡ µ¥ÀÌÅÍ ÀÖÀ½
-				System.out.println("check°ª ÀÖÀ½");
-				System.out.println(docInfoDto.getDoc_mail());
-				System.out.println(docInfoDto.getAuthKey());
-				doc_mail = docInfoDto.getDoc_mail();
-				authKey = docInfoDto.getAuthKey();
-			}else {
-				check = Collections.EMPTY_LIST;
-				System.out.println("check°ª ¾øÀ½.");
-			}
-			model.addAttribute("check", check);
-			model.addAttribute("doc_mail", doc_mail);
-			model.addAttribute("authKey", authKey);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return "doctor/emailConfirm";
-	}
+   
+   // DBì™€ ë©”ì¼,ì¸ì¦í‚¤ í™•ì¸ í›„ ê°€ì…ìƒíƒœ ëŒ€ê¸°ë¡œ í•˜ê¸°
+   @RequestMapping("emailConfirm.do")
+   public String emailConfirm(DocInfoDTO docInfoDto, Model model) {
+      System.out.println("emailConfirmì‹¤í–‰");
+      // mail , authKey ì¼ì¹˜í•˜ëŠ”ì§€ í™•ì¸
+      try {
+         List check = docDao.authKeyOK(docInfoDto);
+         System.out.println("check ë¦¬ìŠ¤íŠ¸ : " + check);
+         String doc_mail = "";
+         String authKey = "";
+         if (check != null) {   // dbì— ë°ì´í„° ìˆìŒ
+            System.out.println("checkê°’ ìˆìŒ");
+            System.out.println(docInfoDto.getDoc_mail());
+            System.out.println(docInfoDto.getAuthKey());
+            doc_mail = docInfoDto.getDoc_mail();
+            authKey = docInfoDto.getAuthKey();
+         }else {
+            check = Collections.EMPTY_LIST;
+            System.out.println("checkê°’ ì—†ìŒ.");
+         }
+         model.addAttribute("check", check);
+         model.addAttribute("doc_mail", doc_mail);
+         model.addAttribute("authKey", authKey);
+      } catch (Exception e) {
+         e.printStackTrace();
+      }
+      
+      return "doctor/emailConfirm";
+   }
 
-	// ¸ŞÀÏÀÎÁõ ÈÄ Ã·ºÎÆÄÀÏ¾÷·Îµå
-	@RequestMapping("emailOk.do")
-	public String eamilOk(MultipartHttpServletRequest request
-						 , DocPictureDTO docPictureDto
-						 , DocInfoDTO docInfoDto) throws Exception {
-		System.out.println("emailOk½ÇÇà.");
-		// ´ÙÁß ÆÄÀÏ ¾÷·Îµå
-		// ÆÄÀÏ nameÂ÷·Ê·Î °Ë»ö ÈÄ ÇØ´çÆÄÀÏ ¸ğµÎ ¾÷·Îµå ¹İº¹ ( license , registration, agreement )
-		Iterator<String>fileTypeNames = request.getFileNames();
-		while(fileTypeNames.hasNext() ) {
-			String fileTypeName = fileTypeNames.next();	// Â÷·Ê·Î ²¨³»±â
-			List<MultipartFile> mf = request.getFiles(fileTypeName); // ¿©·¯ÆÄÀÏÀº ¸®½ºÆ® »ç¿ë.
-			for(int i = 0; i < mf.size(); i++) {
-				if(mf.get(i).isEmpty()) {
-					break;
-				}
-				String fileName = mf.get(i).getOriginalFilename();	// ¿øº»ÆÄÀÏ¸í.
-				docPictureDto.setOrg_pic(fileName);	// ¿øº»ÆÄÀÏ¸í dtoÀúÀå.
-				System.out.println("¿øº»ÆÄÀÏ¸í " + docPictureDto.getOrg_pic());
-				docDao.insertFile(docPictureDto);	// ÆÄÀÏ ÀÎ¼­Æ®ÇÏ±â
-				int pic_no = docDao.maxNo();	// ÆÄÀÏ ÀÎ¼­Æ®ÇÏ±â
-				System.out.println("ÀÎ¼­Æ®´Â ½ÇÇà. // " + pic_no);
-				
-				// ÆÄÀÏ¸í¿¡¼­ È®ÀåÀÚ Ã£±â		¡é()ÀÇ À§Ä¡¿¡¼­ ÀÚ¸£±â.		¡éÆÄÀÏ¸í¿¡¼­ ¸¶Áö¸· (Á¡.) À§Ä¡ Ã£±â
-				String ext = fileName.substring(fileName.lastIndexOf("."));
-				String save_pic = "file_"+ pic_no + ext;	//ÀúÀåµÉ ÀÌ¸§
-				docPictureDto.setPic_no(pic_no); 	// ¹øÈ£ set
-				docPictureDto.setSave_pic(save_pic);	// »çº»ÀÌ¸§ set
-				System.out.println("»çº» ÀÌ¸§ " + docPictureDto.getSave_pic());
-				
-				
-				//ÆÄÀÏ name -> typeÀ¸·Î ÀúÀå
-				docPictureDto.setFile_type(fileTypeName); 	// ÆÄÀÏÅ¸ÀÔ dtoÀúÀå
-				System.out.println("ÆÄÀÏÅ¸ÀÔ " + docPictureDto.getFile_type());
-				
-				docDao.fileUpdate(docPictureDto);	// ÆÄÀÏ ¾÷µ¥ÀÌÆ®
-//				String savePath = "D:\\dev\\";		// ¾÷·ÎµåÆÄÀÏ ÀúÀå°æ·Î
-//				File saveFile = new File(savePath+ save_pic);
-				String savePath = request.getRealPath("save");	// ÆÄÀÏ ÀúÀå°æ·Î
-				System.out.println(savePath);
-				File saveFile = new File(savePath+"//"+ save_pic);
-				try {
-					mf.get(i).transferTo(saveFile); 	//ÆÄÀÏ ÀúÀå
-					System.out.println("ÆÄÀÏÀúÀå ¿Ï·á.");
-				}catch(Exception e){
-					e.printStackTrace();
-				}
-			}
-		}
-		System.out.println(docInfoDto.getAuthKey());
-		System.out.println(docInfoDto.getDoc_mail());
-		// file_type ¿¡ license ¿Í registration ÀÌ ÀÖ´Â ¸ŞÀÏ È®ÀÎ.
-		String licenseType = docDao.selectLicense(docPictureDto);
-		String registrationType = docDao.selectRegistration(docPictureDto);
-		String agreeType = docDao.selectAgree(docPictureDto);
-		System.out.println("license ÆÄÀÏÀÖ´Â ¸ŞÀÏ " + licenseType);
-		System.out.println("registration ÆÄÀÏ ÀÖ´Â ¸ŞÀÏ " + registrationType);
-		System.out.println("agreement ÆÄÀÏ ÀÖ´Â ¸ŞÀÏ " + agreeType);
-		
-		if (licenseType != null && registrationType != null) {
-			docInfoDto.setAuthstate(1);
-			System.out.println("docInfoDto.getAuthstate »óÅÂ : " +docInfoDto.getAuthstate());
-			docDao.updateAuthState(docInfoDto);
-			System.out.println("authState º¯°æ.");
-		}else {
-			// null ÀÌ¸é Å»Ãâ... close();? break;
-			System.out.println("license , registration ¾øÀ½.");
-		}
-		if (agreeType != null) {
-			docInfoDto.setAgree(1);
-			docDao.updateAgree(docInfoDto);
-			System.out.println("docInfoDto.getAgree : " +docInfoDto.getAgree());
-			System.out.println("updateAgree½ÇÇà ");
-		}else {
-			System.out.println("agreement ¾øÀ½.");
-		}
-		return "doctor/emailOk";
-	}	
-	
-	// Á¤º¸°ø°³µ¿ÀÇ¼­ ´Ù¿î.
-	@RequestMapping("down.do")
-	public ModelAndView down(HttpServletRequest request) {
-		System.out.println("down.do ½ÇÇà");
-		// µ¿ÀÇ¼­ ´Ù¿î 
-//		String path = request.getRealPath("save")+"\\"+file;	// °æ·Î	
-// ÆÄÀÏÀº °íÁ¤µÇ¾î ÀÖ±â ¶§¹®¿¡ ±»ÀÌ ÆÄÀÏÀÌ¸§À» ¹ÌÁö·Î Á¤ÇØÁÙ ÇÊ¿ä ¾ø°í  ¸®¾ópath·Î Á¤È®ÇÑ °æ·Î¸¦ ÁöÁ¤ÇÑ ÈÄ ÆÄÀÏ ´Ù¿î ¹ŞÀ¸¸é µÇ´Â °Í.
-		String path = request.getRealPath("resources/etc")+"//"+"agreement.JPG";
-		File f = new File(path);
-		System.out.println(path);
-		ModelAndView mv = new ModelAndView("download", "downloadFile", f);
-										// bean id 	 , parameterName, value
-		return mv;
-	}
-	
-	//¸ŞÀÎ
-	@RequestMapping("main.do")
-	public String main() {
-		System.out.println("main.do ½ÇÇà");
-		
-		return "doctor/main";
-	}
-	
-	// ·Î±×ÀÎ
-	@RequestMapping("loginForm.do")
-	public String loginForm() {
-		System.out.println("loginForm.do ½ÇÇà");
-		return "doctor/loginForm";
-	}
-	// ·Î±×ÀÎ½ÇÇà
-	@RequestMapping("loginPro.do")
-	public String loginPro(HttpSession session, Model model, DocInfoDTO docInfoDto) throws Exception {
-		System.out.println("loginPro.do ½ÇÇà");
-		System.out.println("doc_mail  : " + docInfoDto.getDoc_mail());
-		String doc_mail = docInfoDto.getDoc_mail();
-		DocInfoDTO doctor = docDao.getDoctor(doc_mail);
-		System.out.println("docInfoÀÇ  doc_state »óÅÂ : " + doctor.getDoc_state());
-		// ·Î±×ÀÎ Ã¼Å©
-		int check = docDao.userCheck(docInfoDto);
-		if( check == 1 && doctor.getDoc_state() != -1) {	// doc_mail¿¡ ¼¼¼Ç ÀúÀå
-			session.setAttribute("doctorMail", docInfoDto.getDoc_mail());
-		}
-		System.out.println("check ´Â : " + check);
-		model.addAttribute("check", check);
-		model.addAttribute("doctor", doctor);
-		return "doctor/loginPro";
-	}
-	// ·Î±×¾Æ¿ô
-	@RequestMapping("logout.do")
-	public String logout(HttpSession session) {
-		System.out.println("logout ½ÇÇà");
-		// ¼¼¼Ç »èÁ¦
-		session.invalidate();
+   // ë©”ì¼ì¸ì¦ í›„ ì²¨ë¶€íŒŒì¼ì—…ë¡œë“œ
+   @RequestMapping("emailOk.do")
+   public String eamilOk(MultipartHttpServletRequest request
+                   , DocPictureDTO docPictureDto
+                   , DocInfoDTO docInfoDto) throws Exception {
+      System.out.println("emailOkì‹¤í–‰.");
+      // ë‹¤ì¤‘ íŒŒì¼ ì—…ë¡œë“œ
+      // íŒŒì¼ nameì°¨ë¡€ë¡œ ê²€ìƒ‰ í›„ í•´ë‹¹íŒŒì¼ ëª¨ë‘ ì—…ë¡œë“œ ë°˜ë³µ ( license , registration, agreement )
+      Iterator<String>fileTypeNames = request.getFileNames();
+      while(fileTypeNames.hasNext() ) {
+         String fileTypeName = fileTypeNames.next();   // ì°¨ë¡€ë¡œ êº¼ë‚´ê¸°
+         List<MultipartFile> mf = request.getFiles(fileTypeName); // ì—¬ëŸ¬íŒŒì¼ì€ ë¦¬ìŠ¤íŠ¸ ì‚¬ìš©.
+         for(int i = 0; i < mf.size(); i++) {
+            if(mf.get(i).isEmpty()) {
+               break;
+            }
+            String fileName = mf.get(i).getOriginalFilename();   // ì›ë³¸íŒŒì¼ëª….
+            docPictureDto.setOrg_pic(fileName);   // ì›ë³¸íŒŒì¼ëª… dtoì €ì¥.
+            System.out.println("ì›ë³¸íŒŒì¼ëª… " + docPictureDto.getOrg_pic());
+            docDao.insertFile(docPictureDto);   // íŒŒì¼ ì¸ì„œíŠ¸í•˜ê¸°
+            int pic_no = docDao.maxNo();   // íŒŒì¼ ì¸ì„œíŠ¸í•˜ê¸°
+            System.out.println("ì¸ì„œíŠ¸ëŠ” ì‹¤í–‰. // " + pic_no);
+            
+            // íŒŒì¼ëª…ì—ì„œ í™•ì¥ì ì°¾ê¸°      â†“()ì˜ ìœ„ì¹˜ì—ì„œ ìë¥´ê¸°.      â†“íŒŒì¼ëª…ì—ì„œ ë§ˆì§€ë§‰ (ì .) ìœ„ì¹˜ ì°¾ê¸°
+            String ext = fileName.substring(fileName.lastIndexOf("."));
+            String save_pic = "file_"+ pic_no + ext;   //ì €ì¥ë  ì´ë¦„
+            docPictureDto.setPic_no(pic_no);    // ë²ˆí˜¸ set
+            docPictureDto.setSave_pic(save_pic);   // ì‚¬ë³¸ì´ë¦„ set
+            System.out.println("ì‚¬ë³¸ ì´ë¦„ " + docPictureDto.getSave_pic());
+            
+            
+            //íŒŒì¼ name -> typeìœ¼ë¡œ ì €ì¥
+            docPictureDto.setFile_type(fileTypeName);    // íŒŒì¼íƒ€ì… dtoì €ì¥
+            System.out.println("íŒŒì¼íƒ€ì… " + docPictureDto.getFile_type());
+            
+            docDao.fileUpdate(docPictureDto);   // íŒŒì¼ ì—…ë°ì´íŠ¸
+//            String savePath = "D:\\dev\\";      // ì—…ë¡œë“œíŒŒì¼ ì €ì¥ê²½ë¡œ
+//            File saveFile = new File(savePath+ save_pic);
+            String savePath = request.getRealPath("save");   // íŒŒì¼ ì €ì¥ê²½ë¡œ
+            System.out.println(savePath);
+            File saveFile = new File(savePath+"//"+ save_pic);
+            try {
+               mf.get(i).transferTo(saveFile);    //íŒŒì¼ ì €ì¥
+               System.out.println("íŒŒì¼ì €ì¥ ì™„ë£Œ.");
+            }catch(Exception e){
+               e.printStackTrace();
+            }
+         }
+      }
+      System.out.println(docInfoDto.getAuthKey());
+      System.out.println(docInfoDto.getDoc_mail());
+      // file_type ì— license ì™€ registration ì´ ìˆëŠ” ë©”ì¼ í™•ì¸.
+      String licenseType = docDao.selectLicense(docPictureDto);
+      String registrationType = docDao.selectRegistration(docPictureDto);
+      String agreeType = docDao.selectAgree(docPictureDto);
+      System.out.println("license íŒŒì¼ìˆëŠ” ë©”ì¼ " + licenseType);
+      System.out.println("registration íŒŒì¼ ìˆëŠ” ë©”ì¼ " + registrationType);
+      System.out.println("agreement íŒŒì¼ ìˆëŠ” ë©”ì¼ " + agreeType);
+      
+      if (licenseType != null && registrationType != null) {
+         docInfoDto.setAuthstate(1);
+         System.out.println("docInfoDto.getAuthstate ìƒíƒœ : " +docInfoDto.getAuthstate());
+         docDao.updateAuthState(docInfoDto);
+         System.out.println("authState ë³€ê²½.");
+      }else {
+         // null ì´ë©´ íƒˆì¶œ... close();? break;
+         System.out.println("license , registration ì—†ìŒ.");
+      }
+      if (agreeType != null) {
+         docInfoDto.setAgree(1);
+         docDao.updateAgree(docInfoDto);
+         System.out.println("docInfoDto.getAgree : " +docInfoDto.getAgree());
+         System.out.println("updateAgreeì‹¤í–‰ ");
+      }else {
+         System.out.println("agreement ì—†ìŒ.");
+      }
+      return "doctor/emailOk";
+   }   
+   
+   // ì •ë³´ê³µê°œë™ì˜ì„œ ë‹¤ìš´.
+   @RequestMapping("down.do")
+   public ModelAndView down(HttpServletRequest request) {
+      System.out.println("down.do ì‹¤í–‰");
+      // ë™ì˜ì„œ ë‹¤ìš´ 
+//      String path = request.getRealPath("save")+"\\"+file;   // ê²½ë¡œ   
+// íŒŒì¼ì€ ê³ ì •ë˜ì–´ ìˆê¸° ë•Œë¬¸ì— êµ³ì´ íŒŒì¼ì´ë¦„ì„ ë¯¸ì§€ë¡œ ì •í•´ì¤„ í•„ìš” ì—†ê³   ë¦¬ì–¼pathë¡œ ì •í™•í•œ ê²½ë¡œë¥¼ ì§€ì •í•œ í›„ íŒŒì¼ ë‹¤ìš´ ë°›ìœ¼ë©´ ë˜ëŠ” ê²ƒ.
+      String path = request.getRealPath("resources/etc")+"//"+"agreement.JPG";
+      File f = new File(path);
+      System.out.println(path);
+      ModelAndView mv = new ModelAndView("download", "downloadFile", f);
+                              // bean id     , parameterName, value
+      return mv;
+   }
+   
+   //ë©”ì¸
+   @RequestMapping("main.do")
+   public String main(Model model, HttpSession session) throws Exception {
+      System.out.println("main.do ì‹¤í–‰");
+      // ì˜ì‚¬ ì •ë³´ êº¼ë‚´ê¸°.
+      String doc_mail = (String)session.getAttribute("doctorMail");
+      DocInfoDTO doctor = docDao.getDoctor(doc_mail);
+      model.addAttribute("doctor", doctor);
+      
+      return "doctor/main";
+   }
+   
+   // ë¡œê·¸ì¸
+   @RequestMapping("loginForm.do")
+   public String loginForm() {
+      System.out.println("loginForm.do ì‹¤í–‰");
+      return "doctor/loginForm";
+   }
+   // ë¡œê·¸ì¸ì‹¤í–‰
+   @RequestMapping("loginPro.do")
+   public String loginPro(HttpSession session, Model model, DocInfoDTO docInfoDto) throws Exception {
+      System.out.println("loginPro.do ì‹¤í–‰");
+      System.out.println("doc_mail  : " + docInfoDto.getDoc_mail());
+      
+      // ë¡œê·¸ì¸ ì²´í¬
+      int check = docDao.userCheck(docInfoDto);
+      if (check != 0) {
+         String doc_mail = docInfoDto.getDoc_mail();
+         DocInfoDTO doctor = docDao.getDoctor(doc_mail);
+         System.out.println("docInfoì˜  doc_state ìƒíƒœ : " + doctor.getDoc_state());
+         
+         if( check == 1 && doctor.getDoc_state() != -1) {   // doc_mailì— ì„¸ì…˜ ì €ì¥
+            session.setAttribute("doctorMail", docInfoDto.getDoc_mail());
+         }
+         System.out.println("check ëŠ” : " + check);
+         model.addAttribute("check", check);
+         model.addAttribute("doctor", doctor);
+      }
+      model.addAttribute("check", check);
+      return "doctor/loginPro";
+   }
+   // ë¡œê·¸ì•„ì›ƒ
+   @RequestMapping("logout.do")
+   public String logout(HttpSession session) {
+      System.out.println("logout ì‹¤í–‰");
+      // ì„¸ì…˜ ì‚­ì œ
+      session.invalidate();
 
-		return "doctor/logout";
-	}
+      return "doctor/logout";
+   }
 
-	// ³»Á¤º¸ º¸±â
-	@RequestMapping("modify.do")
-	public String modify(Model model, HttpSession session) throws Exception {
-		System.out.println("modify.do ½ÇÇà");
-		
-		// ÀÇ»ç Á¤º¸ ²¨³»±â.
-		String doc_mail = (String)session.getAttribute("doctorMail");
-		String docAgree = "";
-		DocInfoDTO doctor = docDao.getDoctor(doc_mail);
-		System.out.println("doc_info ÀÇ hospital_no : " + doctor.getHospital_no());
-		// doc_infoÀÇ hospital_no°¡ ÀÖÀ¸´Ï hospitalDBÀÇ no ¸¦ ²¨³¾ ¼ö ÀÖ´Â°Í.
-		int no = doctor.getHospital_no();
-		if(doctor.getAgree() == 1) {
-			docAgree = "µ¿ÀÇ";
-		}else {
-			docAgree = "¹Ìµ¿ÀÇ";
-		}
-		// º´¿ø Ãß°¡Á¤º¸ ²¨³»±â
-		DocMyHospitalDTO hospital = docDao.getHospital(doc_mail);
-		
-		// º´¿øÁ¤º¸ ²¨³»±â
-		HospitalDTO hospitalDB = docDao.getHospitalDB(no);
-		
-		model.addAttribute("hospital", hospital);
-		model.addAttribute("doctor", doctor);
-		model.addAttribute("docAgree", docAgree);
-		model.addAttribute("hospitalDB", hospitalDB);
-		
+   // ë‚´ì •ë³´ ë³´ê¸°
+   @RequestMapping("modify.do")
+   public String modify(Model model, HttpSession session) throws Exception {
+      System.out.println("modify.do ì‹¤í–‰");
+      
+      // ì˜ì‚¬ ì •ë³´ êº¼ë‚´ê¸°.
+      String doc_mail = (String)session.getAttribute("doctorMail");
+      
+      if(doc_mail != null) {
+         String docAgree = "";
+         DocInfoDTO doctor = docDao.getDoctor(doc_mail);
+         System.out.println("doc_info ì˜ hospital_no : " + doctor.getHospital_no());
+         // doc_infoì˜ hospital_noê°€ ìˆìœ¼ë‹ˆ hospitalDBì˜ no ë¥¼ êº¼ë‚¼ ìˆ˜ ìˆëŠ”ê²ƒ.
+         int no = doctor.getHospital_no();
+         if(doctor.getAgree() == 1) {
+            docAgree = "ë™ì˜";
+         }else {
+            docAgree = "ë¯¸ë™ì˜";
+         }
+         // ë³‘ì› ì¶”ê°€ì •ë³´ êº¼ë‚´ê¸°
+         DocMyHospitalDTO hospital = docDao.getHospital(doc_mail);
+         
+         // ë³‘ì›ì •ë³´ êº¼ë‚´ê¸°
+         HospitalDTO hospitalDB = docDao.getHospitalDB(no);
+         
+         model.addAttribute("hospital", hospital);
+         model.addAttribute("doctor", doctor);
+         model.addAttribute("docAgree", docAgree);
+         model.addAttribute("hospitalDB", hospitalDB);
+      }
 
-		return "doctor/modify";
-	}
-	
-	// ³»Á¤º¸ (ÀÌ¸§, ºñ¹ø, ÇÁ·ÎÇÊ»çÁø) ¼öÁ¤.
-	@RequestMapping("modifyUpdate.do")
-	public String modifyUpdate(HttpSession session, Model model) {
-		System.out.println("modifyUpdate.do ½ÇÇà");
-		String doc_mail = (String)session.getAttribute("doctorMail");
-		String docAgree = "";
-		try {	// ÀÇ»ç Á¤º¸ ²¨³»±â.
-			DocInfoDTO doctor = docDao.getDoctor(doc_mail);
-			System.out.println("getDoctorÀÇ agree»óÅÂ : " + doctor.getAgree());
-			
-			if(doctor.getAgree() == 1) {
-				docAgree = "µ¿ÀÇ";
-			}else {
-				docAgree = "¹Ìµ¿ÀÇ";
-			}
-			model.addAttribute("doctor", doctor);
-			model.addAttribute("docAgree", docAgree);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return "doctor/modifyUpdate";
-	}
-	@RequestMapping("modifyUpdatePro.do")
-	public String modifyUpdatePro(DocInfoDTO docInfoDto
-							, MultipartHttpServletRequest request
-							, Model model
-							, DocPictureDTO docPictureDto) throws Exception {
-		System.out.println("modifyProBean ½ÇÇà");
-		System.out.println("doc_mail : " + docInfoDto.getDoc_mail());
-		
-		//ÆÄ¶ó¹ÌÅÍ¹Ş±â, ¼öÁ¤ÇÏ±â.
-		MultipartFile mf = request.getFile("org"); // ÆÄÀÏ °´Ã¼
-		MultipartFile mfP = request.getFile("agreement");	// µ¿ÀÇ¼­ÆÄÀÏ°´Ã¼
-		String savePath = request.getRealPath("save");	// ÆÄÀÏ ÀúÀå°æ·Î
-	    String doc_org = mf.getOriginalFilename(); 	// ¿øº» ÆÄÀÏ¸í
-	    if(doc_org !=  "" && doc_org != null) {
-	    	String ext = doc_org.substring(doc_org.lastIndexOf("."));  //È®ÀåÀÚ ÃßÃâ 
-	         
-	    	String fn = docInfoDto.getDoc_save();  // file_11.jpg »çº»ÀÌ¸§ ²¨³»±â
-	    	System.out.println("»çº»ÆÄÀÏ ²¨³»±â : " + docInfoDto.getDoc_save());
-	    	if(fn == null || fn.equals("")) {
-	    		fn = "file_"+docInfoDto.getDoc_no()+ext;	// ÀúÀåµÉ ÆÄÀÏ¸í
-	    	}else {
-	    		fn = fn.substring(0, fn.lastIndexOf("."))+"."+ext;
-	     	}
-	        System.out.println("ÀúÀåµÉ ÆÄÀÏ¸í fn : " + fn);
-	     	File f = new File(savePath+"//"+fn);
-	        mf.transferTo(f);  // ¾÷·Îµå ÁøÇà 
-	        docInfoDto.setDoc_save(fn); // ¾÷·ÎµåÆÄÀÏÀÌ¸§À» DTO ÀúÀå 
-	    }
-	    if(mfP !=null ) {
-	    	String org_pic = mfP.getOriginalFilename();	// µ¿ÀÇ¼­¿øº»ÆÄÀÏ¸í
-	    	if(org_pic !="" && org_pic != null) {	// µ¿ÀÇ¼­¸¦ Ã·ºÎÇÑ °æ¿ì
-				docPictureDto.setOrg_pic(org_pic);	// ¿øº»ÆÄÀÏ¸í dtoÀúÀå.
-				System.out.println("¿øº»ÆÄÀÏ¸í " + docPictureDto.getOrg_pic());
-				docDao.insertFile(docPictureDto);	// ÆÄÀÏ ÀÎ¼­Æ®ÇÏ±â
-				int pic_no = docDao.maxNo();	// ÆÄÀÏ ÀÎ¼­Æ®ÇÏ±â
-				System.out.println("ÀÎ¼­Æ®´Â ½ÇÇà. // " + pic_no);
-				
-				// ÆÄÀÏ¸í¿¡¼­ È®ÀåÀÚ Ã£±â		¡é()ÀÇ À§Ä¡¿¡¼­ ÀÚ¸£±â.		¡éÆÄÀÏ¸í¿¡¼­ ¸¶Áö¸· (Á¡.) À§Ä¡ Ã£±â
-				String ext = org_pic.substring(org_pic.lastIndexOf("."));
-				String save_pic = "file_"+ pic_no + ext;	//ÀúÀåµÉ ÀÌ¸§
-				docPictureDto.setPic_no(pic_no); 	// ¹øÈ£ set
-				docPictureDto.setSave_pic(save_pic);	// »çº»ÀÌ¸§ set
-				System.out.println("»çº» ÀÌ¸§ " + docPictureDto.getSave_pic());
-				
-				//ÆÄÀÏ name -> typeÀ¸·Î ÀúÀå
-				String fileTypeName = "agreement";
-				docPictureDto.setFile_type(fileTypeName); 	// ÆÄÀÏÅ¸ÀÔ dtoÀúÀå
-				System.out.println("ÆÄÀÏÅ¸ÀÔ " + docPictureDto.getFile_type());
-				
-				docDao.fileUpdate(docPictureDto);	// ÆÄÀÏ ¾÷µ¥ÀÌÆ®
-				File saveFile = new File(savePath+"//"+ save_pic);
-				mfP.transferTo(saveFile);
-				docPictureDto.setSave_pic(save_pic);
-				
-				// doc_infoÀÇ  agree 1·Î º¯°æÇÏ±â.
-				String agreeType = docDao.selectAgree(docPictureDto);
-				System.out.println("agreement ÆÄÀÏ ÀÖ´Â ¸ŞÀÏ " + agreeType);
-				if (agreeType != null) {
-					docInfoDto.setAgree(1);
-					docDao.updateAgree(docInfoDto);
-					System.out.println("docInfoDto.getAgree : " +docInfoDto.getAgree());
-					System.out.println("updateAgree½ÇÇà ");
-				}else {
-					System.out.println("agreement ¾øÀ½.");
-				}
-		    }
-	    }
-	    
-	    
-	    docInfoDto.setDoc_org(doc_org);
-	    System.out.println("doc_save" + docInfoDto.getDoc_save());
-	    System.out.println("doc_org " + docInfoDto.getDoc_org());
-	    
-	    System.out.println("doc_nameÆÄ¶ó¹ÌÅÍ ¹ŞÀ½?" +docInfoDto.getDoc_name());
-	    docDao.updateModify(docInfoDto);	
-	    System.out.println("updateModify ¿Ï·á");
-	    model.addAttribute("doc_no",docInfoDto.getDoc_no());
-	    
-	    System.out.println("org_pic µ¿ÀÇ¼­ ¿øº» : " + docPictureDto.getOrg_pic());
-	    System.out.println("save_pic µ¿ÀÇ¼­ ¿øº» : " + docPictureDto.getSave_pic());
-	    
-		return "doctor/modifyUpdatePro";
-	}
-	
-	//ºñ¹Ğ¹øÈ£ º¯°æ
-	@RequestMapping("pwUpdate.do")
-	public String pwUpdate(Model model, HttpSession session) throws Exception {
-		System.out.println("pwUpdate.do ½ÇÇà");
-		
-		// ÀÇ»ç Á¤º¸ ²¨³»±â.
-		String doc_mail = (String)session.getAttribute("doctorMail");
-		DocInfoDTO doctor = docDao.getDoctor(doc_mail);
-		model.addAttribute("doctor", doctor);
-		
-		return "doctor/pwUpdate";
-	}
-	@RequestMapping("pwPro.do")
-	public String pwPro(Model model, DocInfoDTO docInfoDto
-						, HttpSession session, String new_pw) throws Exception {
-		System.out.println("pwPro.do ½ÇÇà");
-		System.out.println("ÀÔ·ÂÇÑ ±âÁ¸ ºñ¹ø " + docInfoDto.getDoc_pw());
-		System.out.println("»õ·Î¿î ºñ¹ø " + new_pw);
-		
-		// ÀÇ»ç Á¤º¸ ²¨³»±â.
-		String doc_mail = (String)session.getAttribute("doctorMail");
-		DocInfoDTO doctor = docDao.getDoctor(doc_mail);	// DB ºñ¹ø ²¨³»±â
-		System.out.println("DB ºñ¹ø  : " +doctor.getDoc_pw());
-		if(docInfoDto.getDoc_pw().equals(doctor.getDoc_pw())) { // DBºñ¹ø°ú  ÀÔ·ÂÇÑ ºñ¹øÀÌ °°´Ù¸é
-			docInfoDto.setDoc_pw(new_pw);
-			System.out.println("»õ ºñ¹ø DTO¿¡ ÀúÀå: "+ docInfoDto.getDoc_pw());
-			docDao.changePw(docInfoDto);	// ºñ¹ø ¹Ù²Ù±â.
-		}
-		return "doctor/pwPro";
-	}
-	
-	// º´¿øÁ¤º¸ ¼öÁ¤
-	@RequestMapping("hospitalUpdate.do")
-	public String hospitalUpdate(HttpSession session, Model model, DocInfoDTO docInfoDto
-								, HospitalDTO hospitalDto, DocMyHospitalDTO docMyHospitalDto) throws Exception {
-		System.out.println("hospitalUpdate½ÇÇà");
-		String doc_mail = (String)session.getAttribute("doctorMail");
-		// ¿©±â¼­µµ ÀÇ»çÁ¤º¸¸¦ ²¨³»³õ°í º´¿øÁ¤º¸¸¦ ²¨³»¸é µÊ..
-		System.out.println("doc_mail Àº : " + doc_mail);
-		DocInfoDTO doctor = docDao.getDoctor(doc_mail);
-		System.out.println("doc_info ÀÇ hospital_no : " + doctor.getHospital_no());
-		int no = doctor.getHospital_no();
-
-		// º´¿ø Ãß°¡Á¤º¸ ²¨³»±â
-		DocMyHospitalDTO hospital = docDao.getHospital(doc_mail);
-				
-		// º´¿øÁ¤º¸ ²¨³»±â
-		HospitalDTO hospitalDB = docDao.getHospitalDB(no);
-		System.out.println("homepage" + hospital.getHomepage());
-		System.out.println("hospital_contents" + hospital.getHospital_contents());
-		System.out.println("hospital_call" + hospital.getHospital_call());
-		
-		model.addAttribute("hospital", hospital);
-		model.addAttribute("hospitalDB", hospitalDB);
-		return "doctor/hospitalUpdate";
-	}
-	
-	@RequestMapping("hospitalUpdatePro.do")
-	public String hospitalUpdatePro(DocMyHospitalDTO docMyHospitalDto
-									, MultipartHttpServletRequest request) throws Exception {
-		System.out.println("hospitalUpdatePro½ÇÇà");
-		System.out.println("doc_mail : " + docMyHospitalDto.getDoc_mail());
-		System.out.println("add_no" + docMyHospitalDto.getAdd_no());
-		// ÆÄ¶ó¹ÌÅÍ¹Ş°í, ¼öÁ¤
-		MultipartFile mf = request.getFile("hospital_org"); // ÆÄÀÏ °´Ã¼
-		String savePath= request.getRealPath("save");	// ÆÄÀÏ ÀúÀå °æ·Î
-		String hospital_pic_org = mf.getOriginalFilename();		// ¿øº» ÆÄÀÏ¸í
-		if(hospital_pic_org != null && hospital_pic_org != "") {
-			String ext = hospital_pic_org.substring(hospital_pic_org.lastIndexOf("."));	// È®ÀåÀÚÃßÃâ
-			String fn = docMyHospitalDto.getHospital_pic_save();	// »çº» ÀÌ¸§ ²¨³»±â.
-			System.out.println(" »çº»ÆÄÀÏ ²¨³»±â : " +docMyHospitalDto.getHospital_pic_save());
-			if (fn == null || fn.equals("")) {
-				fn = "hospital_" + docMyHospitalDto.getAdd_no()+ext;	//ÀúÀåµÉ ÆÄÀÏ¸í
-			}else {
-				fn = fn.substring(0,fn.lastIndexOf("."))+"." + ext;
-			}
-			System.out.println("ÀúÀåµÉ ÆÄÀÏ¸í  : " + fn);
-			File f = new File(savePath+"//"+fn);
-			mf.transferTo(f);	// ¾÷·Îµå ÁøÇà
-			docMyHospitalDto.setHospital_pic_save(fn);	// ¾÷·ÎµåÆÄÀÏÀÌ¸§ DTOÀúÀå.
-			docMyHospitalDto.setHospital_pic_org(hospital_pic_org);
-		}
-		docDao.hospitalUpdate(docMyHospitalDto);
-		
-		return "doctor/hospitalUpdatePro";
-	}
-	
-	@RequestMapping("deleteForm.do")
-	public String deleteFrom() {
-		return "doctor/deleteForm";
-	}
-	
-	@RequestMapping("deletePro.do")
-	public String deletePro(HttpSession session, DocInfoDTO docInfoDto, Model model) throws Exception {
-		//id¸¦ ¼¼¼Ç²¨³»¼­ È®ÀÎ ÈÄ passwdÈ®ÀÎ ÈÄ Å»Åğ, ·Î±×¾Æ¿ô.
-		String doc_mail = (String)session.getAttribute("doctorMail");
-		docInfoDto.setDoc_mail(doc_mail);
-		System.out.println("deleteÆäÀÌÁöÀÇ doc_mail Àº : " + docInfoDto.getDoc_mail());
-		System.out.println("doc_pw ´Â : " + docInfoDto.getDoc_pw());
-		
-		int userCheck = docDao.userCheck(docInfoDto);
-		if ( userCheck == 1) {	// ºñ¹øÀÌ ¸Â´Ù¸é.	doc_state¸¦ -1·Î º¯°æ.
-			int check = docDao.deleteDoctor(docInfoDto);
-			System.out.println(" check ------- : " + check);
-			if(check == 1) {	// userChceck ÈÄ 
-				// ¼¼¼Ç »èÁ¦
-				session.invalidate();
-			}
-			model.addAttribute("check", check);
-		}else {
-			System.out.println("userCheck °¡  Æ²¸².");
-		}
-		
-		
-		return "doctor/deletePro";
-	}
-	
+      return "doctor/modify";
+   }
+   
+   // ë‚´ì •ë³´ (ì´ë¦„, ë¹„ë²ˆ, í”„ë¡œí•„ì‚¬ì§„) ìˆ˜ì •.
+   @RequestMapping("modifyUpdate.do")
+   public String modifyUpdate(HttpSession session, Model model) {
+      System.out.println("modifyUpdate.do ì‹¤í–‰");
+      String doc_mail = (String)session.getAttribute("doctorMail");
+      
+      if(doc_mail != null) {
+         String docAgree = "";
+         try {   // ì˜ì‚¬ ì •ë³´ êº¼ë‚´ê¸°.
+            DocInfoDTO doctor = docDao.getDoctor(doc_mail);
+            System.out.println("getDoctorì˜ agreeìƒíƒœ : " + doctor.getAgree());
+            
+            if(doctor.getAgree() == 1) {
+               docAgree = "ë™ì˜";
+            }else {
+               docAgree = "ë¯¸ë™ì˜";
+            }
+            model.addAttribute("doctor", doctor);
+            model.addAttribute("docAgree", docAgree);
+         } catch (Exception e) {
+            e.printStackTrace();
+         }
+      }
+      return "doctor/modifyUpdate";
+   }
+   
+   @RequestMapping("modifyUpdatePro.do")
+   public String modifyUpdatePro(DocInfoDTO docInfoDto
+                     , MultipartHttpServletRequest request
+                     , Model model
+                     , DocPictureDTO docPictureDto) throws Exception {
+      System.out.println("modifyProBean ì‹¤í–‰");
+      System.out.println("doc_mail : " + docInfoDto.getDoc_mail());
+      
+      //íŒŒë¼ë¯¸í„°ë°›ê¸°, ìˆ˜ì •í•˜ê¸°.
+      MultipartFile mf = request.getFile("org"); // íŒŒì¼ ê°ì²´
+      MultipartFile mfP = request.getFile("agreement");   // ë™ì˜ì„œíŒŒì¼ê°ì²´
+      String savePath = request.getRealPath("save");   // íŒŒì¼ ì €ì¥ê²½ë¡œ
+       String doc_org = mf.getOriginalFilename();    // ì›ë³¸ íŒŒì¼ëª…
+       if(doc_org !=  "" && doc_org != null) {
+          String ext = doc_org.substring(doc_org.lastIndexOf("."));  //í™•ì¥ì ì¶”ì¶œ 
+            
+          String fn = docInfoDto.getDoc_save();  // file_11.jpg ì‚¬ë³¸ì´ë¦„ êº¼ë‚´ê¸°
+          System.out.println("ì‚¬ë³¸íŒŒì¼ êº¼ë‚´ê¸° : " + docInfoDto.getDoc_save());
+          if(fn == null || fn.equals("")) {
+             fn = "file_"+docInfoDto.getDoc_no()+ext;   // ì €ì¥ë  íŒŒì¼ëª…
+          }else {
+             fn = fn.substring(0, fn.lastIndexOf("."))+"."+ext;
+           }
+           System.out.println("ì €ì¥ë  íŒŒì¼ëª… fn : " + fn);
+           File f = new File(savePath+"//"+fn);
+           mf.transferTo(f);  // ì—…ë¡œë“œ ì§„í–‰ 
+           docInfoDto.setDoc_save(fn); // ì—…ë¡œë“œíŒŒì¼ì´ë¦„ì„ DTO ì €ì¥ 
+       }
+       if(mfP !=null ) {
+          String org_pic = mfP.getOriginalFilename();   // ë™ì˜ì„œì›ë³¸íŒŒì¼ëª…
+          if(org_pic !="" && org_pic != null) {   // ë™ì˜ì„œë¥¼ ì²¨ë¶€í•œ ê²½ìš°
+            docPictureDto.setOrg_pic(org_pic);   // ì›ë³¸íŒŒì¼ëª… dtoì €ì¥.
+            System.out.println("ì›ë³¸íŒŒì¼ëª… " + docPictureDto.getOrg_pic());
+            docDao.insertFile(docPictureDto);   // íŒŒì¼ ì¸ì„œíŠ¸í•˜ê¸°
+            int pic_no = docDao.maxNo();   // íŒŒì¼ ì¸ì„œíŠ¸í•˜ê¸°
+            System.out.println("ì¸ì„œíŠ¸ëŠ” ì‹¤í–‰. // " + pic_no);
+            
+            // íŒŒì¼ëª…ì—ì„œ í™•ì¥ì ì°¾ê¸°      â†“()ì˜ ìœ„ì¹˜ì—ì„œ ìë¥´ê¸°.      â†“íŒŒì¼ëª…ì—ì„œ ë§ˆì§€ë§‰ (ì .) ìœ„ì¹˜ ì°¾ê¸°
+            String ext = org_pic.substring(org_pic.lastIndexOf("."));
+            String save_pic = "file_"+ pic_no + ext;   //ì €ì¥ë  ì´ë¦„
+            docPictureDto.setPic_no(pic_no);    // ë²ˆí˜¸ set
+            docPictureDto.setSave_pic(save_pic);   // ì‚¬ë³¸ì´ë¦„ set
+            System.out.println("ì‚¬ë³¸ ì´ë¦„ " + docPictureDto.getSave_pic());
+            
+            //íŒŒì¼ name -> typeìœ¼ë¡œ ì €ì¥
+            String fileTypeName = "agreement";
+            docPictureDto.setFile_type(fileTypeName);    // íŒŒì¼íƒ€ì… dtoì €ì¥
+            System.out.println("íŒŒì¼íƒ€ì… " + docPictureDto.getFile_type());
+            
+            docDao.fileUpdate(docPictureDto);   // íŒŒì¼ ì—…ë°ì´íŠ¸
+            File saveFile = new File(savePath+"//"+ save_pic);
+            mfP.transferTo(saveFile);
+            docPictureDto.setSave_pic(save_pic);
+            
+            // doc_infoì˜  agree 1ë¡œ ë³€ê²½í•˜ê¸°.
+            String agreeType = docDao.selectAgree(docPictureDto);
+            System.out.println("agreement íŒŒì¼ ìˆëŠ” ë©”ì¼ " + agreeType);
+            if (agreeType != null) {
+               docInfoDto.setAgree(1);
+               docDao.updateAgree(docInfoDto);
+               System.out.println("docInfoDto.getAgree : " +docInfoDto.getAgree());
+               System.out.println("updateAgreeì‹¤í–‰ ");
+            }else {
+               System.out.println("agreement ì—†ìŒ.");
+            }
+          }
+       }
+       
+       
+       docInfoDto.setDoc_org(doc_org);
+       System.out.println("doc_save" + docInfoDto.getDoc_save());
+       System.out.println("doc_org " + docInfoDto.getDoc_org());
+       
+       System.out.println("doc_nameíŒŒë¼ë¯¸í„° ë°›ìŒ?" +docInfoDto.getDoc_name());
+       docDao.updateModify(docInfoDto);   
+       System.out.println("updateModify ì™„ë£Œ");
+       model.addAttribute("doc_no",docInfoDto.getDoc_no());
+       
+       System.out.println("org_pic ë™ì˜ì„œ ì›ë³¸ : " + docPictureDto.getOrg_pic());
+       System.out.println("save_pic ë™ì˜ì„œ ì›ë³¸ : " + docPictureDto.getSave_pic());
+       
+      return "doctor/modifyUpdatePro";
+   }
+   
+   //ë¹„ë°€ë²ˆí˜¸ ë³€ê²½
+   @RequestMapping("pwUpdate.do")
+   public String pwUpdate(Model model, HttpSession session) throws Exception {
+      System.out.println("pwUpdate.do ì‹¤í–‰");
+      
+      // ì˜ì‚¬ ì •ë³´ êº¼ë‚´ê¸°.
+      String doc_mail = (String)session.getAttribute("doctorMail");
+      if(doc_mail != null) {
+         DocInfoDTO doctor = docDao.getDoctor(doc_mail);
+         model.addAttribute("doctor", doctor);
+      }
+      return "doctor/pwUpdate";
+   }
+   
+   @RequestMapping("pwPro.do")
+   public String pwPro(Model model, DocInfoDTO docInfoDto
+                  , HttpSession session, String new_pw) throws Exception {
+      System.out.println("pwPro.do ì‹¤í–‰");
+      System.out.println("ì…ë ¥í•œ ê¸°ì¡´ ë¹„ë²ˆ " + docInfoDto.getDoc_pw());
+      System.out.println("ìƒˆë¡œìš´ ë¹„ë²ˆ " + new_pw);
+      
+      // ì˜ì‚¬ ì •ë³´ êº¼ë‚´ê¸°.
+      String doc_mail = (String)session.getAttribute("doctorMail");
+      DocInfoDTO doctor = docDao.getDoctor(doc_mail);   // DB ë¹„ë²ˆ êº¼ë‚´ê¸°
+      System.out.println("DB ë¹„ë²ˆ  : " +doctor.getDoc_pw());
+      if(docInfoDto.getDoc_pw().equals(doctor.getDoc_pw())) { // DBë¹„ë²ˆê³¼  ì…ë ¥í•œ ë¹„ë²ˆì´ ê°™ë‹¤ë©´
+         docInfoDto.setDoc_pw(new_pw);
+         System.out.println("ìƒˆ ë¹„ë²ˆ DTOì— ì €ì¥: "+ docInfoDto.getDoc_pw());
+         docDao.changePw(docInfoDto);   // ë¹„ë²ˆ ë°”ê¾¸ê¸°.
+      }
+      return "doctor/pwPro";
+   }
+   
+   // ë‚´ ë³‘ì›ì •ë³´ ë³´ê¸°
+   @RequestMapping("hospitalInfo.do")
+   public String hospitalInfo(Model model, HttpSession session) throws Exception {
+      System.out.println("hospitalInfo.do ì‹¤í–‰");
+         
+      // ì˜ì‚¬ ì •ë³´ êº¼ë‚´ê¸°.
+      String doc_mail = (String)session.getAttribute("doctorMail");
+      DocInfoDTO doctor = docDao.getDoctor(doc_mail);
+      if(doc_mail != null) {
+         System.out.println("doc_info ì˜ hospital_no : " + doctor.getHospital_no());
+         // doc_infoì˜ hospital_noê°€ ìˆìœ¼ë‹ˆ hospitalDBì˜ no ë¥¼ êº¼ë‚¼ ìˆ˜ ìˆëŠ”ê²ƒ.
+         int no = doctor.getHospital_no();
+   
+         // ë³‘ì› ì¶”ê°€ì •ë³´ êº¼ë‚´ê¸°
+         DocMyHospitalDTO hospital = docDao.getHospital(doc_mail);
+         
+         // ë³‘ì›ì •ë³´ êº¼ë‚´ê¸°
+         HospitalDTO hospitalDB = docDao.getHospitalDB(no);
+         
+         model.addAttribute("hospital", hospital);
+         model.addAttribute("doctor", doctor);
+         model.addAttribute("hospitalDB", hospitalDB);
+         model.addAttribute("doc_mail", doc_mail);
+      }
+      return "doctor/hospitalInfo";
+   }
+   
+   // ë³‘ì›ì •ë³´ ìˆ˜ì •
+   @RequestMapping("hospitalUpdate.do")
+   public String hospitalUpdate(HttpSession session, Model model, DocInfoDTO docInfoDto
+                        , HospitalDTO hospitalDto, DocMyHospitalDTO docMyHospitalDto) throws Exception {
+      System.out.println("hospitalUpdateì‹¤í–‰");
+      String doc_mail = (String)session.getAttribute("doctorMail");
+      
+      if(doc_mail != null) {
+         // ì—¬ê¸°ì„œë„ ì˜ì‚¬ì •ë³´ë¥¼ êº¼ë‚´ë†“ê³  ë³‘ì›ì •ë³´ë¥¼ êº¼ë‚´ë©´ ë¨..
+         System.out.println("doc_mail ì€ : " + doc_mail);
+         DocInfoDTO doctor = docDao.getDoctor(doc_mail);
+         System.out.println("doc_info ì˜ hospital_no : " + doctor.getHospital_no());
+         int no = doctor.getHospital_no();
+   
+         // ë³‘ì› ì¶”ê°€ì •ë³´ êº¼ë‚´ê¸°
+         DocMyHospitalDTO hospital = docDao.getHospital(doc_mail);
+               
+         // ë³‘ì›ì •ë³´ êº¼ë‚´ê¸°
+         HospitalDTO hospitalDB = docDao.getHospitalDB(no);
+         System.out.println("homepage" + hospital.getHomepage());
+         System.out.println("hospital_contents" + hospital.getHospital_contents());
+         System.out.println("hospital_call" + hospital.getHospital_call());
+         
+         model.addAttribute("hospital", hospital);
+         model.addAttribute("hospitalDB", hospitalDB);
+      }
+      return "doctor/hospitalUpdate";
+   }
+   
+   @RequestMapping("hospitalUpdatePro.do")
+   public String hospitalUpdatePro(DocMyHospitalDTO docMyHospitalDto
+                           , MultipartHttpServletRequest request) throws Exception {
+      System.out.println("hospitalUpdateProì‹¤í–‰");
+      System.out.println("doc_mail : " + docMyHospitalDto.getDoc_mail());
+      System.out.println("add_no" + docMyHospitalDto.getAdd_no());
+      // íŒŒë¼ë¯¸í„°ë°›ê³ , ìˆ˜ì •
+      MultipartFile mf = request.getFile("hospital_org"); // íŒŒì¼ ê°ì²´
+      String savePath= request.getRealPath("save");   // íŒŒì¼ ì €ì¥ ê²½ë¡œ
+      String hospital_pic_org = mf.getOriginalFilename();      // ì›ë³¸ íŒŒì¼ëª…
+      if(hospital_pic_org != null && hospital_pic_org != "") {
+         String ext = hospital_pic_org.substring(hospital_pic_org.lastIndexOf("."));   // í™•ì¥ìì¶”ì¶œ
+         String fn = docMyHospitalDto.getHospital_pic_save();   // ì‚¬ë³¸ ì´ë¦„ êº¼ë‚´ê¸°.
+         System.out.println(" ì‚¬ë³¸íŒŒì¼ êº¼ë‚´ê¸° : " +docMyHospitalDto.getHospital_pic_save());
+         if (fn == null || fn.equals("")) {
+            fn = "hospital_" + docMyHospitalDto.getAdd_no()+ext;   //ì €ì¥ë  íŒŒì¼ëª…
+         }else {
+            fn = fn.substring(0,fn.lastIndexOf("."))+"." + ext;
+         }
+         System.out.println("ì €ì¥ë  íŒŒì¼ëª…  : " + fn);
+         File f = new File(savePath+"//"+fn);
+         mf.transferTo(f);   // ì—…ë¡œë“œ ì§„í–‰
+         docMyHospitalDto.setHospital_pic_save(fn);   // ì—…ë¡œë“œíŒŒì¼ì´ë¦„ DTOì €ì¥.
+         docMyHospitalDto.setHospital_pic_org(hospital_pic_org);
+      }
+      docDao.hospitalUpdate(docMyHospitalDto);
+      
+      return "doctor/hospitalUpdatePro";
+   }
+   
+   @RequestMapping("deleteForm.do")
+   public String deleteFrom() {
+      return "doctor/deleteForm";
+   }
+   
+   @RequestMapping("deletePro.do")
+   public String deletePro(HttpSession session, DocInfoDTO docInfoDto, Model model) throws Exception {
+      //idë¥¼ ì„¸ì…˜êº¼ë‚´ì„œ í™•ì¸ í›„ passwdí™•ì¸ í›„ íƒˆí‡´, ë¡œê·¸ì•„ì›ƒ.
+      String doc_mail = (String)session.getAttribute("doctorMail");
+      if(doc_mail != null) {
+         docInfoDto.setDoc_mail(doc_mail);
+         System.out.println("deleteí˜ì´ì§€ì˜ doc_mail ì€ : " + docInfoDto.getDoc_mail());
+         System.out.println("doc_pw ëŠ” : " + docInfoDto.getDoc_pw());
+         
+         int userCheck = docDao.userCheck(docInfoDto);
+         if ( userCheck == 1) {   // ë¹„ë²ˆì´ ë§ë‹¤ë©´.   doc_stateë¥¼ -1ë¡œ ë³€ê²½.
+            int check = docDao.deleteDoctor(docInfoDto);
+            System.out.println(" check ------- : " + check);
+            if(check == 1) {   // userChceck í›„ 
+               // ì„¸ì…˜ ì‚­ì œ
+               session.invalidate();
+            }
+            model.addAttribute("check", check);
+         }else {
+            System.out.println("userCheck ê°€  í‹€ë¦¼.");
+         }
+      }
+      return "doctor/deletePro";
+   }
+   
+   @RequestMapping("myWriteList.do")
+   public String myWriteList( @RequestParam(defaultValue="1") int pageNum, Model model
+                     , DocInfoDTO docInfoDto, NoticefreedomDTO freeDto, HttpSession session ) throws Exception {
+      String doc_mail = (String)session.getAttribute("doctorMail");
+      if(doc_mail != null) {
+         freeDto.setEmail(doc_mail);
+         System.out.println("freeDto ì˜ email   : " + freeDto.getEmail());
+         
+           int pageSize = 10;//í•œ í˜ì´ì§€ì˜ ê¸€ì˜ ê°œìˆ˜
+           int currentPage = pageNum;
+           int startRow = (currentPage - 1) * pageSize + 1;//í•œ í˜ì´ì§€ì˜ ì‹œì‘ê¸€ ë²ˆí˜¸
+           int endRow = currentPage * pageSize;//í•œ í˜ì´ì§€ì˜ ë§ˆì§€ë§‰ ê¸€ë²ˆí˜¸
+           int count = 0;
+           int number=0;
+           
+           List articleList = null;
+   //      BoardDBBean dbPro = BoardDBBean.getInstance();//DBì—°ë™
+           count = docDao.getArticleCount(freeDto);// ë‚´ ê¸€ì˜ ìˆ˜ 
+           System.out.println("count ìˆ˜ëŠ” "+ count);
+           if (count > 0) {
+               articleList = docDao.getArticles(startRow, endRow, doc_mail);//í˜„ì¬ í˜ì´ì§€ì— í•´ë‹¹í•˜ëŠ” ê¸€ ëª©ë¡
+               System.out.println("ë¦¬ìŠ¤íŠ¸ì‡ìŒooo--"+articleList.size());
+           } else {
+               articleList = Collections.EMPTY_LIST;
+               System.out.println("ë¦¬ìŠ¤íŠ¸ì—†ìŒxxxxx--");
+           }
+   
+         number=count-(currentPage-1)*pageSize;//ê¸€ëª©ë¡ì— í‘œì‹œí•  ê¸€ë²ˆí˜¸
+           //í•´ë‹¹ ë·°ì—ì„œ ì‚¬ìš©í•  ì†ì„±
+           model.addAttribute("currentPage", new Integer(currentPage));
+           model.addAttribute("startRow", new Integer(startRow));
+           model.addAttribute("endRow", new Integer(endRow));
+           model.addAttribute("count", new Integer(count));
+           model.addAttribute("pageSize", new Integer(pageSize));
+           model.addAttribute("number", new Integer(number));
+           model.addAttribute("articleList", articleList);
+      }
+      return "doctor/myWriteList";
+   }
 }
-

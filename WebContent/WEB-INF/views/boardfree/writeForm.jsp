@@ -14,7 +14,12 @@
 
 	<div style="margin-top: 40px;text-align: center">
 	<div class="p-4" style="width: 1000px; display: inline-block;">
-	
+<c:if test="${sessionScope.doctorMail == null  && sessionScope.member == null}">
+		<script>
+			alert("로그인 하신 후에 사용해주세요");
+			location.href="/pet/member/login.do";
+		</script>		
+ 	</c:if>	
 	
 <b>글쓰기</b>
 <br>
@@ -25,7 +30,7 @@
 	<tr>
 	 <td width="70" align="center">작성자</td>
 	 <td width="330">
-	 	<input type="text" size="10" maxlength="10" name="id"></td>
+	 	<input type="text" size="10" maxlength="10" name="id" value="${sessionScope.member.pen_name}"></td>
 	 </tr>
 	 <tr>
 	 	<td width="70" align="center" >제목</td>
@@ -35,7 +40,7 @@
 	 <tr>
 	 	<td width="70" align="center">Email</td>
 	 	<td width="330">
-	 		<input type="text" size="40" maxlength="30" name="email" ></td>
+	 		<input type="text" size="40" maxlength="30" name="email" value="${sessionScope.doctorMail}${sessionScope.member.email}"></td>
 	 </tr>
 	 <tr>
 	 	<td width="70" align="center" >이미지</td>
@@ -44,7 +49,7 @@
 	 	 </td>
 	 </tr>
 	 <tr>
-	 	<td style="word-break:break-all; width="70" align="center">내용</td>
+	 	<td width="70" align="center">내용</td>
 	 	<td width="330">
 	 		<textarea name="contents" cols="100" rows="10	"></textarea></td>
 	 </tr>

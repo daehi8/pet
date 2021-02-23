@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="map">
+
+	<select id = "selectAll" resultType = "hospitalDTO">
+	<![CDATA[
+		select * from hospital where no > 79 and no < 500
+		]]>
+	</select>
+
+
+		   
+</mapper>
+
+

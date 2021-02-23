@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>confirmMail</title>
+<title>펫츠리뷰 for doctors | 이메일 중복확인</title>
 </head>
 <script language="javascript">
 
@@ -18,14 +18,17 @@
 </script>
 <body>
 
+	<div style="margin-top: 35px; text-align: center">
+		<div class="p-4" style="width: 1000px; display: inline-block;">
+		
 	<c:if test="${check == 1 }" >
-		<table class="table">
+		<table class="table" style="text-align: center;">
   			<tr> 
     			<td height="39" >${doc_mail}이미 사용중인 메일입니다.</td>
   			</tr>
 		</table>
 		<form name="checkForm" method="post" action="/pet/doctor/confirmMail.do">
-			<table class="table">
+			<table class="table" style="text-align: center;">
  		 		<tr>
     				<td align="center"> 
        					다른 메일을 선택하세요.<p>
@@ -46,6 +49,7 @@
 		  </tr>
 		</table>
 	</c:if>
-
+</div>
+</div>
 </body>
 </html>

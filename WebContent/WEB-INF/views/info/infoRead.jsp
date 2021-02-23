@@ -3,8 +3,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt"  uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ include file="../nav.jsp" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>펫츠리뷰 | ${subject_info}의 가격/비용은?</title>
 
-	<head>
     <!--Load the AJAX API-->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
@@ -31,7 +35,7 @@
      
       // 차트 옵션 설정
 
-      var options = {'title':'${subject_info} 가격분포  #평균: ${avg}원',
+      var options = {
                      'width':'100%',
                      'height':700}
       					 ;
@@ -73,72 +77,69 @@
    	 }
    }
     </script>
-  </head>
+  	</head>
 
-	<div style="margin-top: 10px;text-align: center">
-	<div class="p-4" style="width: 500x; display: inline-block;">
+	<div style="margin-top: 25px; text-align: center">	
+	<div class="p-4" style="width: 1000px; display: inline-block;">
+			
+			<jsp:useBean id="now" class="java.util.Date" />	
+			<fmt:formatDate value="${now}" pattern="yyyy" var="year" />
+			<fmt:formatDate value="${now}" pattern="yyyy-MM" var="ym" />
+		
+		
+		 	<h2 style="text-align: left; margin-bottom:15px">${subject_info}의 가격/비용은? (<c:out value="${year}"/>)</h2>
+		 	<h5 style="text-align: left; margin-bottom:10px">${subject_info}의 가격분포</h5>
+			<h5 style="text-align: left; margin-bottom:15px"><span class="badge badge-pill badge-secondary"> # 평균 : ${avg}원</span></h5>
+				<ul class="list-group list-group-horizontal">
+				  		<li style="display: inline-block;" class="list-group-item">최대 ${max}원</li>
+				  		<li style="display: inline-block;" class="list-group-item">평균 ${avg}원</li>
+				
+				  		<li style="display: inline-block;" class="list-group-item">최소 ${min}원</li>
+				</ul>
+
+			<div style="display: block; text-align:cetner;">
+			
+				<!-- 구글 차트  -->
+				<div id="chart_div" style="width:49%; text-align:cetner; vertical-align:middle;  display: inline-block;">
+				</div> 
+			
+			<!-- 그래프를 눌렀을때 -->
+				<div style="width:49%; vertical-align:middle;  display: inline-block;">
+					
+					<div id="col1" style="overflow:scroll; display:none ">
+						<c:forEach items="${join1}" var="dto" varStatus="st">
+							${dto.price_info}원,  <span class="badge badge-dark">${dto.name}<br></span><br>
+						</c:forEach>
+					</div>
+					
+					<div id="col2" style="overflow:scroll; display:none">
+						<c:forEach items="${join2}" var="dto" varStatus="st">
+							${dto.price_info}원,  <span class="badge badge-dark">${dto.name}<br></span><br>
+						</c:forEach>
+					</div>
+					
+					<div id="col3" style="overflow:scroll; display:none">
+						<c:forEach items="${join3}" var="dto" varStatus="st">
+							${dto.price_info}원,  <span class="badge badge-dark">${dto.name}<br></span><br>
+						</c:forEach>
+					</div>
+					
+					<div id="col4" style="overflow:scroll; display:none">
+						<c:forEach items="${join4}" var="dto" varStatus="st">
+							${dto.price_info}원,  <span class="badge badge-dark">${dto.name}<br></span><br>
+						</c:forEach>
+					</div>
+					
+				</div>
+			</div>
+			
+			<div class="card">
+				 <div class="card-body">
+    		<h6 style="text-align: center;">대한민국의 동물 병원 ${scount}곳을 조사한 결과 (2021년 02월 기준),<br> 검사 가격/비용의 전체 평균 가격은 ${avg}원이었습니다.<br>
+				가장 저렴한 곳은 ${min}원이었으며, 가장 비싼 곳은 ${max}원이었습니다.<br> 펫츠리뷰 회원의 리뷰 점수를 바탕으로 하였습니다 🙂</h6>
+  			</div>
+			</div>
+				
+	</div>
+	</div>
 	
-<jsp:useBean id="now" class="java.util.Date" />
-<fmt:formatDate value="${now}" pattern="yyyy" var="year" />
-<fmt:formatDate value="${now}" pattern="yyyy-MM" var="ym" />
-
-
- <h2 style="text-align: left">${subject_info}의 가격/비용은? (<c:out value="${year}"/>)</h2>
-
-<!-- 구글 차트  -->
-<div id="chart_div" style="width:1300; height:700"></div>
-
-<div id="col1" style="display:none">
-<c:forEach items="${join1}" var="dto" varStatus="st">
-${dto.price_info}원, ${dto.name}			
-</c:forEach>
-</div>
-<div id="col2" style="display:none">
-<c:forEach items="${join2}" var="dto" varStatus="st">
-${dto.price_info}원, ${dto.name}
-</c:forEach>
-</div>
-<div id="col3" style="display:none">
-<c:forEach items="${join3}" var="dto" varStatus="st">
-${dto.price_info}원, ${dto.name}
-</c:forEach>
-</div>
-<div id="col4" style="display:none">
-<c:forEach items="${join4}" var="dto" varStatus="st">
-${dto.price_info}원, ${dto.name}
-</c:forEach>
-</div>
-</div>
-</div>
-	<div style="margin-top: 5px;text-align: center">
-	<div style="width: 500x; display: inline-block;">			
-<table class="table">
-  	<thead>
-    	<tr>
-      	<th>최대</th>
-      	<th>평균</th>
-      	<th>최소</th>
-      	</thead>
-      	<tbody>
-      	<tr>
-      	<th>${max}원</th>
-      	<th>${avg}원</th>
-      	<th>${min}원</th>
-      	</tr>
-</table>
-
-
-<br>
-<br>
-<br>
-<h6>대한민국의 동물병원 ${scount}곳을 조사한 결과 (2021년 02월 기준),<br/> 
-검사 가격/비용의 전체평균가격은 ${avg}원 이었습니다.<br/>
-가장 저렴한 곳은 ${min}원 이었으며, 가장 비싼 곳은 ${max}원 이었습니다.<br/> 
-검사 후기 혹은 수의사를 찾고자 하신다면 다음의 링크를 클릭하세요~!<br/>
-회원의 리뷰 점수를 바탕으로 하였습니다 🙂<br/></h6>
-<br>
-<br>
-검사후기 보러가기 a링크<br/>
-의사 보러가기 a링크<br>
-</div>
-</div>

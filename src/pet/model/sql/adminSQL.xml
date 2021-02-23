@@ -87,5 +87,14 @@
 	<update id = "deleteMember" parameterType="int">
 		update member set approval_status = -1 where no = #{value} 
 	</update>
+	
+	<select id="selectAuthNoReviewList" resultType="reviewDTO">
+		select * from review where auth_check = 'N'
+	</select>
+	
+	<select id="selectAuthNoDocList" resultType="DocInfoDTO">
+		select * from doc_info where doc_state = 0
+	</select>
+	
 </mapper>
 

@@ -1,11 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="../nav.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src = "http://code.jquery.com/jquery-latest.js"></script>
 <script>
 /* 	$(function(){
@@ -14,26 +11,40 @@
 		});
 	}) */
 </script>
-<title>Insert title here</title>
+<title>펫츠리뷰 | 회원탈퇴</title>
 </head>
 <body>
-	<div class="w3-content w3-container w3-margin-top">
-		<div class="w3-container w3-card-4">
-			<div class="w3-center w3-large w3-margin-top">
-				<h3>회원 탈퇴</h3>
-			</div>
-			<div>
+   
+	<div style="margin-top: 35px;text-align: center">
+	<div class="p-4" style="width: 1000px; display: inline-block;">
+     
+	
+	<c:if test="${sessionScope.member == null }"> 
+			<script>
+				alert("로그인이 필요한 화면입니다.");
+			</script>
+		<c:redirect url="/member/login.do"></c:redirect>
+	</c:if>
+		
+			<c:if test="${sessionScope.member != null }"> 
 				<form id="delete" action="/pet/member/deletePro.do" method="post">
 				<input type = "hidden" id="email" name = "email" value="${sessionScope.member.email}">
-						<label>비밀번호를 입력하면 탈퇴가 진행됩니다. </label>
-						<input class="w3-input" id="pw" name="pw" type="password" required>
-					<p class="w3-center">
-						<button type="submit" class="w3-button w3-block w3-black w3-ripple w3-margin-top w3-round">탈퇴하기</button>
-						<button type="button" class="w3-button w3-block w3-black w3-ripple w3-margin-top w3-margin-bottom w3-round" onclick="history.go(-1)">Cancel</button>
-					</p>
+				<br>
+				<h2 style="margin-bottom: 15px"><span class="badge badge-danger"> 경고 </span></h2>
+				<h4 style="margin-bottom: 5px">탈퇴한 회원은 재가입이 불가능합니다.<br></h4>
+				<h4 style="margin-bottom: 15px">회원 탈퇴 하시겠습니까?
+				</h4>
+				<hr>
+						<label>비밀번호를 입력시 탈퇴가 진행됩니다. </label><br>	
+						  <div style="text-align: center">
+						
+						<input style="width:100%;"class="form-control" id="pw" name="pw" type="password"><br><br></div>
+						<button class="btn btn-dark" type="submit">탈퇴하기</button>
+						<button class="btn btn-ligth" type="button" onclick="history.go(-1)">취소</button>
+						
 				</form>
+				</c:if>
 			</div>
 		</div>
-	</div>
 </body>
 </html>

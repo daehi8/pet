@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>펫츠리뷰입니다.</title>
 </head>
 <body>
 기존 비밀번호 <input type="password" value="기존 비밀번호를 입력해주세요">
@@ -13,6 +13,7 @@
 <title>마이페이지</title>
 </head>
 <body>
+<c:if test="${sessionScope.member != null }"> 
 	<div class="w3-content w3-container w3-margin-top">
 		<div class="w3-container w3-card-4">
 			<div class="w3-center w3-large w3-margin-top">
@@ -40,5 +41,6 @@
 			</div>
 		</div>
 	</div>
+</c:if>
 </body>
 </html>

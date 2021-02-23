@@ -7,17 +7,28 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>main</title>
+<title>펫츠리뷰 for doctors</title>
 </head>
 <body>
+
+
+	<div class="mt-5 pt-5 pb-5" style="margin-top: 20px; text-align: center;">
+	<div style="width: 1000px; display: inline-block">
+	
+	
+<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+        <img src="https://i.ibb.co/4trGCBT/003.jpg" class="d-block w-100" alt="...">
+    </div>
+    </div>
+    </div>	
+            
+            
 	<c:if test="${sessionScope.doctorMail == null }">
 
-
-        <div style="text-align: center;">
-            <div style="width: 960px; display: inline-block">
-
                 <h1 class="d-flex justify-content-center" style="margin-bottom:2rem; margin-top:6rem; font-size: 3rem; font-weight: bold;">
-                    모두닥의 의사회원이 되어보세요
+                    펫츠리뷰의 의사회원이 되어보세요
                 </h1>
 
                 <h3 style="color:#4c1192">가장 쉽고 빠르게, 환자들과 소통할 수 있습니다.</h3>
@@ -27,8 +38,7 @@
                     지금 바로 무료 의사‍회원되기
                 </button>
 
-            </div>
-        </div>
+  
 	</c:if>
 	<c:if test="${sessionScope.doctorMail != null }">
 	
@@ -38,7 +48,13 @@
                 <h1 class="d-flex justify-content-center" style="margin-bottom:2rem; margin-top:6rem; font-size: 3rem; font-weight: bold;">
                 ${doctor.doc_name}님 안녕하세요?
                 </h1>
-                
                 </div>
-                </div>
+                </div>   
+             
 	</c:if>
+	   </div>
+        </div>
+	
+	</body>
+	</html>
+	

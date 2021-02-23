@@ -6,9 +6,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+<title>펫츠리뷰 | 회원가입</title>
 <script>
 	$(function(){
 		$("#joinForm").submit(function(){
+			$("#joinBtn").attr("disabled", "disabled");
 			if($("#pw").val() !== $("#pw2").val()){
 				alert("비밀번호가 다릅니다.");
 				$("#pw").val("").focus();
@@ -86,9 +88,9 @@
 <title>회원가입 폼</title>
 </head>
 <body>
-<div style="margin-top: 40px; text-align: center">
+<div style="margin-top: 35px; text-align: center">
 <div class="p-5" style="width: 500px; display: inline-block;">
-	<h5>3초 회원가입으로<br>164,894건의 리뷰를 확인하세요</h5></br>
+	<h5>3초 회원가입으로<br>펫츠리뷰의 리뷰를 확인하세요</h5></br>
 				<form id="joinForm" action="/pet/member/join_member.do" method="post">
 				<div class="form-group">						
 				<input class="form-control" type="email" id="email" name="email" placeholder="이메일 주소">
@@ -99,21 +101,21 @@
 				<div class="form-group">
 				<input class="form-control" id="pw2" type="password" placeholder="비밀번호 재확인">
 				</div>
-				<div class="checkbox_group">
+				<br>
+				<div style="text-align: left; font-size:0.875rem;" class="checkbox_group">
 	
 						  <input type="checkbox" id="check_all" >
-						  <label for="check_all">전체 동의</label>
+						  <label for="check_all">전체 동의</label><br>
 						  
 						  <input type="checkbox" id="check_1" class="normal" >
-						  <label for="check_1">개인정보 처리방침 동의</label>
+						  <label for="check_1">개인정보 처리방침 동의</label><br>
 						  
+						   <input type="checkbox" id="check_3" class="normal" >
 						  <label for="check_2">서비스 이용약관 동의</label>
-						  
-						  <input type="checkbox" id="check_3" class="normal" >
-						  <label for="check_3">마케팅 수신 동의</label>
+		
 					</div>
-
-				<button type="submit" id="joinBtn" class="btn btn-dark text-white w-100">회원가입 완료</button>
+					<br>
+				<button type="submit" id="joinBtn" class="btn btn-dark text-white w-100">회원가입 완료</button><br><br>
 				<p>이미 우리 회원이신가요?  <a href = "/pet/member/login.do">로그인</a> </p> <br />
 				</form>
 			</div>

@@ -8,8 +8,7 @@
 <title>자유 게시판</title>
 <link href="/pet/resource/style/style_board.css" rel="stylesheet" type="text/css">
 </head>
-
-
+	
 	<div style="margin-top: 40px;text-align: center">
 	<div class="p-4" style="width: 1000px; display: inline-block;">
 	
@@ -17,7 +16,9 @@
 	
 		<table class="table table-hover">
 			<thead>
+			
 				<tr><th>번호</th><th>제목</th><th>작성자</th></tr>
+				
 			</thead>
 			
 				<c:forEach items="${list}" var="dto">

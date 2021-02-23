@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>emailOk</title>
+<title>펫츠리뷰 for doctors | 회원가입</title>
 </head>
 <body>
 	가입신청이 완료되었습니다.

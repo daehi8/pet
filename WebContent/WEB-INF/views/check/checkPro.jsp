@@ -7,7 +7,6 @@ pageEncoding="UTF-8"%>
 
 	<div style="margin-top: 40px;text-align: center">
 	<div class="p-4" style="width: 1000x; display: inline-block;">
-<h1 style="text-align: left">결과 페이지 </h1>
 
 <script type="text/javascript">
 
@@ -21,8 +20,7 @@ ${level}
 
 <br>
 <br>	
-<button class="btn btn-dark">목록</button>
-<button class="btn btn-dark" type="button" class="re_btn" onClick="location.href='check.do'">다시하기</button>
+<input class="btn btn-dark" value="목록" onclick="location.href='/pet/check/checklist.do'">
 
 </div>
 </div>

@@ -1,5 +1,6 @@
 package pet.model.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,11 +17,11 @@ import pet.model.dto.DocMyHospitalDTO;
 import pet.model.dto.DocPictureDTO;
 import pet.model.dto.HospitalDTO;
 
-@Service("docDao")	// Bean¿¡¼­ DAOService ¼­ºñ½º¸¦ ¹Ş´Â °Í.
+@Service("docDao")	// Beanì—ì„œ DAOService ì„œë¹„ìŠ¤ë¥¼ ë°›ëŠ” ê²ƒ.
 public class DocDAOServiceImpl implements DocDAOService {
 	
 	@Autowired
-	private SqlSessionTemplate dao = null;	//@¼­ºñ½º¿Í ÀÌ¸§ ´Ù¸§..
+	private SqlSessionTemplate dao = null;	//@ì„œë¹„ìŠ¤ì™€ ì´ë¦„ ë‹¤ë¦„..
 
 
 	@Override
@@ -28,56 +29,56 @@ public class DocDAOServiceImpl implements DocDAOService {
 		return dao.selectList("doctor.selectAll");
 	}
 	
-	@Override  // DB ÀÇ»ç¸ğµçÅ×ÀÌºí¿¡ doc_noÀÔ·Â, infoÅ×ÀÌºí¿¡ ¸ŞÀÏ,ºñ¹ø »ğÀÔ.
+	@Override  // DB ì˜ì‚¬ëª¨ë“ í…Œì´ë¸”ì— doc_noì…ë ¥, infoí…Œì´ë¸”ì— ë©”ì¼,ë¹„ë²ˆ ì‚½ì….
 	public void insertDoc(DocInfoDTO docInfoDto) throws Exception {
 		dao.insert("doctor.insertDoc", docInfoDto);
 	}
 	
-	@Override	// DB¿¡ doc_myhospitalµµ  ÀÎ¼­Æ®.
+	@Override	// DBì— doc_myhospitalë„  ì¸ì„œíŠ¸.
 	public void insertHospital(DocMyHospitalDTO docMyHospitalDto) throws Exception {
 		dao.insert("doctor.insertHospital",docMyHospitalDto);
 	}
 
 	
-	// authkey DB¿¡ ³Ö±â
+	// authkey DBì— ë„£ê¸°
 	@Override
 	public void updateAuthKey(DocInfoDTO docInfoDto) {
 		dao.update("doctor.updateAuthKey", docInfoDto);
 	}
 
 
-	@Override // ÀÎÁõÅ°°¡ ÀÏÄ¡ÇÏ´ÂÁö È®ÀÎ
+	@Override // ì¸ì¦í‚¤ê°€ ì¼ì¹˜í•˜ëŠ”ì§€ í™•ì¸
 	public List authKeyOK(DocInfoDTO docInfoDto) throws Exception {
-		System.out.println("authKeyOK È®ÀÎ------");
+		System.out.println("authKeyOK í™•ì¸------");
 		return dao.selectList("doctor.authKeyOk", docInfoDto);
 	}
 
 
-	@Override // pic_noÀÇ ÃÖ´ë°ª ¸®ÅÏ
+	@Override // pic_noì˜ ìµœëŒ€ê°’ ë¦¬í„´
 	public int maxNo() throws Exception {
 		return dao.selectOne("doctor.maxNo");
 	}
 	
-	@Override	// ÆÄÀÏ ¿øº»¸í,¹øÈ£ ÀúÀå ÇÏ±â
+	@Override	// íŒŒì¼ ì›ë³¸ëª…,ë²ˆí˜¸ ì €ì¥ í•˜ê¸°
 	public int insertFile(DocPictureDTO docPictureDto) throws Exception {
 		return dao.insert("doctor.insertFile", docPictureDto);
 	}
 	
-	@Override	// ÆÄÀÏ »çº», Å¸ÀÔ ¾÷µ¥ÀÌÆ®
+	@Override	// íŒŒì¼ ì‚¬ë³¸, íƒ€ì… ì—…ë°ì´íŠ¸
 	public void fileUpdate(DocPictureDTO docPictureDto) throws Exception {
-		System.out.println("¾÷µ¥ÀÌÆ®°¡ ½ÇÇàµÆ³ª???");
+		System.out.println("ì—…ë°ì´íŠ¸ê°€ ì‹¤í–‰ëë‚˜???");
 		dao.update("doctor.fileUpdate", docPictureDto);
 	}
 
-	@Override	// ·Î±×ÀÎ Ã¼Å© , ¸ŞÀÏ Áßº¹ Ã¼Å©
+	@Override	// ë¡œê·¸ì¸ ì²´í¬ , ë©”ì¼ ì¤‘ë³µ ì²´í¬
 	public int userCheck(DocInfoDTO docInfoDto)throws Exception {
 		return dao.selectOne("doctor.userCheck", docInfoDto);
 	}
 
 	
-	@Override	// ¸ŞÀÏÀÎÁõ°ú file ÀúÀåÇßÀ» °æ¿ì ÀÎÁõ»óÅÂ 1·Î º¯°æÇÏ±â.
+	@Override	// ë©”ì¼ì¸ì¦ê³¼ file ì €ì¥í–ˆì„ ê²½ìš° ì¸ì¦ìƒíƒœ 1ë¡œ ë³€ê²½í•˜ê¸°.
 	public void updateAuthState(DocInfoDTO docInfoDto) throws Exception {
-		System.out.println("impl »óÅÂº¯°æ.");
+		System.out.println("impl ìƒíƒœë³€ê²½.");
 		dao.update("doctor.updateAuthState" , docInfoDto);
 	}
 
@@ -90,53 +91,53 @@ public class DocDAOServiceImpl implements DocDAOService {
 		return dao.selectOne("doctor.selectRegistration",docPictureDto);
 	}
 	
-	@Override	// doc_pictuer¿¡ µ¿ÀÇ¼­ÀÖ´ÂÁö È®ÀÎ
+	@Override	// doc_pictuerì— ë™ì˜ì„œìˆëŠ”ì§€ í™•ì¸
 	public String selectAgree(DocPictureDTO docPictureDto) throws Exception {
 		return dao.selectOne("doctor.selectAgree",docPictureDto);
 	}
 	
-	@Override	// doc_pictuer¿¡ µ¿ÀÇ¼­ÀÖ´ÂÁö È®ÀÎ
+	@Override	// doc_pictuerì— ë™ì˜ì„œìˆëŠ”ì§€ í™•ì¸
 	public void updateAgree(DocInfoDTO docInfoDto) throws Exception {
 		dao.update("doctor.updateAgree",docInfoDto);
 	}
 	
 
-	@Override	// ÀÇ»çÁ¤º¸ ²¨³»±â Doc_info
+	@Override	// ì˜ì‚¬ì •ë³´ êº¼ë‚´ê¸° Doc_info
 	public DocInfoDTO getDoctor(String doc_mail) throws Exception {
 		return dao.selectOne("doctor.getDoctor", doc_mail);
 	}
 
-	@Override	// doc_info Á¤º¸ ¼öÁ¤
+	@Override	// doc_info ì •ë³´ ìˆ˜ì •
 	public int updateModify(DocInfoDTO docInfoDto) throws Exception {
 		return dao.update("doctor.updateModify" , docInfoDto);
 	}
 	
-	@Override	// doc_infoÀÇ  ºñ¹ø ¼öÁ¤
+	@Override	// doc_infoì˜  ë¹„ë²ˆ ìˆ˜ì •
 	public void changePw(DocInfoDTO docInfoDto) throws Exception {
 		dao.update("doctor.changePw", docInfoDto);
 	}
 
-	@Override	// doc_pictuer Á¤º¸ ¼öÁ¤
+	@Override	// doc_pictuer ì •ë³´ ìˆ˜ì •
 	public int updatePicture(DocPictureDTO docPictureDto) throws Exception {
 		return dao.update("doctor.updatePicture");
 	}
 
-	@Override	// doc_hospitalÁ¤º¸²¨³»±â
+	@Override	// doc_hospitalì •ë³´êº¼ë‚´ê¸°
 	public DocMyHospitalDTO getHospital(String doc_mail) throws Exception {
 		return dao.selectOne("doctor.getHospital", doc_mail);
 	}
 	
-	@Override	// hospital DB Á¤º¸ ²¨³»±â
+	@Override	// hospital DB ì •ë³´ êº¼ë‚´ê¸°
 	public HospitalDTO getHospitalDB(int no) throws Exception {
 		return dao.selectOne("doctor.getHospitalDB", no);
 	}
 
-	@Override	// Myhospital ( º´¿øÃß°¡Á¤º¸) ÀÔ·ÂÇÏ±â.
+	@Override	// Myhospital ( ë³‘ì›ì¶”ê°€ì •ë³´) ì…ë ¥í•˜ê¸°.
 	public void hospitalUpdate(DocMyHospitalDTO docMyHospitalDto) throws Exception {
 		dao.update("doctor.hospitalUpdate", docMyHospitalDto);
 	}
 
-	@Override	// doc_info ÀÇ doc_state¸¦ -1 ·Î º¯°æ.
+	@Override	// doc_info ì˜ doc_stateë¥¼ -1 ë¡œ ë³€ê²½.
 	public int deleteDoctor(DocInfoDTO docInfoDto) throws Exception {
 		return dao.update("doctor.deleteDoctor", docInfoDto);
 	}
@@ -144,6 +145,21 @@ public class DocDAOServiceImpl implements DocDAOService {
 	@Override
 	public int stateChange(DocInfoDTO docInfoDto) throws Exception {
 		return dao.update("doctor.stateChange", docInfoDto);
+	}
+
+	@Override
+	public int getArticleCount(NoticefreedomDTO freeDto) throws Exception {
+		return dao.selectOne("doctor.getArticleCount", freeDto);
+	}
+
+	@Override
+	public List getArticles(int startRow, int endRow, String email) throws Exception {
+		HashMap hashmap = new HashMap();
+		hashmap.put("startRow", startRow);
+		hashmap.put("endRow", endRow);
+		hashmap.put("email", email);
+
+		return dao.selectList("doctor.getArticles", hashmap );
 	}
 
 	

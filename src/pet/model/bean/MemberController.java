@@ -1,11 +1,13 @@
 package pet.model.bean;
 
 import java.io.File;
+import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -187,11 +189,17 @@ public class MemberController {
 		}
 		model.addAttribute("check", check);
 		System.out.println(check);
-		return "member/deletePro";
+		return "main/sc";
 	}
 	
 	@RequestMapping(value = "/marketing.do")
-	public String marketing() throws Exception{
+	public String marketing(ServletResponse response) throws Exception{
+		PrintWriter out = response.getWriter();
+			out.println("<script type='text/javascript' charset='UTF-8'>");
+			out.println("alert('마케팅 정보가 변경되었습니다.');");
+			out.println("history.go(-1);");
+			out.println("</script>");
+			out.close();
 		return "/member/marketing";
 	}
 	
@@ -199,6 +207,7 @@ public class MemberController {
 	@RequestMapping(value = "/my_reviews.do")
 	public String my_reviews(Model model , HttpSession session) throws Exception{
 		MemberDTO dto= (MemberDTO)session.getAttribute("member");
+		
 		int count = service.countReview(dto.getEmail());
 		int count_like = service.countReview_like(dto.getEmail());
 		String email = dto.getEmail();
@@ -234,7 +243,10 @@ public class MemberController {
 		List<ReviewDTO> list = service.reviewList(email);
 		List<PriceReviewDTO> price = service.select_subject(no);	
 		List<CommentReviewDTO> comment = service.select_comment(no);
-		List<RatingReviewDTO> rating = service.select_rating(no);
+		List<RatingReviewDTO> ratings = service.select_rating(no);		
+		
+		RatingReviewDTO rating = ratings.get(0);
+		
 		System.out.println(price.size());
 		System.out.println(comment.size());
 		model.addAttribute("list", list);

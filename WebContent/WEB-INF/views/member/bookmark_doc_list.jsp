@@ -8,7 +8,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+	<c:if test="${member == null }">
+		<c:redirect url="/member/login.do"></c:redirect>
+	</c:if>
 
 <c:if test="${member !=null }">
  	<table width="900" border="1" align="center">

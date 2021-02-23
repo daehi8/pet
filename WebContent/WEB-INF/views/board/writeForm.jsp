@@ -25,7 +25,7 @@
 	<tr>
 	 <td width="70" align="center">작성자</td>
 	 <td width="330">
-	 	<input type="text" size="10" maxlength="10" name="id"></td>
+	 	<input type="text" size="10" maxlength="10" name="id" value="${sessionScope.member.pen_name}"></td>
 	 </tr>
 	 <tr>
 	 	<td width="70" align="center" >제목</td>
@@ -35,7 +35,7 @@
 	 <tr>
 	 	<td width="70" align="center">Email</td>
 	 	<td width="330">
-	 		<input type="text" size="40" maxlength="30" name="email" ></td>
+	 		<input type="text" size="40" maxlength="30" name="email"  value="${sessionScope.doctorMail}${sessionScope.member.email}"></td>
 	 </tr>
 	 <tr>
 	 	<td width="70" align="center" >이미지</td>

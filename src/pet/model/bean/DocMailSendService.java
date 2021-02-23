@@ -18,13 +18,13 @@ public class DocMailSendService {
 	private int size;
 	
 	
-	// ÀÎÁõÅ° »ı¼º
+	// ì¸ì¦í‚¤ ìƒì„±
 	private String getKey(int size) {
 		this.size = size;
 		return getAuthCode();
 	}
 	
-	// ÀÎÁõÄÚµå ³­¼ö ¹ß»ı
+	// ì¸ì¦ì½”ë“œ ë‚œìˆ˜ ë°œìƒ
 	private String getAuthCode() {
 		Random random = new Random();
 		StringBuffer buffer = new StringBuffer();
@@ -37,25 +37,25 @@ public class DocMailSendService {
 		return buffer.toString();
 	}
 
-	// ÀÎÁõ¸ŞÀÏ º¸³»±â
+	// ì¸ì¦ë©”ì¼ ë³´ë‚´ê¸°
 	public String sendAuthMail(String email) {
-		// 6ÀÚ¸® ³­¼ö ÀÎÁõ¹øÈ£ »ı¼º
+		// 6ìë¦¬ ë‚œìˆ˜ ì¸ì¦ë²ˆí˜¸ ìƒì„±
 		String authKey = getKey(6);
 		
-		// ÀÎÁõ¸ŞÀÏ º¸³»±â
+		// ì¸ì¦ë©”ì¼ ë³´ë‚´ê¸°
 		try {
 			MailHandler sendMail = new MailHandler(mailSender);
-			sendMail.setSubject("<pet ¼­ºñ½º ÀÌ¸ŞÀÏ ÀÎÁõ>");
+			sendMail.setSubject("<pet ì„œë¹„ìŠ¤ ì´ë©”ì¼ ì¸ì¦>");
 			sendMail.setText(
-					new StringBuffer().append("<h1> <¸ŞÀÏ ÀÎÁõ> </h1>")
-					.append("<p> ¾Æ·¡ ¸µÅ©¸¦ Å¬¸¯ ÇÏ½Ã¸é ÀÌ¸ŞÀÏ ÀÎÁõÀÌ ¿Ï·áµË´Ï´Ù.</p>")
+					new StringBuffer().append("<h1> <ë©”ì¼ ì¸ì¦> </h1>")
+					.append("<p> ì•„ë˜ ë§í¬ë¥¼ í´ë¦­ í•˜ì‹œë©´ ì´ë©”ì¼ ì¸ì¦ì´ ì™„ë£Œë©ë‹ˆë‹¤.</p>")
 					.append("<a href='http://localhost:8080/pet/doctor/emailConfirm.do?doc_mail=")
 					.append(email)
 					.append("&authKey=")
 					.append(authKey)
-					.append("'target='_blenk'>ÀÌ¸ŞÀÏ ÀÎÁõ È®ÀÎ </a>")
+					.append("'target='_blenk'>ì´ë©”ì¼ ì¸ì¦ í™•ì¸ </a>")
 					.toString());
-			sendMail.setFrom("22wwwwwoo@gmail.com", "pet°ü¸®ÀÚ");
+			sendMail.setFrom("22wwwwwoo@gmail.com", "petê´€ë¦¬ì");
 			sendMail.setTo(email);
 			sendMail.send();
 		}catch (MessagingException e ) {

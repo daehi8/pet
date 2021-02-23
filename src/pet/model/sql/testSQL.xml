@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="test">
+	
+	<select id="search" resultType="searchDTO" parameterType="String">
+		select * from test333 where id like '%'||#{keyword}||'%' or name like '%'||#{keyword}||'%' or age like '%'||#{keyword}||'%'
+	</select>
+	
+	<select id="TestReview" resultType="TestReviewDTO" parameterType="String">
+		select * from review where no like '%'||#{keyword}||'%' 
+			or member_email like '%'||#{keyword}||'%'
+			or hospital_no like '%'||#{keyword}||'%'
+			or doc_mail like '%'||#{keyword}||'%'
+			or revisit like '%'||#{keyword}||'%'
+			or public_check like '%'||#{keyword}||'%'
+			or auth_check like '%'||#{keyword}||'%'
+			or reg_date like '%'||#{keyword}||'%'
+	</select>
+	
+	<select id="Hospital" resultType="HospitalDTO" parameterType="String">
+		select * from hospital where no like '%'||#{keyword}||'%'
+			or state like '%'||#{keyword}||'%'
+			or location_adr like '%'||#{keyword}||'%'
+			or road_adr like '%'||#{keyword}||'%'
+			or zip_code like '%'||#{keyword}||'%'
+			or name like '%'||#{keyword}||'%'
+			or coordinate_x like '%'||#{keyword}||'%'
+			or coordinate_y like '%'||#{keyword}||'%'
+	</select>
+	
+		<select id="DocInfo" resultType="DocInfoDTO" parameterType="String">
+		select * from doc_info where doc_no like '%'||#{keyword}||'%' 
+			or doc_mail like '%'||#{keyword}||'%'
+			or doc_pw like '%'||#{keyword}||'%'
+			or doc_name like '%'||#{keyword}||'%'
+			or doc_org like '%'||#{keyword}||'%'
+			or doc_save like '%'||#{keyword}||'%'
+			or doc_state like '%'||#{keyword}||'%'
+			or authKey like '%'||#{keyword}||'%'
+			or mem_type like '%'||#{keyword}||'%'
+			or hospital_no like '%'||#{keyword}||'%'
+			or reg_date like '%'||#{keyword}||'%'
+	</select>
+	
+	<select id="Count" resultType="int" parameterType="String">
+		select count(*)from hospital where location_adr like '%'||#{keyword}||'%' or road_adr like '%'||#{keyword}||'%'
+	
+	</select>
+	
+	<select id="CountList" resultType="HospitalDTO" parameterType="hashmap"> 
+	<![CDATA[
+		select * from
+		(select no , state , location_adr , road_adr , zip_code , name ,  coordinate_x,coordinate_y, rownum r from
+		(select * from hospital where location_adr like '%'||#{keyword}||'%' or road_adr like '%'||#{keyword}||'%'))
+		where r >= #{startRow} and r <= #{endRow}
+	]]>
+	</select>
+	
+	<select id="CityList" resultType="CityDTO" parameterType="String">
+		select * from adr where city=#{value}
+	
+	</select>
+	
+</mapper>

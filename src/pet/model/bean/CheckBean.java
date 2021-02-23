@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import pet.model.dto.CheckDTO;
+import pet.model.dto.CheckAddDTO;
 import pet.model.dto.DictDTO;
 import pet.model.dto.SearchCriteria;
 import pet.model.service.CheckService;
@@ -27,11 +28,11 @@ public class CheckBean {
 	private CheckService Cdao = null;
 	
 	@RequestMapping(value = "check", method = RequestMethod.GET)
-	public String list(Model model) throws Exception{
+	public String list(Model model, int check_no) throws Exception{
 		List<CheckDTO> list;
-		list = Cdao.list();
+		list = Cdao.list(check_no);
 		model.addAttribute("list", list);
-		
+		model.addAttribute("check_no", check_no);
 		return "check/check";
 		}
 	
@@ -47,7 +48,7 @@ public class CheckBean {
 			
 		Cdao.write(dto);
 		 	
-		return "redirect:/check/check.do";	
+		return "redirect:/admin/admincheck.do";	
 		}
 	
 	// 게시물 조회
@@ -73,7 +74,7 @@ public class CheckBean {
 
 		Cdao.update(dto);
 		
-		return "redirect:/check/check.do";
+		return "redirect:/admin/admincheck.do";
 	}
 	
 	// 게시물 삭제
@@ -82,18 +83,16 @@ public class CheckBean {
 
 		Cdao.delete(dto.getNo());
 		
-		return "redirect:/check/check.do";
+		return "redirect:/admin/admincheck.do";
 	}
 	@RequestMapping(value = "checkPro", method = RequestMethod.POST)
-	public String result(Model model, HttpServletRequest request)throws Exception{
-			
-			int count = Cdao.count();
+	public String result(Model model, HttpServletRequest request, int check_no)throws Exception{
+			CheckAddDTO add = Cdao.checkadd(check_no);
+			int count = Cdao.count(check_no);
 			int score = 0;
 			int total = 0;
-			String level = "";
-	
 			
-			
+			String level = null;
 			for(int i=1; i < count+1 ; i++){
 		         String ans = request.getParameter("answer"+i);
 		         if(ans.equals("5")){score=5;}
@@ -101,20 +100,17 @@ public class CheckBean {
 		         else if(ans.equals("3")){score=3;}
 		         else if(ans.equals("2")){score=2;}
 		         else {score=1;}
-		         System.out.println(ans);
 		         
 		         total += score;
 
-		         if (total <8){
-		             level = "스트레스가 없군요. 걱정하지 마세요.";
+		         if (total < add.getTotal1()){
+		        	 level = add.getLevel1();
 		          }
-		          else if (total <13){
-		             level = "스트레스를 받고 있으나 심하지 않네요. "
-		             		+ "스트레스를 해소할 수 있는 방법을 본인 스스로 찾아보세요.";
+		          else if (total < add.getTotal2()){
+		        	  level = add.getLevel2();
 		          }
 		          else {
-		             level = "스트레스를 심하게 받고 있습니다. 스트레스를 해소하기 위해 "
-		             		+ "본인 스스로의 노력뿐 아니라 다른 사람의 도움도 필요합니다.";
+		        	  level = add.getLevel3();
 		          }
 		    
 			model.addAttribute("score", score);
@@ -124,4 +120,10 @@ public class CheckBean {
 			return "check/checkPro";
 	}
 	
-	  	}
+	@RequestMapping("checklist.do")
+	public String checkList(Model model) throws Exception{
+		List checkList = Cdao.checkList();
+		model.addAttribute("checkList", checkList);
+		return "check/checkList";
+	}
+}

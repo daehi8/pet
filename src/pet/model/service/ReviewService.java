@@ -63,4 +63,7 @@ public interface ReviewService {
 	
 	// 병원 번호로 병원 이름 확인
 	public String selectHospitalName(int hospital_no) throws Exception;
+	
+	// 리뷰 닉네임 찾기
+	public String selectNickByEmail(String email) throws Exception;
 }
