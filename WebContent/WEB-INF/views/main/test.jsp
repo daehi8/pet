@@ -38,7 +38,7 @@
 				  <c:set var="number" value="${number - 1}"/>
 			</div>
 			<div style="font-size: 1.313rem; font-weight:bold" class="d-flex justify-content-start align-items-start">	
-	         	<a href="http://localhost:8080/pet/review/contentsreview.do?hospital_no=${dto3.no}">${dto3.name}</a>
+	         	<a href="/pet/review/contentsreview.do?hospital_no=${dto3.no}">${dto3.name}</a>
      		</div>
      		<div style="font-size:15px;font-weight: 300;">
      			${dto3.location_adr}<br>

@@ -5,7 +5,7 @@
 <%@ include file="../nav.jsp" %>
 <html>
 <head>
-<title>정보 게시판</title>
+<title>펫츠리뷰 | 정보게시판</title>
 </head>
 	<c:if test="${sessionScope.doctorMail == null  && sessionScope.member == null}">
 		<script>

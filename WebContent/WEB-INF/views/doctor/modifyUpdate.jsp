@@ -56,7 +56,7 @@
 				<th>사진</th>	
 				<td style="text-align: center">
 						<c:if test ="${doctor.doc_save == null }">
-							<img src="/pet/save/saram.jpg" width=400px, height=400px/> <br>
+							<img src="/pet/resources/img/saram.jpg" width=400px, height=400px/> <br>
 							<input type="file" name="org" />
 						</c:if>
 						<c:if test="${doctor.doc_save != null }">

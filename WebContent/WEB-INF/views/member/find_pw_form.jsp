@@ -5,6 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>펫츠리뷰 | 비밀번호 찾기</title>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
 <script>
 	$(function(){
 		$("#findBtn").click(function(){
@@ -32,6 +33,6 @@
 					<button style="margin-top:15px;" type="button" id=findBtn class="btn btn-dark w-100 p-2">메일 전송하기</button>
 			</div>
 		</div>
-	
+
 </body>
 </html>

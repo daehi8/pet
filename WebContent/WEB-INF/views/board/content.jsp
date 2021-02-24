@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../nav.jsp" %>
-
+<title>펫츠리뷰 | 정보게시판</title>
 	<div style="margin-top: 40px;text-align: center">
 	<div class="p-4" style="width: 1000px; display: inline-block;">
 	

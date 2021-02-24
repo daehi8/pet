@@ -23,6 +23,7 @@ import pet.model.bean.MemberDAO;
 import pet.model.dto.CommentReviewDTO;
 import pet.model.dto.DocInfoDTO;
 import pet.model.dto.DocMyHospitalDTO;
+import pet.model.dto.HospitalDTO;
 import pet.model.dto.MemberDTO;
 import pet.model.dto.PriceReviewDTO;
 import pet.model.dto.RatingReviewDTO;
@@ -120,12 +121,12 @@ public class MemberServiceImpl implements MemberService{
 
 		// 보내는 사람 EMail, 제목, 내용
 		String fromEmail = "global.final05@gmail.com";
-		String fromName = "minimanimo";
+		String fromName = "펫츠리뷰";
 		String subject = "이메일 발송 테스트";
 		String msg = "";
 
 		// 회원가입 메일 내용
-		subject = "pet Homepage 회원가입 인증 메일입니다.";
+		subject = "펫츠리뷰 홈페이지 회원가입 인증 메일입니다.";
 		msg += "<div align='center' style='border:1px solid black; font-family:verdana'>";
 		msg += "<h3 style='color: blue;'>";
 		msg += register.getEmail() + "님 회원가입을 환영합니다.</h3>";
@@ -289,7 +290,7 @@ public class MemberServiceImpl implements MemberService{
 
 		// 보내는 사람 EMail, 제목, 내용
 		String fromEmail = "global.final05@gmail.com";
-		String fromName = "minimanimo";
+		String fromName = "펫츠리뷰";
 		String subject = "이메일 발송 테스트";
 		String msg = "";
 		
@@ -382,6 +383,7 @@ public class MemberServiceImpl implements MemberService{
 	public List<ReviewDTO> reviewList(String email) throws Exception{
 		return manager.reviewList(email);
 	}
+
 	
 	// 리뷰 개수 
 	@Override

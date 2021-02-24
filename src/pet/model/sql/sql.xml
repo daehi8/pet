@@ -107,8 +107,8 @@
 		select name from hospital where no = #{no, jdbcType=NUMERIC}
 	</select>
 	
-	<select id="select_doc" resultType="docInfoDTO" parameterType="docInfoDTO">
-		select doc_name from doc_info where doc_mail = #{doc_mail, jdbcType=VARCHAR}
+	<select id="docList" resultType="docInfoDTO" parameterType="docInfoDTO">
+		select * from doc_info where hospital_no = #{hospital_no, jdbcType=NUMERIC}
 	</select>
 	
 	<select id="select_subject" resultType="priceReviewDTO" parameterType="priceReviewDTO">

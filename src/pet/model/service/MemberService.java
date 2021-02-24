@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import pet.model.dto.CommentReviewDTO;
 import pet.model.dto.DocInfoDTO;
 import pet.model.dto.DocMyHospitalDTO;
+import pet.model.dto.HospitalDTO;
 import pet.model.dto.MemberDTO;
 import pet.model.dto.PriceReviewDTO;
 import pet.model.dto.RatingReviewDTO;
@@ -40,6 +41,7 @@ public interface MemberService {
 	
 	// -----마이페이지 ------
 	public List<ReviewDTO> reviewList(String email) throws Exception;
+
 	public int countReview(String email) throws Exception;
 	public int countReview_like(String email) throws Exception;
 	public int checkCert (MemberDTO register) throws Exception;

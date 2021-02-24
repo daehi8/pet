@@ -6,7 +6,7 @@
 
 <html>
 <head>
-<title>writeForm</title>
+<title>펫츠리뷰 | 자유게시판</title>
 </head>
 
 

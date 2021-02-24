@@ -31,7 +31,12 @@
 		
 		<div>
 		<div style="width:49%; float:left; margin-bottom: 10px">
-    	<img alt="의사사진" src="/pet/save/${docInfoDTO.doc_save}" width=450px, height=450px>
+    	<c:if test ="${docInfoDTO.doc_save == null }">
+			<img src="/pet/resources/img/saram.jpg" width=400px, height=400px/> <br>
+		</c:if>
+		<c:if test="${docInfoDTO.doc_save != null }">
+			<img src="/pet/save/${docInfoDTO.doc_save}" width=400px, height=400px /> <br>
+		</c:if>
     	</div>
     		
   

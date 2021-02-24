@@ -28,6 +28,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pet.model.dto.CommentReviewDTO;
 import pet.model.dto.DocInfoDTO;
 import pet.model.dto.DocMyHospitalDTO;
+import pet.model.dto.HospitalDTO;
 import pet.model.dto.MemberDTO;
 import pet.model.dto.PriceReviewDTO;
 import pet.model.dto.RatingReviewDTO;
@@ -215,16 +216,15 @@ public class MemberController {
 		model.addAttribute("email",email);
 		model.addAttribute("count",count);
 		model.addAttribute("count_like", count_like);
-		return "/member/my_reviews";
+		return "/mypage/my_reviews";
 	}
 	
 	@RequestMapping(value = "/reviews_list.do")
 	public String reviews_list(Model model, String email ) throws Exception{
 		List<ReviewDTO> list = service.reviewList(email);
-		
 		model.addAttribute("list", list);
 
-		return "/member/reviews_list";
+		return "/mypage/reviews_list";
 	}
 	@RequestMapping(value="/countReview.do")
 	public String countReview(Model model) throws Exception{

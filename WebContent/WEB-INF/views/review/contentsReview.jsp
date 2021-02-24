@@ -94,7 +94,7 @@ function categorySearchType(){
   		 <li class="list-group-item">
   				<div class="d-flex align-items-center">
   					<c:if test="${docMyHospitalDTO.hospital_pic_org != null}">
-						<img style="margin-left: auto; margin-right: auto; display: block;" alt="병원사진" src="/pet/save/${docMyHospitalDTO.hospital_pic_org}">
+						<img style="margin-left: auto; width:500px; height:500px; margin-right: auto; display: block;" alt="병원사진" src="/pet/save/${docMyHospitalDTO.hospital_pic_org}">
 					</c:if>
 				</div>
 		</li>
@@ -132,7 +132,7 @@ function categorySearchType(){
  				<div style="float:left;  width:25%;	">
  				<!-- 왼쪽 -->
 				<div style="text-align:left;">
-  					<h5>${memNickList[status.index]}<br></h5>	
+  					<h5><span class="badge badge-dark">${memNickList[status.index]}</span><br></h5>	
   				<!-- 별점 평균 -->
 				<div style="text-align:left">
 					<strong>${ratingList[status.index].mean}<br></strong></div>

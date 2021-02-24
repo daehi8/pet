@@ -206,12 +206,6 @@ let rating = new Rating();//별점 인스턴스 생성
 			return false;
 		}
 		
-		if($('input[name="price_info"]').length == 0){
-			alert('진료과목을 입력해주세요.');
-			form.add_price.focus();
-			return false;
-		}
-		
 		if(form.revisit.value == ''){
 			alert('재방문추천을 입력해주세요.');
 			form.revisit.focus();
@@ -375,9 +369,10 @@ let rating = new Rating();//별점 인스턴스 생성
                 <label for="rating55"></label>
                 <input type="hidden" name="price" id="price" value="0"></div></li>
                 
-         <li class="list-group-item">
+         <li class="list-group-item pl-0 pr-0 pt-3">
+         <div class="d-flex justify-content-between align-items-center">
   		
-  			<div class="ratefill" style="width: 500px;">치료 후 결과</div>
+  			<div class="ratefill" style="width: 300px;">치료 후 결과</div>
                 <!-- 해당 별점을 클릭하면 해당 별과 그 왼쪽의 모든 별의 체크박스에 checked 적용 -->
                 <input type="checkbox" name="afterChk" id="rating61" value="1" class="rate_radio" title="1점">
                 <label for="rating61"></label>
@@ -389,7 +384,7 @@ let rating = new Rating();//별점 인스턴스 생성
                 <label for="rating64"></label>
                 <input type="checkbox" name="afterChk" id="rating65" value="5" class="rate_radio" title="5점">
                 <label for="rating65"></label>
-                <input type="hidden" name="after" id="after" value="0"></li>
+                <input type="hidden" name="after" id="after" value="0"></div></li>
         		</ul>
         		</div>
         		</div>	

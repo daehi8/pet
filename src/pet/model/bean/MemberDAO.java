@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pet.model.dto.CommentReviewDTO;
 import pet.model.dto.DocInfoDTO;
 import pet.model.dto.DocMyHospitalDTO;
+import pet.model.dto.HospitalDTO;
 import pet.model.dto.MemberDTO;
 import pet.model.dto.PriceReviewDTO;
 import pet.model.dto.RatingReviewDTO;
@@ -91,6 +92,7 @@ public class MemberDAO {
 	public List<ReviewDTO> reviewList(String email){
 		return sqlsession.selectList("member.reviewList", email);
 	}
+
 	//내가 쓴 리뷰 개수
 	public int countReview(String email) throws Exception{
 		return sqlsession.selectOne("member.countReview" , email);

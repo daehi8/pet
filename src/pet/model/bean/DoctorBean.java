@@ -355,7 +355,7 @@ public class DoctorBean {
           String fn = docInfoDto.getDoc_save();  // file_11.jpg 사본이름 꺼내기
           System.out.println("사본파일 꺼내기 : " + docInfoDto.getDoc_save());
           if(fn == null || fn.equals("")) {
-             fn = "file_"+docInfoDto.getDoc_no()+ext;   // 저장될 파일명
+             fn = "doctor_"+docInfoDto.getDoc_no()+ext;   // 저장될 파일명
           }else {
              fn = fn.substring(0, fn.lastIndexOf("."))+"."+ext;
            }

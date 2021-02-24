@@ -108,7 +108,7 @@ public class DictBean {
 			
 	Ddao.delete(dict_no);	
 	
-	return "redirect:/admin/admindictt.do";	
+	return "redirect:/admin/admindict.do";	
 	}
 }
 	

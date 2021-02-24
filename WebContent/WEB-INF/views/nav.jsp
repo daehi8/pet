@@ -69,7 +69,7 @@
          	건강정보</a>
     <div class="dropdown-menu">
     
-      <a class="dropdown-item" href="/pet/info/info.do">건강정보</a>
+      <a class="dropdown-item" href="/pet/info/info.do">커뮤니티</a>
     
       <a class="dropdown-item" href="/pet/dict/dict.do">먹이사전</a>
     

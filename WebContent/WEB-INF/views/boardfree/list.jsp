@@ -5,7 +5,7 @@
 <%@ include file="../nav.jsp" %>
 <html>
 <head>
-<title>자유 게시판</title>
+<title>펫츠리뷰 | 자유게시판</title>
 <link href="/pet/resource/style/style_board.css" rel="stylesheet" type="text/css">
 </head>
 	

@@ -36,30 +36,33 @@
     <div class="panel-body">
     <table class="table table-hover" style="text-align:center;">
     <tr>
-    	<th>병원 이름</th><td>${hospitalName}</td>
+    	<th style="width:35%">병원 이름</th><td>${hospitalName}</td>
     </tr>  
     <tr>
     	<th>의사 이름</th><td>${docInfoDTO.doc_name}</td>
     </tr>
     <tr>
-		<c:forEach var="priceByNoList" items="${priceByNoList}">	
-    	<th>치료가격 및 정보</th><td>${priceByNoList.subject_info}, ${priceByNoList.price_info}원</td>
-    	</c:forEach>
+    <th>치료가격 및 정보</th>
+		<td><c:forEach var="priceByNoList" items="${priceByNoList}">	
+    	${priceByNoList.subject_info}, ${priceByNoList.price_info}원<br>
+    	</c:forEach></td>
     </tr>
     <tr>
-    	<th>별점</th><td style="text-align:center">친절함 : ${ratingReviewDTO.kind}<br>
-    					대기시간 : ${ratingReviewDTO.waiting}<br>
-    					청결함 : ${ratingReviewDTO.clean}<br>
-    					진료 설명 : ${ratingReviewDTO.detail}<br>
-						가격 : ${ratingReviewDTO.price}<br>
-						치료 후 결과 : ${ratingReviewDTO.after}<br>
-						평균 평점 : ${ratingReviewDTO.mean}<br>
+    	<th>별점</th><td style="text-align:center"><span class="badge badge-light">친절함</span>
+    											${ratingReviewDTO.kind}<br>
+    					<span class="badge badge-light">대기시간 </span>
+    					 ${ratingReviewDTO.waiting}<br>
+    					<span class="badge badge-light">청결함 </span> ${ratingReviewDTO.clean}<br>
+    					<span class="badge badge-light">진료 설명  </span> ${ratingReviewDTO.detail}<br>
+						<span class="badge badge-light">가격 </span> ${ratingReviewDTO.price}<br>
+						<span class="badge badge-light">치료 후 결과 </span> ${ratingReviewDTO.after}<br>
+						<span class="badge badge-light">평균 평점 </span> ${ratingReviewDTO.mean}<br>
     				</td>
 	</tr>
 	<tr>
-		<th>리뷰</th><td>의사리뷰 : ${commentReviewDTO.docter_review}<br>
-						병원리뷰 : ${commentReviewDTO.hospital_review}<br>
-						한줄평 : ${commentReviewDTO.summary}<br></td>
+		<th>리뷰</th><td style="text-align:center"><span class="badge badge-primary">의사리뷰</span> ${commentReviewDTO.docter_review}<br><br>
+						<span class="badge badge-primary">병원리뷰 </span> ${commentReviewDTO.hospital_review}<br><br>
+						<span class="badge badge-primary">한줄평 </span> ${commentReviewDTO.summary}<br></td>
 	</tr>
 	  <tr>
     	<th>인증사진</th><td><img alt="인증사진" src="/pet/save/${uploadReviewDTO.save_name}"  width=400px, height=400px></td>
