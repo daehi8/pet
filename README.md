@@ -23,13 +23,19 @@
 ## 사진
 - 메인 페이지
 <img src="https://user-images.githubusercontent.com/72012602/117566602-90a15b00-b0f2-11eb-9b9e-6be60b852578.png" width="500">
+
 ***
+
 - 회원가입 메일인증 페이지
 <img src="https://user-images.githubusercontent.com/72012602/117566599-8ed79780-b0f2-11eb-947f-c0dc2e036c06.png" width="500">
+
 ***
+
 - 병원찾기 페이지
 <img src="https://user-images.githubusercontent.com/72012602/117566603-90a15b00-b0f2-11eb-9ddd-a407222149e1.png" width="500">
+
 ***
+
 - 정보 페이지
 <img src="https://user-images.githubusercontent.com/72012602/117566605-9139f180-b0f2-11eb-873c-9443a0af279f.png" width="500">
 
